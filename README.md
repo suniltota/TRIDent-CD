@@ -1,6 +1,6 @@
 # TRIDent-CD
 
-This project defines the code for generating the PDF for Loan Estimate 
+This project defines the code for generating JSON response from MISMO XML and vice versa for Closing Disclosure
 
 This service runs on port :9014
 
