@@ -77,6 +77,7 @@ import com.actualize.closingdisclosure.domainmodels.ClosingCostDetails;
 import com.actualize.closingdisclosure.domainmodels.ClosingCostDetailsLoanCosts;
 import com.actualize.closingdisclosure.domainmodels.ClosingCostDetailsOtherCosts;
 import com.actualize.closingdisclosure.domainmodels.ClosingCostProperties;
+import com.actualize.closingdisclosure.domainmodels.ClosingDisclosureDocument;
 import com.actualize.closingdisclosure.domainmodels.ClosingInformation;
 import com.actualize.closingdisclosure.domainmodels.CostsAtClosing;
 import com.actualize.closingdisclosure.domainmodels.CostsAtClosingCashToClose;
@@ -102,9 +103,6 @@ import com.actualize.closingdisclosure.domainmodels.PropertyValuationDetailModel
 import com.actualize.closingdisclosure.domainmodels.SalesContractDetailModel;
 import com.actualize.closingdisclosure.domainmodels.TransactionInformation;
 import com.actualize.closingdisclosure.pagemodels.ClosingDisclosure;
-import com.actualize.closingdisclosure.pagemodels.ClosingDisclosurePageOne;
-import com.actualize.closingdisclosure.pagemodels.ClosingDisclosurePageThree;
-import com.actualize.closingdisclosure.pagemodels.ClosingDisclosurePageTwo;
 import com.actualize.closingdisclosure.utils.Convertor;
 import com.actualize.closingdisclosure.utils.StringFormatter;
 
@@ -117,8 +115,8 @@ import com.actualize.closingdisclosure.utils.StringFormatter;
 
 public class ClosingDisclosureConverter {
 	
-    public ClosingDisclosure convertXmltoJSON(MISMODocument mismodoc) {
-        ClosingDisclosure closingDisclosure = new ClosingDisclosure();        
+    public ClosingDisclosureDocument convertXmltoJSON(MISMODocument mismodoc) {
+    	ClosingDisclosureDocument closingDisclosure = new ClosingDisclosureDocument();        
         Document document = null;
         NodeList nodes = mismodoc.getElementsAddNS("//DOCUMENT");
         if (nodes.getLength() > 0)
@@ -126,16 +124,14 @@ public class ClosingDisclosureConverter {
         Deal deal = new Deal(Deal.NS, (Element)document.getElementAddNS("DEAL_SETS/DEAL_SET/DEALS/DEAL"));
 
         //PAGE ONE Of CD
-        ClosingDisclosurePageOne closingDisclosurePageOne = new ClosingDisclosurePageOne();
-	        closingDisclosurePageOne.setClosingInformation(createClosingInformation(deal));
-	        closingDisclosurePageOne.setTransactionInformation(createTransactionInformation(deal));
-	        closingDisclosurePageOne.setLoanInformation(createLoanInformation(deal));
-	        closingDisclosurePageOne.setLoanTerms(createLoanTerms(mismodoc));
-	        closingDisclosurePageOne.setProjectedPayments(createProjectedPayments(deal));
-	        closingDisclosurePageOne.setCostsAtClosing(createCostsAtClosing(deal));
-	     closingDisclosure.setClosingDisclosurePageOne(closingDisclosurePageOne);    
+	        closingDisclosure.setClosingInformation(createClosingInformation(deal));
+	        closingDisclosure.setTransactionInformation(createTransactionInformation(deal));
+	        closingDisclosure.setLoanInformation(createLoanInformation(deal));
+	        closingDisclosure.setLoanTerms(createLoanTerms(mismodoc));
+	        closingDisclosure.setProjectedPayments(createProjectedPayments(deal));
+	        closingDisclosure.setCostsAtClosing(createCostsAtClosing(deal));
         
-	    //PAGE TWO OF CD 
+/*	    //PAGE TWO OF CD 
 	     ClosingDisclosurePageTwo closingDisclosurePageTwo = new ClosingDisclosurePageTwo();
 	        closingDisclosurePageTwo.setClosingCostDetailsLoanCosts(ClosingCostDetailsLoanCosts(deal));
 	     	closingDisclosurePageTwo.setClosingCostDetailsOtherCosts(createClosingCostOtherCosts(deal)); 
@@ -145,7 +141,7 @@ public class ClosingDisclosureConverter {
         ClosingDisclosurePageThree closingDisclosurePageThree = new ClosingDisclosurePageThree();
             closingDisclosurePageThree.setCashToCloses(createCalculatingCashtoClose(deal));
         closingDisclosure.setClosingDisclosurePageThree(closingDisclosurePageThree);
-        
+*/        
         return closingDisclosure;
     }
  

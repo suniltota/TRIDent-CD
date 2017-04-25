@@ -2,6 +2,7 @@ package com.actualize.closingdisclosure.services;
 
 import java.io.InputStream;
 
+import com.actualize.closingdisclosure.domainmodels.ClosingDisclosureDocument;
 import com.actualize.closingdisclosure.pagemodels.ClosingDisclosure;
 /**
  * This is service interface for the Closing Disclosure which is used to define 
@@ -14,7 +15,7 @@ import com.actualize.closingdisclosure.pagemodels.ClosingDisclosure;
  */
 public interface ClosingDisclosureServices {
 
-    public ClosingDisclosure createClosingDisclosureObjectfromXMLDoc(InputStream inputXmlStream) throws Exception;
+    public ClosingDisclosureDocument createClosingDisclosureObjectfromXMLDoc(InputStream inputXmlStream) throws Exception;
     
     public ClosingDisclosure createClosingDisclosureXMLfromObject(ClosingDisclosure closingDisclosure) throws Exception;
 

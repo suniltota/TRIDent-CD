@@ -14,7 +14,14 @@ public class ClosingDisclosureDocument implements Serializable {
 	private static final long serialVersionUID = 4671101480733733876L;
 	
 	private DocumentDetails documentDetails;
-	private PageOne pageOne;
+	
+	private ClosingInformation closingInformation;
+    private TransactionInformation transactionInformation;
+    private LoanInformation loanInformation;
+    private LoanTerms loanTerms;
+    private ProjectedPaymentsModel projectedPayments;
+    private CostsAtClosing costsAtClosing;
+	
 	private PageTwo pageTwo;
 	private PageThree pageThree;
 	
@@ -31,16 +38,76 @@ public class ClosingDisclosureDocument implements Serializable {
 		this.documentDetails = documentDetails;
 	}
 	/**
-	 * @return the pageOne
+	 * @return the closingInformation
 	 */
-	public PageOne getPageOne() {
-		return pageOne;
+	public ClosingInformation getClosingInformation() {
+		return closingInformation;
 	}
 	/**
-	 * @param pageOne the pageOne to set
+	 * @param closingInformation the closingInformation to set
 	 */
-	public void setPageOne(PageOne pageOne) {
-		this.pageOne = pageOne;
+	public void setClosingInformation(ClosingInformation closingInformation) {
+		this.closingInformation = closingInformation;
+	}
+	/**
+	 * @return the transactionInformation
+	 */
+	public TransactionInformation getTransactionInformation() {
+		return transactionInformation;
+	}
+	/**
+	 * @param transactionInformation the transactionInformation to set
+	 */
+	public void setTransactionInformation(TransactionInformation transactionInformation) {
+		this.transactionInformation = transactionInformation;
+	}
+	/**
+	 * @return the loanInformation
+	 */
+	public LoanInformation getLoanInformation() {
+		return loanInformation;
+	}
+	/**
+	 * @param loanInformation the loanInformation to set
+	 */
+	public void setLoanInformation(LoanInformation loanInformation) {
+		this.loanInformation = loanInformation;
+	}
+	/**
+	 * @return the loanTerms
+	 */
+	public LoanTerms getLoanTerms() {
+		return loanTerms;
+	}
+	/**
+	 * @param loanTerms the loanTerms to set
+	 */
+	public void setLoanTerms(LoanTerms loanTerms) {
+		this.loanTerms = loanTerms;
+	}
+	/**
+	 * @return the projectedPayments
+	 */
+	public ProjectedPaymentsModel getProjectedPayments() {
+		return projectedPayments;
+	}
+	/**
+	 * @param projectedPayments the projectedPayments to set
+	 */
+	public void setProjectedPayments(ProjectedPaymentsModel projectedPayments) {
+		this.projectedPayments = projectedPayments;
+	}
+	/**
+	 * @return the costsAtClosing
+	 */
+	public CostsAtClosing getCostsAtClosing() {
+		return costsAtClosing;
+	}
+	/**
+	 * @param costsAtClosing the costsAtClosing to set
+	 */
+	public void setCostsAtClosing(CostsAtClosing costsAtClosing) {
+		this.costsAtClosing = costsAtClosing;
 	}
 	/**
 	 * @return the pageTwo
@@ -66,6 +133,6 @@ public class ClosingDisclosureDocument implements Serializable {
 	public void setPageThree(PageThree pageThree) {
 		this.pageThree = pageThree;
 	}
-
+	
 	
 }

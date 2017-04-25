@@ -8,6 +8,7 @@ import java.io.InputStream;
 
 import com.actualize.closingdisclosure.convertors.ClosingDisclosureConverter;
 import com.actualize.closingdisclosure.datamodels.MISMODocument;
+import com.actualize.closingdisclosure.domainmodels.ClosingDisclosureDocument;
 import com.actualize.closingdisclosure.pagemodels.ClosingDisclosure;
 import com.actualize.closingdisclosure.services.ClosingDisclosureServices;
 
@@ -27,10 +28,10 @@ public class ClosingDisclosureServicesImpl implements ClosingDisclosureServices 
 	 * @see com.actualize.closingdisclosure.services.ClosingDisclosureServices#createClosingDisclosureObjectfromXMLDoc(java.io.InputStream)
 	 */
     @Override
-    public ClosingDisclosure createClosingDisclosureObjectfromXMLDoc(InputStream inputXmlStream) throws Exception {
+    public ClosingDisclosureDocument createClosingDisclosureObjectfromXMLDoc(InputStream inputXmlStream) throws Exception {
         MISMODocument document = new MISMODocument(inputXmlStream); 
         ClosingDisclosureConverter closingDisclosureConverter = new ClosingDisclosureConverter();
-        ClosingDisclosure closingDisclosure = closingDisclosureConverter.convertXmltoJSON(document);
+        ClosingDisclosureDocument closingDisclosure = closingDisclosureConverter.convertXmltoJSON(document);
         return closingDisclosure;
     }
 

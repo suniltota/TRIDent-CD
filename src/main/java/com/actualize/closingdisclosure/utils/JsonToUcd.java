@@ -117,8 +117,8 @@ public class JsonToUcd {
      * @param jsonDocument Input JSON Object
      */
 	private void insertClosingInformationDetail(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		ClosingInformation closingInformation = jsonDocument.getPageOne().getClosingInformation();
-		CostsAtClosing costsAtClosing = jsonDocument.getPageOne().getCostsAtClosing();
+		ClosingInformation closingInformation = jsonDocument.getClosingInformation();
+		CostsAtClosing costsAtClosing = jsonDocument.getCostsAtClosing();
 		CostsAtClosingCashToClose costsAtClosingCashToClose = costsAtClosing.getCostsAtClosingCashToClose();
 		insertData(document, element, "CashFromBorrowerAtClosingAmount", costsAtClosingCashToClose.getCashFromBorrowerAtClosingAmount());
 		insertData(document, element, "CashFromSellerAtClosingAmount", "");
@@ -491,9 +491,9 @@ public class JsonToUcd {
      * @param jsonDocument Input JSON Object
      */
 	private void insertIntegratedDisclosureDetail(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		ClosingInformation closingInformation = jsonDocument.getPageOne().getClosingInformation();
-		LoanInformation loanInformation = jsonDocument.getPageOne().getLoanInformation();
-		LoanTermsEscrowAccount  loanTermsEscrowAccount = jsonDocument.getPageOne().getLoanTerms().getLoanTermsEscrowAccount();
+		ClosingInformation closingInformation = jsonDocument.getClosingInformation();
+		LoanInformation loanInformation = jsonDocument.getLoanInformation();
+		LoanTermsEscrowAccount  loanTermsEscrowAccount = jsonDocument.getLoanTerms().getLoanTermsEscrowAccount();
 		insertData(document, element, "FirstYearTotalEscrowPaymentAmount", "");
 		insertData(document, element, "FirstYearTotalEscrowPaymentDescription", "");
 		insertData(document, element, "FirstYearTotalNonEscrowPaymentAmount", loanTermsEscrowAccount.getFirstYearTotalNonEscrowPaymentAmount());
@@ -726,7 +726,7 @@ public class JsonToUcd {
      */
 	private void insertPaymentRule(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		LoanTerms loanTerms = jsonDocument.getPageOne().getLoanTerms();
+		LoanTerms loanTerms = jsonDocument.getLoanTerms();
 		LoanTermsPI loanTermsPI = loanTerms.getLoanTermsPI();
 		insertData(document, element, "FullyIndexedInitialPrincipalAndInterestPaymentAmount", loanTermsPI.getFullyIndexedInitialPrincipalAndInterestPaymentAmount());
 		insertData(document, element, "InitialPrincipalAndInterestPaymentAmount", loanTermsPI.getInitialPrincipalAndInterestPaymentAmount());
@@ -781,8 +781,8 @@ public class JsonToUcd {
 		// TODO Auto-generated method stub
 		insertData(document, element, "LoanNegativeAmortizationResolutionType", "");
 		insertData(document, element, "LoanNegativeAmortizationResolutionTypeOtherDescription", "");
-		insertData(document, element, "NegativeAmortizationLimitMonthsCount", jsonDocument.getPageOne().getLoanTerms().getLoanTermsLoanAmount().getNegativeAmortizationLimitMonthsCount());
-		insertData(document, element, "NegativeAmortizationMaximumLoanBalanceAmount", jsonDocument.getPageOne().getLoanTerms().getLoanTermsLoanAmount().getNegativeAmortizationMaximumLoanBalanceAmount());
+		insertData(document, element, "NegativeAmortizationLimitMonthsCount", jsonDocument.getLoanTerms().getLoanTermsLoanAmount().getNegativeAmortizationLimitMonthsCount());
+		insertData(document, element, "NegativeAmortizationMaximumLoanBalanceAmount", jsonDocument.getLoanTerms().getLoanTermsLoanAmount().getNegativeAmortizationMaximumLoanBalanceAmount());
 		insertData(document, element, "NegativeAmortizationType", "");
 	}
 	/**
@@ -793,7 +793,7 @@ public class JsonToUcd {
      */
 	private void insertMIDataDetail(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		insertData(document, element, "MICertificateIdentifier", jsonDocument.getPageOne().getLoanInformation().getMiCertificateIdentifier());
+		insertData(document, element, "MICertificateIdentifier", jsonDocument.getLoanInformation().getMiCertificateIdentifier());
 		insertData(document, element, "MICompanyNameType", "");
 		insertData(document, element, "MICompanyNameTypeOtherDescription", "");
 		insertData(document, element, "MIScheduledTerminationDate", "");
@@ -897,7 +897,7 @@ public class JsonToUcd {
      */
 	private void insertLoanDetail(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		LoanTerms loanterms = jsonDocument.getPageOne().getLoanTerms();
+		LoanTerms loanterms = jsonDocument.getLoanTerms();
 		LoanTermsLoanAmount loanTermsLoanAmount = loanterms.getLoanTermsLoanAmount();
 		LoanTermsInterestRate loanTermsInterestRate = loanterms.getLoanTermsInterestRate();
 		LoanTermsPI loanTermsPI = loanterms.getLoanTermsPI();
@@ -919,7 +919,7 @@ public class JsonToUcd {
 		insertData(document, element, "InterestRateIncreaseIndicator", loanTermsInterestRate.getInterestRateIncreaseIndicator());
 		insertData(document, element, "LoanAmountIncreaseIndicator", "");//TODO Need to add this data to the object "LoanTermsLoanAmount"
 		insertData(document, element, "LoanLevelCreditScoreValue", ""); //TODO Not Found in UCD-Spec
-		insertData(document, element, "MIRequiredIndicator", jsonDocument.getPageOne().getLoanInformation().getMiRequiredIndicator());
+		insertData(document, element, "MIRequiredIndicator", jsonDocument.getLoanInformation().getMiRequiredIndicator());
 		insertData(document, element, "NegativeAmortizationIndicator", loanTermsLoanAmount.getNegativeAmoritzationIndicator());
 		insertData(document, element, "PaymentIncreaseIndicator", ""); //TODO Need to add this to Object 
 		insertData(document, element, "PrepaymentPenaltyIndicator", loanTermsPrepaymentPenalty.getPrepaymentPenaltyIndicator());
@@ -951,7 +951,7 @@ public class JsonToUcd {
      */
 	private void insertInterestOnly(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		insertData(document, element, "InterestOnlyTermMonthsCount", jsonDocument.getPageOne().getLoanTerms().getLoanTermsPI().getInterestOnlyTermMonthsCount());
+		insertData(document, element, "InterestOnlyTermMonthsCount", jsonDocument.getLoanTerms().getLoanTermsPI().getInterestOnlyTermMonthsCount());
 	}
 	/**
      * Inserts Hmda Loan from JSON Object
@@ -1450,7 +1450,7 @@ public class JsonToUcd {
 			ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
 		
-		insertData(document, element, "ProjectedPaymentEstimatedTaxesInsuranceAssessmentTotalAmount", jsonDocument.getPageOne().getProjectedPayments().getProjectedPaymentsETIA().getAmount());
+		insertData(document, element, "ProjectedPaymentEstimatedTaxesInsuranceAssessmentTotalAmount", jsonDocument.getProjectedPayments().getProjectedPaymentsETIA().getAmount());
 	}
 	/**
      * Inserts Estimated Property Cost Components from JSON Object
@@ -1462,7 +1462,7 @@ public class JsonToUcd {
 			ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
 		//element.setAttribute("gse:DisplayLabelText", estimatedPropertyCostComponents.getgseDispalyLabelText()); //TODO Data Not found for this field
-		List<LoanTermsETIA> loanTermsETIA = jsonDocument.getPageOne().getLoanTerms().getLoanTermsETIA();
+		List<LoanTermsETIA> loanTermsETIA = jsonDocument.getLoanTerms().getLoanTermsETIA();
 		for (LoanTermsETIA LoanTermsETIA : loanTermsETIA)
 			insertEstimatedPropertyCostComponent(document, insertLevels(document, element, "ESTIMATED_PROPERTY_COST_COMPONENT"), LoanTermsETIA);
 	}
@@ -1545,7 +1545,7 @@ public class JsonToUcd {
      */
 	private void insertConstruction(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		LoanInformation loanInformation = jsonDocument.getPageOne().getLoanInformation();
+		LoanInformation loanInformation = jsonDocument.getLoanInformation();
 		insertData(document, element, "ConstructionLoanTotalTermMonthsCount", loanInformation.getConstructionLoanTotalTermMonthsCount());
 		insertData(document, element, "ConstructionLoanType", loanInformation.getConstructionLoanType());
 		insertData(document, element, "ConstructionPeriodNumberOfMonthsCount", loanInformation.getConstructionPeriodNumberOfMonthsCount());
@@ -1569,7 +1569,7 @@ public class JsonToUcd {
      */
 	private void insertBuydownRule(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		LoanTermsInterestRate loanTermsInterestRate = jsonDocument.getPageOne().getLoanTerms().getLoanTermsInterestRate();
+		LoanTermsInterestRate loanTermsInterestRate = jsonDocument.getLoanTerms().getLoanTermsInterestRate();
 		insertData(document, element, "BuydownChangeFrequencyMonthsCount", loanTermsInterestRate.getBuydownChangeFrequencyMonthsCount());
 		insertData(document, element, "BuydownDurationMonthsCount", "");//TODO Field data Not found
 		insertData(document, element, "BuydownIncreaseRatePercent", loanTermsInterestRate.getBuydownIncreaseRatePercent());
@@ -1595,7 +1595,7 @@ public class JsonToUcd {
      */
 	private void insertBuydownOccurence(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		LoanTermsInterestRate loanTermsInterestRate = jsonDocument.getPageOne().getLoanTerms().getLoanTermsInterestRate();
+		LoanTermsInterestRate loanTermsInterestRate = jsonDocument.getLoanTerms().getLoanTermsInterestRate();
 		insertData(document, element, "BuydownInitialEffectiveInterestRatePercent", loanTermsInterestRate.getBuydownInitialEffectiveInterestRatePercent());
 	}
 	/**
@@ -1921,7 +1921,7 @@ public class JsonToUcd {
      */
 	private void insertAmortizationRule(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		insertData(document ,element ,"AmortizationType" , jsonDocument.getPageOne().getLoanInformation().getAmortizationType());
+		insertData(document ,element ,"AmortizationType" , jsonDocument.getLoanInformation().getAmortizationType());
 	}
 	/**
      * Inserts Adjustment from JSON Object
@@ -1968,7 +1968,7 @@ public class JsonToUcd {
 	private void insertPrincipalAndInterestPaymentPerChangeAdjustmentRule(Document document, Element element,
 			ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		LoanTermsPI loanTermsPI = jsonDocument.getPageOne().getLoanTerms().getLoanTermsPI();
+		LoanTermsPI loanTermsPI = jsonDocument.getLoanTerms().getLoanTermsPI();
 		insertData(document,element, "AdjustmentRuleType", loanTermsPI.getAdjustmentRuleType());
 		insertData(document,element, "PerChangeMaximumPrincipalAndInterestPaymentAmount", ""); //TODO Value not binded to Object
 		insertData(document,element, "PerChangeMinimumPrincipalAndInterestPaymentAmount", ""); //TODO Value not binded to Object
@@ -1983,7 +1983,7 @@ public class JsonToUcd {
 	private void insertPrincipalAndInterestPaymentLifetimeAdjustmentRule(Document document, Element element,
 			ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		LoanTermsPI loanTermsPI = jsonDocument.getPageOne().getLoanTerms().getLoanTermsPI();
+		LoanTermsPI loanTermsPI = jsonDocument.getLoanTerms().getLoanTermsPI();
 		insertData(document, element, "FirstPrincipalAndInterestPaymentChangeMonthsCount",loanTermsPI.getFirstPrincipalAndInterestPaymentChangeMonthsCount() );
 		insertData(document, element, "PrincipalAndInterestPaymentMaximumAmount", loanTermsPI.getPrincipalAndInterestPaymentMaximumAmount());
 		insertData(document, element, "PrincipalAndInterestPaymentMaximumAmountEarliestEffectiveMonthsCount", loanTermsPI.getPrincipalAndInterestPaymentMaximumAmountEarliestEffectiveMonthsCount());
@@ -2023,7 +2023,7 @@ public class JsonToUcd {
 	private void insertInterestRatePerChangeAdjustmentRule(Document document, Element element,
 			ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		LoanTerms loanTerms = jsonDocument.getPageOne().getLoanTerms();
+		LoanTerms loanTerms = jsonDocument.getLoanTerms();
 		LoanTermsInterestRate loanTermsInterestRate = loanTerms.getLoanTermsInterestRate();
 		insertData(document ,element , "AdjustmentRuleType", loanTermsInterestRate.getAdjustmentRuleTypeFirst());
 		insertData(document ,element , "PerChangeMaximumIncreaseRatePercent", "");
@@ -2038,7 +2038,7 @@ public class JsonToUcd {
 	private void insertInterestRateLifetimeAdjustmentRule(Document document, Element element,
 			ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		LoanTerms loanTerms = jsonDocument.getPageOne().getLoanTerms();
+		LoanTerms loanTerms = jsonDocument.getLoanTerms();
 		LoanTermsInterestRate loanTermsInterestRate = loanTerms.getLoanTermsInterestRate();
 		insertData(document, element, "CeilingRatePercent", loanTermsInterestRate.getCeilingRatePercent());
 		insertData(document, element, "CeilingRatePercentEarliestEffectiveMonthsCount", loanTermsInterestRate.getCeilingRatePercentEarliestEffectiveMonthsCount());
@@ -2122,7 +2122,7 @@ public class JsonToUcd {
      * @param jsonDocument Input JSON Object
      */
 	private void insertLoanIdentifiers(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		LoanInformation loanInformation = jsonDocument.getPageOne().getLoanInformation();
+		LoanInformation loanInformation = jsonDocument.getLoanInformation();
 		List<LoanInformationLoanIdentifier> loanInformationLoanIdentifier = loanInformation.getLoanIdentifiers();
 		Element loanIdentifier = insertLevels(document, element, "LOAN_IDENTIFIER");
 		for(LoanInformationLoanIdentifier loanIdentifiers : loanInformationLoanIdentifier){
@@ -2147,7 +2147,7 @@ public class JsonToUcd {
      * @param jsonDocument Input JSON Object
      */
 	private void insertMaturityRule(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		LoanInformation loanInformation = jsonDocument.getPageOne().getLoanInformation();
+		LoanInformation loanInformation = jsonDocument.getLoanInformation();
 		if (!loanInformation.getLoanTerm().isEmpty()) {
 			insertData(document, element, "LoanMaturityPeriodCount", loanInformation.getLoanMaturityPeriodCount());
 			insertData(document, element, "LoanMaturityPeriodType", loanInformation.getLoanMaturityPeriodType());
@@ -2177,7 +2177,7 @@ public class JsonToUcd {
      * @param jsonDocument Input JSON Object
      */
 	private void insertParties(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		List<Borrower> borrowers = jsonDocument.getPageOne().getTransactionInformation().getBorrower();
+		List<Borrower> borrowers = jsonDocument.getTransactionInformation().getBorrower();
 		for (Borrower borrower : borrowers) {
 			Element party = insertLevels(document, element, "PARTY");
 			Element roleDetail = insertLevels(document, party, "ROLES/ROLE/ROLE_DETAIL");
@@ -2199,7 +2199,7 @@ public class JsonToUcd {
 			insertData(document, address, "StateCode", borrower.getAddress().getStateCode());
 		}
 
-		List<Borrower> sellers = jsonDocument.getPageOne().getTransactionInformation().getSeller();
+		List<Borrower> sellers = jsonDocument.getTransactionInformation().getSeller();
 		for (Borrower seller : sellers) {
 			Element party = insertLevels(document, element, "PARTY");
 			Element roleDetail = insertLevels(document, party, "ROLES/ROLE/ROLE_DETAIL");
@@ -2219,7 +2219,7 @@ public class JsonToUcd {
 			insertData(document, address, "StateCode", seller.getAddress().getStateCode());
 		}
 
-		List<Borrower> lenders = jsonDocument.getPageOne().getTransactionInformation().getLender(); // TODO: There should be two lenders - one individual and one organization
+		List<Borrower> lenders = jsonDocument.getTransactionInformation().getLender(); // TODO: There should be two lenders - one individual and one organization
 		for (Borrower lender : lenders) {
 			Element party = insertLevels(document, element, "PARTY");
 			Element roleDetail = insertLevels(document, party, "ROLES/ROLE/ROLE_DETAIL");
@@ -2266,7 +2266,7 @@ public class JsonToUcd {
 	private void insertSalesContractDetail(Document document, Element element,
 			ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		ClosingInformation closingInformation = jsonDocument.getPageOne().getClosingInformation();
+		ClosingInformation closingInformation = jsonDocument.getClosingInformation();
 		SalesContractDetailModel salesContractDetail = closingInformation.getSalesContractDetail();
 		insertData(document, element, "PersonalPropertyAmount", salesContractDetail.getPersonalPropertyAmount());
 		insertData(document, element, "PersonalPropertyIncludedIndicator", salesContractDetail.isPersonalPropertyIndicator()+"");
@@ -2372,7 +2372,7 @@ public class JsonToUcd {
      */
 	private void insertAddress(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
 		// TODO Auto-generated method stub
-		Address address = jsonDocument.getPageOne().getClosingInformation().getProperty();
+		Address address = jsonDocument.getClosingInformation().getProperty();
 		insertData(document, element, "AddressLineText", address.getAddressLineText());
 		insertData(document, element, "AddressUnitDesignatorType", address.getAddressUnitDesignatorType());
 		insertData(document, element, "AddressUnitIdentifier", address.getAddressUnitIdentifier());
@@ -2399,9 +2399,9 @@ public class JsonToUcd {
      * @param jsonDocument Input JSON Object
      */
 	private void insertTermsOfLoan(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		LoanInformation loanInformation = jsonDocument.getPageOne().getLoanInformation();
-		LoanTermsLoanAmount loanTermsLoanAmount = jsonDocument.getPageOne().getLoanTerms().getLoanTermsLoanAmount();
-		LoanTermsInterestRate loanTermsInterestRate = jsonDocument.getPageOne().getLoanTerms().getLoanTermsInterestRate();
+		LoanInformation loanInformation = jsonDocument.getLoanInformation();
+		LoanTermsLoanAmount loanTermsLoanAmount = jsonDocument.getLoanTerms().getLoanTermsLoanAmount();
+		LoanTermsInterestRate loanTermsInterestRate = jsonDocument.getLoanTerms().getLoanTermsInterestRate();
 		insertData(document, element, "AssumedLoanAmount", loanInformation.getLoanType());
 		insertData(document, element, "DisclosedFullyIndexedRatePercent", loanInformation.getLoanType());
 		insertData(document, element, "LienPriorityType", loanInformation.getLienPriorityType());

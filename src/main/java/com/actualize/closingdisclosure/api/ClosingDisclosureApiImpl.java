@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.actualize.closingdisclosure.TriDentCdApplication;
+import com.actualize.closingdisclosure.domainmodels.ClosingDisclosureDocument;
 import com.actualize.closingdisclosure.pagemodels.ClosingDisclosure;
 import com.actualize.closingdisclosure.services.ClosingDisclosureServices;
 
@@ -44,7 +44,7 @@ public class ClosingDisclosureApiImpl {
      * @throws Exception
      */
     @RequestMapping(value = "/convertXmlToJson", method = { RequestMethod.POST })
-    public ClosingDisclosure convertXMLtoObject(@RequestBody String xmldoc) throws Exception {
+    public ClosingDisclosureDocument convertXMLtoObject(@RequestBody String xmldoc) throws Exception {
         InputStream in = new ByteArrayInputStream(xmldoc.getBytes(StandardCharsets.UTF_8));
         return closingDisclosureServices.createClosingDisclosureObjectfromXMLDoc(in);
     }
