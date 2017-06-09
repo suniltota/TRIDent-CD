@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ImportResource;
  * @author sboragala
  *
  */
-@SpringBootApplication(scanBasePackages = "com.actualize.closingdisclosure")
+@SpringBootApplication(scanBasePackages = "com.actualize.mortgage")
 @ImportResource("classpath:config.xml")
 public class TriDentCdApplication extends org.springframework.boot.context.web.SpringBootServletInitializer{
 	
