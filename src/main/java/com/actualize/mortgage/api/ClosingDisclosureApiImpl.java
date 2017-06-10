@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.actualize.mortgage.domainmodels.ClosingDisclosure;
-import com.actualize.mortgage.services.ClosingDisclosureServices;
+import com.actualize.mortgage.services.impl.ClosingDisclosureServicesImpl;
 
 /**
  * This controller is used to define all the endpoints (APIs) for Closing Disclosure
@@ -32,8 +31,6 @@ public class ClosingDisclosureApiImpl {
 
 	private static final Logger LOG = LogManager.getLogger(ClosingDisclosureApiImpl.class);
 	
-    @Autowired
-    private ClosingDisclosureServices closingDisclosureServices;
 
     /**
      * Generates JSON response for closing disclosure on giving xml as input in
@@ -46,7 +43,8 @@ public class ClosingDisclosureApiImpl {
     @RequestMapping(value = "/{version}/ucdtojson", method = { RequestMethod.POST })
     public ClosingDisclosure convertXMLtoObject(@PathVariable String version, @RequestBody String xmldoc) throws Exception {
         InputStream in = new ByteArrayInputStream(xmldoc.getBytes(StandardCharsets.UTF_8));
-        return closingDisclosureServices.createClosingDisclosureObjectfromXMLDoc(in);
+        ClosingDisclosureServicesImpl closingDisclosureServicesImpl = new ClosingDisclosureServicesImpl();
+        return closingDisclosureServicesImpl.createClosingDisclosureObjectfromXMLDoc(in);
     }
     
     /**
@@ -58,7 +56,8 @@ public class ClosingDisclosureApiImpl {
      */
     @RequestMapping(value = "/{version}/jsontoucd", method = { RequestMethod.POST })
     public String convertObjecttoXML(@PathVariable String version, @RequestBody ClosingDisclosure closingDisclosure) throws Exception {
-        return closingDisclosureServices.createClosingDisclosureXMLfromObject(closingDisclosure);
+    	 ClosingDisclosureServicesImpl closingDisclosureServicesImpl = new ClosingDisclosureServicesImpl();
+    	return closingDisclosureServicesImpl.createClosingDisclosureXMLfromObject(closingDisclosure);
     }
     
     /**
