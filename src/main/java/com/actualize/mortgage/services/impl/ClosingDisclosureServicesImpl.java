@@ -9,11 +9,10 @@ import java.io.InputStream;
 import com.actualize.mortgage.convertors.ClosingDisclosureConverter;
 import com.actualize.mortgage.datamodels.MISMODocument;
 import com.actualize.mortgage.domainmodels.ClosingDisclosure;
-import com.actualize.mortgage.services.ClosingDisclosureServices;
 import com.actualize.mortgage.utils.JsonToUcd;
 
 /**
- * This is the implementation class for the {@link ClosingDisclosureServices} which is used to write 
+ * This is the implementation class which is used to write 
  * the business logic to create ClosingDisclosure XML / PDF and generate Page Objects to represents
  *  the all the pages present in Closing Disclosure
  * 
@@ -21,13 +20,14 @@ import com.actualize.mortgage.utils.JsonToUcd;
  * @version 1.0
  * 
  */
-public class ClosingDisclosureServicesImpl implements ClosingDisclosureServices {
+public class ClosingDisclosureServicesImpl {
 	
-	/*
-	 * (non-Javadoc)
-	 * @see com.actualize.closingdisclosure.services.ClosingDisclosureServices#createClosingDisclosureObjectfromXMLDoc(java.io.InputStream)
+	/**
+	 * create closing disclosure JSON object from MISMO XML
+	 * @param inputXmlStream MISMO XML as InputStream
+	 * @return ClosingDisclosure JSON Object 
+	 * @throws Exception
 	 */
-    @Override
     public ClosingDisclosure createClosingDisclosureObjectfromXMLDoc(InputStream inputXmlStream) throws Exception {
         MISMODocument document = new MISMODocument(inputXmlStream); 
         ClosingDisclosureConverter closingDisclosureConverter = new ClosingDisclosureConverter();
@@ -35,11 +35,12 @@ public class ClosingDisclosureServicesImpl implements ClosingDisclosureServices 
         return closingDisclosure;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.actualize.closingdisclosure.services.ClosingDisclosureServices#createClosingDisclosureXMLfromObject(com.actualize.closingdisclosure.pagemodels.ClosingDisclosure)
+    /**
+     * create MISMO XML  from closing disclosure JSON object
+     * @param closingDisclosure
+     * @return MISMO XML as String
+     * @throws Exception
      */
-    @Override
     public String createClosingDisclosureXMLfromObject(ClosingDisclosure closingDisclosure) throws Exception {
     	JsonToUcd jsonToUcd = new JsonToUcd();
         return jsonToUcd.transform(closingDisclosure);

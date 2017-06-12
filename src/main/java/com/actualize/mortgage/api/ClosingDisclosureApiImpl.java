@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.actualize.mortgage.domainmodels.ClosingDisclosure;
@@ -40,8 +41,10 @@ public class ClosingDisclosureApiImpl {
      * @return JSON response for closing disclosure
      * @throws Exception
      */
+	@ResponseBody
     @RequestMapping(value = "/{version}/ucdtojson", method = { RequestMethod.POST })
     public ClosingDisclosure convertXMLtoObject(@PathVariable String version, @RequestBody String xmldoc) throws Exception {
+		LOG.info("Service: ucdtojson called");
         InputStream in = new ByteArrayInputStream(xmldoc.getBytes(StandardCharsets.UTF_8));
         ClosingDisclosureServicesImpl closingDisclosureServicesImpl = new ClosingDisclosureServicesImpl();
         return closingDisclosureServicesImpl.createClosingDisclosureObjectfromXMLDoc(in);
@@ -56,7 +59,8 @@ public class ClosingDisclosureApiImpl {
      */
     @RequestMapping(value = "/{version}/jsontoucd", method = { RequestMethod.POST })
     public String convertObjecttoXML(@PathVariable String version, @RequestBody ClosingDisclosure closingDisclosure) throws Exception {
-    	 ClosingDisclosureServicesImpl closingDisclosureServicesImpl = new ClosingDisclosureServicesImpl();
+    	LOG.info("Service: jsontoucd called"); 
+    	ClosingDisclosureServicesImpl closingDisclosureServicesImpl = new ClosingDisclosureServicesImpl();
     	return closingDisclosureServicesImpl.createClosingDisclosureXMLfromObject(closingDisclosure);
     }
     
@@ -69,6 +73,7 @@ public class ClosingDisclosureApiImpl {
      */
     @RequestMapping(value = "/{version}/ping", method = { RequestMethod.GET })
     public String status(@PathVariable String version) throws Exception {
+    	LOG.info("Service: ping for TRIDENT-CD called"); 
         return "The service for generating JSON from UCD XML and vice versa is running and ready to accept your request";
     }
     
