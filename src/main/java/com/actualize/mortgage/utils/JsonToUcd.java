@@ -2,6 +2,7 @@ package com.actualize.mortgage.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -17,6 +18,8 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import com.actualize.mortgage.domainmodels.AddressModel;
 import com.actualize.mortgage.domainmodels.AutomatedUnderwritingsModel;
@@ -119,6 +122,7 @@ public class JsonToUcd {
         tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
         StreamResult result = new StreamResult(new StringWriter());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
+        removeEmptyNodes(document);
         tr.transform(new DOMSource(document), result);
         String xmlString = result.getWriter().toString();
 		return xmlString;
@@ -593,7 +597,6 @@ public class JsonToUcd {
 		insertHighCostMortgages(document, insertLevels(document, element, "HIGH_COST_MORTGAGES"), jsonDocument.getLoanCalculationsQualifiedMortgage().getQualifiedMortgage()); //  Not needed for LE
 		//insertHmdaLoan(document, insertLevels(document, element, "HMDA_LOAN"), jsonDocument); //  Not needed for LE*/
 		insertInterestOnly(document, insertLevels(document, element, "INTEREST_ONLY"), jsonDocument.getInterestOnly());
-		//check for NULL
 		insertLateChargeRule(document, insertLevels(document, element, "LATE_CHARGE/EXTENSION/OTHER/gse:LATE_CHARGE_RULES/LATE_CHARGE_RULE"), jsonDocument.getLateChargeRule());
 		insertLoanDetail(document, insertLevels(document, element, "LOAN_DETAIL"), jsonDocument.getLoanDetail());
 		insertLoanIdentifiers(document, insertLevels(document, element, "LOAN_IDENTIFIERS"), jsonDocument.getLoanInformation().getLoanIdentifiers());
@@ -1064,7 +1067,8 @@ public class JsonToUcd {
 	private void insertHighCostMortgage(Document document, Element element,
 			 QualifiedMortgageModel qualifiedMortgage) {
 		insertData(document, element, "AveragePrimeOfferRatePercent", qualifiedMortgage.getAveragePrimeOfferRatePercent());
-		insertData(document, element, "RegulationZExcludedBonaFideDiscountPointsIndicator", qualifiedMortgage.getRegulationZExcludedBonaFideDiscountPointsPercent() );
+		insertData(document, element, "RegulationZExcludedBonaFideDiscountPointsIndicator",Boolean.toString(qualifiedMortgage.isRegulationZExcludedBonaFideDiscountPointsIndicator()));
+		insertData(document, element, "RegulationZExcludedBonaFideDiscountPointsPercent", qualifiedMortgage.getRegulationZExcludedBonaFideDiscountPointsPercent() );
 		insertData(document, element, "RegulationZTotalAffiliateFeesAmount", qualifiedMortgage.getRegulationZTotalAffiliateFeesAmount());
 		insertData(document, element, "RegulationZTotalLoanAmount", qualifiedMortgage.getRegulationZTotalLoanAmount());
 		insertData(document, element, "RegulationZTotalPointsAndFeesAmount", qualifiedMortgage.getRegulationZTotalPointsAndFeesAmount());
@@ -2560,4 +2564,31 @@ public class JsonToUcd {
 		insertData(document, element, "NoteRatePercent", termsOfLoan.getNoteRatePercent());
 		insertData(document, element, "WeightedAverageInterestRatePercent", termsOfLoan.getWeightedAverageInterestRatePercent());
 	}
+	
+	/**
+	 * deletes the empty nodes in the generated MISMO XML 
+	 * @param node
+	 */
+	public static void removeEmptyNodes(Node node) {
+
+        // Grab all children of node
+        NodeList childnodes = node.getChildNodes();
+
+        // Save all children nodes into list that doesn't change
+        List<Node> immutable = new LinkedList<Node>();
+        for (int i = 0; i < childnodes.getLength(); i++)
+            immutable.add(childnodes.item(i));
+
+        // Recursive through list that doesn't change
+        for (Node child : immutable)
+            removeEmptyNodes(child);
+
+        boolean emptyElementNode = node.getNodeType() == Node.ELEMENT_NODE && node.getChildNodes().getLength() == 0
+                && node.getAttributes().getLength() == 0;
+        boolean emptyTextNode = node.getNodeType() == Node.TEXT_NODE && node.getNodeValue().trim().isEmpty();
+
+        // Remove node if empty
+        if (emptyElementNode || emptyTextNode)
+            node.getParentNode().removeChild(node);
+    }
 }
