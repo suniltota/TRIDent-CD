@@ -1754,7 +1754,8 @@ public class JsonToUcd {
      */
 	private void insertPrepaidItems(Document document, Element element, List<Prepaids> prepaidItems) {
 		for (Prepaids prepaidItem : prepaidItems)
-			insertPrepaidItem(document, insertLevels(document, element, "PREPAID_ITEM"), prepaidItem);
+			if(Convertor.isInsertFee(prepaidItem))
+				insertPrepaidItem(document, insertLevels(document, element, "PREPAID_ITEM"), prepaidItem);
 	}
 	/**
      * Inserts Prepaid Item to MISMO XML
