@@ -447,4 +447,23 @@ public class Convertor {
         return formatter.format(date);  
 		
 	}
+	/**
+	 * checks whether to insert payments section to MISMO XML
+	 * @param payment
+	 * @return boolean
+	 */
+	public static boolean isInsertFee(PaymentsModel payment)
+	{
+		if(null != payment.getBpAtClosing() && !payment.getBpAtClosing().isEmpty())
+			return true;
+		else if(null != payment.getBpB4Closing() && !payment.getBpB4Closing().isEmpty())
+			return true;
+		else if(null != payment.getSpAtClosing() && !payment.getSpAtClosing().isEmpty())
+			return true;
+		else if(null != payment.getSpB4Closing() && !payment.getSpB4Closing().isEmpty())
+			return true;
+		else if(null != payment.getPaidByOthers() && !payment.getPaidByOthers().isEmpty())
+			return true;
+		return false;
+	}
 }

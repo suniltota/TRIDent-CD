@@ -1158,20 +1158,28 @@ public class JsonToUcd {
 		 
 		if(null != jsonDocument.getClosingCostDetailsLoanCosts().getOriginationCharges())
 			for (ClosingCostProperties closingCostProperties : jsonDocument.getClosingCostDetailsLoanCosts().getOriginationCharges())
-				insertFee(document, insertLevels(document, element, "FEE"), closingCostProperties);
+				if(Convertor.isInsertFee(closingCostProperties))
+					insertFee(document, insertLevels(document, element, "FEE"), closingCostProperties);
+		
 		if(null != jsonDocument.getClosingCostDetailsLoanCosts().getSbDidNotShopFors())
 			for (ClosingCostProperties closingCostProperties : jsonDocument.getClosingCostDetailsLoanCosts().getSbDidNotShopFors())
-				insertFee(document, insertLevels(document, element, "FEE"), closingCostProperties);
+				if(Convertor.isInsertFee(closingCostProperties))
+					insertFee(document, insertLevels(document, element, "FEE"), closingCostProperties);
+		
 		if(null != jsonDocument.getClosingCostDetailsLoanCosts().getSbDidShopFors())
 			for (ClosingCostProperties closingCostProperties : jsonDocument.getClosingCostDetailsLoanCosts().getSbDidShopFors())
-				insertFee(document, insertLevels(document, element, "FEE"), closingCostProperties);
+				if(Convertor.isInsertFee(closingCostProperties))
+					insertFee(document, insertLevels(document, element, "FEE"), closingCostProperties);
+		
 		if(null != jsonDocument.getClosingCostDetailsOtherCosts().gettOGovtFeesList())
 			for (ClosingCostProperties closingCostProperties : jsonDocument.getClosingCostDetailsOtherCosts().gettOGovtFeesList())
-				insertFee(document, insertLevels(document, element, "FEE"), closingCostProperties);
+				if(Convertor.isInsertFee(closingCostProperties))
+					insertFee(document, insertLevels(document, element, "FEE"), closingCostProperties);
+		
 		if(null != jsonDocument.getClosingCostDetailsOtherCosts().getOtherCostsList())
 			for (ClosingCostProperties closingCostProperties : jsonDocument.getClosingCostDetailsOtherCosts().getOtherCostsList())
-				insertFee(document, insertLevels(document, element, "FEE"), closingCostProperties);
-		
+				if(Convertor.isInsertFee(closingCostProperties))
+					insertFee(document, insertLevels(document, element, "FEE"), closingCostProperties);		
 	}
 	
 	/**
@@ -1278,7 +1286,10 @@ public class JsonToUcd {
 	 */
 	private void insertEscrowItems(Document document, Element element, List<EscrowItemModel> escrowItemList) {
 		for (EscrowItemModel escrowItem : escrowItemList)
-			insertEscrowItem(document, insertLevels(document, element, "ESCROW_ITEM"), escrowItem);
+		{
+		  if(Convertor.isInsertFee(escrowItem))
+				insertEscrowItem(document, insertLevels(document, element, "ESCROW_ITEM"), escrowItem);
+		}
 	}
 	/**
      * Inserts Escrow Item to MISMO XML
@@ -2466,9 +2477,9 @@ public class JsonToUcd {
      */	
 	private void insertPropertyValuationDetail(Document document, Element element,
 			PropertyValuationDetailModel propertyValuationDetail) {
-		Element AppraisalIdentifierelement = insertLevels(document, element, "AppraisalIdentifier");
-		AppraisalIdentifierelement.setAttribute("IdentifierOwnerURI",propertyValuationDetail.getIdentifierOwnerURI());
-		//insertAttributeValue(xmlout, element, "IdentifierOwnerURI", "");
+		Element appraisalIdentifierelement = insertLevels(document, element, "AppraisalIdentifier");
+		if(null != appraisalIdentifierelement && null != propertyValuationDetail.getIdentifierOwnerURI() && ! propertyValuationDetail.getIdentifierOwnerURI().isEmpty())
+			appraisalIdentifierelement.setAttribute("IdentifierOwnerURI", propertyValuationDetail.getIdentifierOwnerURI());
 		insertData(document, element, "PropertyValuationAmount", propertyValuationDetail.getPropertyValuationAmount());
 		insertData(document, element, "PropertyValuationMethodType", propertyValuationDetail.getPropertyValuationMethodType());
 		insertData(document, element, "PropertyValuationMethodTypeOtherDescription", propertyValuationDetail.getPropertyValuationMethodTypeOtherDescription());
