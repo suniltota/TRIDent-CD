@@ -2445,7 +2445,7 @@ public class JsonToUcd {
 	private void insertSalesContractDetail(Document document, Element element,
 			SalesContractDetailModel salesContractDetail) {
 		insertData(document, element, "PersonalPropertyAmount", salesContractDetail.getPersonalPropertyAmount());
-		insertData(document, element, "PersonalPropertyIncludedIndicator",Boolean.toString(salesContractDetail.isPersonalPropertyIndicator()));
+		insertData(document, element, "PersonalPropertyIncludedIndicator",Convertor.booleanToString(salesContractDetail.getPersonalPropertyIndicator()));
 		insertData(document, element, "RealPropertyAmount", salesContractDetail.getRealPropertyAmount());
 		insertData(document, element, "SalesContractAmount", salesContractDetail.getSaleContractAmount());
 	}

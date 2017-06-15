@@ -10,21 +10,22 @@ public class SalesContractDetailModel implements Serializable{
 	
 	private static final long serialVersionUID = -3763131948453549811L;
 
-	private boolean personalPropertyIndicator;
+	private Boolean personalPropertyIndicator;
 	private String personalPropertyAmount;
 	private String realPropertyAmount;
 	private String saleContractAmount;
 	
+	
 	/**
 	 * @return the personalPropertyIndicator
 	 */
-	public boolean isPersonalPropertyIndicator() {
+	public Boolean getPersonalPropertyIndicator() {
 		return personalPropertyIndicator;
 	}
 	/**
 	 * @param personalPropertyIndicator the personalPropertyIndicator to set
 	 */
-	public void setPersonalPropertyIndicator(boolean personalPropertyIndicator) {
+	public void setPersonalPropertyIndicator(Boolean personalPropertyIndicator) {
 		this.personalPropertyIndicator = personalPropertyIndicator;
 	}
 	/**

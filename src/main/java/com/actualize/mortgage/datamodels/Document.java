@@ -12,7 +12,7 @@ public class Document extends MISMODataAccessObject {
 	public final Signatories signatories;
 	public final Views views;
 	public final AboutVersions aboutVersions;
-	public final DocumentClassification documentClassification;
+	public  DocumentClassification documentClassification;
 
 	public Document(String NS, Element element) {
 		super(element);
@@ -28,6 +28,7 @@ public class Document extends MISMODataAccessObject {
 		elem = getElement(element, NS + "ABOUT_VERSIONS");
 		aboutVersions = new AboutVersions(NS, elem);
 		elem = getElement(element, NS + "DOCUMENT_CLASSIFICATION");
-		documentClassification = new DocumentClassification(NS, elem);
+		if(null != elem)
+			documentClassification = new DocumentClassification(NS, elem);
 	}
 }

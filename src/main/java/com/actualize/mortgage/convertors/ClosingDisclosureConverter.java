@@ -180,7 +180,7 @@ public class ClosingDisclosureConverter {
         
         Deal deal = new Deal(Deal.NS, (Element)document.getElementAddNS("DEAL_SETS/DEAL_SET/DEALS/DEAL"));
 
-	        closingDisclosure.setClosingDisclosureDocDetails(createClosingDisclosureDocumentDetails(document));
+	       	closingDisclosure.setClosingDisclosureDocDetails(createClosingDisclosureDocumentDetails(document));
 	        closingDisclosure.setTermsOfLoan(createTermsOfLoanModel(deal));
 	    	closingDisclosure.setLoanDetail(createLoanDetailModel(deal));
 	    	closingDisclosure.setDocumentClassification(createDocumentClassificationModel(document));
@@ -229,13 +229,16 @@ public class ClosingDisclosureConverter {
     private ClosingDisclosureDocumentDetails createClosingDisclosureDocumentDetails(Document document) 
     {
     	ClosingDisclosureDocumentDetails closingDisclosureDocumentDetails = new ClosingDisclosureDocumentDetails();
-    	
-    	DocumentClassification docClassification = new DocumentClassification(Document.NS, (Element)document.getElementAddNS("DOCUMENT_CLASSIFICATION"));
-        Deal deal = new Deal(Deal.NS, (Element)document.getElementAddNS("DEAL_SETS/DEAL_SET/DEALS/DEAL"));
+    	if(null != document.documentClassification)
+    	{
+    		DocumentClassification docClassification = new DocumentClassification(Document.NS, (Element)document.getElementAddNS("DOCUMENT_CLASSIFICATION"));
+    		closingDisclosureDocumentDetails.setDocumentType(docClassification.documentClasses.documentClass.documentTypeOtherDescription.split(":")[0]);
+            closingDisclosureDocumentDetails.setFormType(docClassification.documentClasses.documentClass.documentTypeOtherDescription.split(":")[1]);
+    	}
+    	Deal deal = new Deal(Deal.NS, (Element)document.getElementAddNS("DEAL_SETS/DEAL_SET/DEALS/DEAL"));
         EscrowDetail escrowdetail = new EscrowDetail((Element)deal.getElementAddNS("LOANS/LOAN/ESCROW/ESCROW_DETAIL"));
         
-        closingDisclosureDocumentDetails.setDocumentType(docClassification.documentClasses.documentClass.documentTypeOtherDescription.split(":")[0]);
-        closingDisclosureDocumentDetails.setFormType(docClassification.documentClasses.documentClass.documentTypeOtherDescription.split(":")[1]);
+        
        
         if("Seller".equalsIgnoreCase(escrowdetail.other.escrowAggregateAccountingAdjustmentPaidByType) )
         	closingDisclosureDocumentDetails.setEscrowAggregateAccountingAdjustmentAmountOthersPaid(escrowdetail.escrowAggregateAccountingAdjustmentAmount);
@@ -540,7 +543,7 @@ public class ClosingDisclosureConverter {
 		loanTermsPrepaymentPenalty.setPrepaymentPenaltyExpirationMonthsCount(prepaymentPenaltyLifetimeRule.prepaymentPenaltyExpirationMonthsCount);	
 		
 		//TemporaryBuydown
-		loanTermsTemporaryBuydown.setGseBuydownReflectedInNoteIndicator(Convertor.stringToBoolean(other.buydownReflectedInNoteIndicator));
+		loanTermsTemporaryBuydown.setGseBuydownReflectedInNoteIndicator(Boolean.valueOf(other.buydownReflectedInNoteIndicator));
         loanTermsTemporaryBuydown.setBuydownInitialEffectiveInterestRatePercent(buydownOccurence.buydownInitialEffectiveInterestRatePercent);
         loanTermsTemporaryBuydown.setBuydownChangeFrequencyMonthsCount(buydownRule.buydownChangeFrequencyMonthsCount);
         loanTermsTemporaryBuydown.setBuydownIncreaseRatePercent(buydownRule.buydownIncreaseRatePercent);
@@ -630,8 +633,10 @@ public class ClosingDisclosureConverter {
 			paymentCalculation.setProjectedPaymentCalculationPeriodTermType(payment.projectedPaymentCalculationPeriodTermType);
 			paymentCalculation.setProjectedPaymentCalculationPeriodTermTypeOtherDescription(payment.projectedPaymentCalculationPeriodTermTypeOtherDescription);
 			paymentCalculation.setSequenceNumber(payment.sequenceNumber);
-		
-			int startYear = Integer.parseInt(payment.projectedPaymentCalculationPeriodStartNumber);
+			
+			int startYear =0;
+			if(null != payment.projectedPaymentCalculationPeriodStartNumber && !payment.projectedPaymentCalculationPeriodStartNumber.isEmpty())
+			startYear = Integer.parseInt(payment.projectedPaymentCalculationPeriodStartNumber);
 			if ((startYear-1)*12 < interestOnlyTermMonthsCount && "true".equalsIgnoreCase(loanDetail.interestOnlyIndicator))
 				principalInterest.setInterestOnlyStatus(true);
 			else
@@ -731,7 +736,7 @@ public class ClosingDisclosureConverter {
 		List<ClosingCostProperties> sbDidShopFors = new LinkedList<>();
 		PaymentsModel tlCosts = new PaymentsModel();
 		
-		DocumentClass documentClass = new DocumentClass((Element)deal.getElementAddNS("../../../../DOCUMENT_CLASSIFICATION/DOCUMENT_CLASSES/DOCUMENT_CLASS"));
+		//DocumentClass documentClass = new DocumentClass((Element)deal.getElementAddNS("../../../../DOCUMENT_CLASSIFICATION/DOCUMENT_CLASSES/DOCUMENT_CLASS"));
 		IntegratedDisclosureSectionSummaries integratedDisclosureSectionSummaries = new IntegratedDisclosureSectionSummaries((Element)deal.getElementAddNS("LOANS/LOAN/DOCUMENT_SPECIFIC_DATA_SETS/DOCUMENT_SPECIFIC_DATA_SET/INTEGRATED_DISCLOSURE/INTEGRATED_DISCLOSURE_SECTION_SUMMARIES"));
 		IntegratedDisclosureSectionSummaryDetail totalLoanCosts = new IntegratedDisclosureSectionSummaryDetail((Element)deal.getElementAddNS(idDetail + "[IntegratedDisclosureSectionType='TotalLoanCosts']"));
 		IntegratedDisclosureSectionSummaryDetail idOraganisationCharges = new IntegratedDisclosureSectionSummaryDetail((Element)deal.getElementAddNS(idDetail + "[IntegratedDisclosureSectionType='OriginationCharges']"));
@@ -742,11 +747,11 @@ public class ClosingDisclosureConverter {
 		closingCostDetailsLoanCosts.setOcTotalAmount(idOraganisationCharges.integratedDisclosureSectionTotalAmount);
 		closingCostDetailsLoanCosts.setSbDidNotShopTotalAmount(idServicesBorrowerDidNotShopFor.integratedDisclosureSectionTotalAmount);
 		closingCostDetailsLoanCosts.setSbDidShopTotalAmount(idServicesBorrowerDidShopFor.integratedDisclosureSectionTotalAmount);
-		 if (!("Other".equalsIgnoreCase(documentClass.documentType) && "ClosingDisclosure:SellerOnly".equalsIgnoreCase(documentClass.documentTypeOtherDescription))) 
+		/* if (!("Other".equalsIgnoreCase(documentClass.documentType) && "ClosingDisclosure:SellerOnly".equalsIgnoreCase(documentClass.documentTypeOtherDescription))) 
 		 {	
 			closingCostDetailsLoanCosts.setTlCostsTotalAmount(totalLoanCosts.integratedDisclosureSectionTotalAmount);
 			tlCosts = calculateTLCosts(totalLoanCosts, integratedDisclosureSectionSummaries);
-		 }
+		 }*/
 		
 		if(null != fees.fees && fees.fees.length>0)
 		for(Fee fee : fees.fees)
@@ -1607,15 +1612,16 @@ public class ClosingDisclosureConverter {
      */
     private DocumentClassificationModel createDocumentClassificationModel(Document document)
     {
-    	DocumentClassification docClassification = new DocumentClassification(Document.NS, (Element)document.getElementAddNS("DOCUMENT_CLASSIFICATION"));
- 	    DocumentClassificationModel documentClassification = new DocumentClassificationModel();
-
- 	    documentClassification.setDocumentFormIssuingEntityNameType(docClassification.documentClassificationDetail.documentFormIssuingEntityNameType);
- 	    documentClassification.setDocumentFormIssuingEntityVersionIdentifier(docClassification.documentClassificationDetail.documentFormIssuingEntityVersionIdentifier);
- 	    documentClassification.setDocumentSignatureRequiredIndicator(Boolean.parseBoolean(docClassification.documentClassificationDetail.other.documentSignatureRequiredIndicator));
- 	    documentClassification.setDocumentType(docClassification.documentClasses.documentClass.documentType);
- 	    documentClassification.setDocumentTypeOtherDescription(docClassification.documentClasses.documentClass.documentTypeOtherDescription);
- 	    
+    	DocumentClassificationModel documentClassification = new DocumentClassificationModel();
+    	if(null != document.documentClassification)
+    	{
+    		DocumentClassification docClassification = new DocumentClassification(Document.NS, (Element)document.getElementAddNS("DOCUMENT_CLASSIFICATION"));
+		 	    documentClassification.setDocumentFormIssuingEntityNameType(docClassification.documentClassificationDetail.documentFormIssuingEntityNameType);
+		 	    documentClassification.setDocumentFormIssuingEntityVersionIdentifier(docClassification.documentClassificationDetail.documentFormIssuingEntityVersionIdentifier);
+		 	    documentClassification.setDocumentSignatureRequiredIndicator(Boolean.parseBoolean(docClassification.documentClassificationDetail.other.documentSignatureRequiredIndicator));
+		 	    documentClassification.setDocumentType(docClassification.documentClasses.documentClass.documentType);
+		 	    documentClassification.setDocumentTypeOtherDescription(docClassification.documentClasses.documentClass.documentTypeOtherDescription);
+    	}
 		return documentClassification;
     }
     
@@ -1967,13 +1973,13 @@ public class ClosingDisclosureConverter {
 		  
 		closingCostProperties.setFeeType(fee.feeDetail.feeType);
 		closingCostProperties.setFeeTypeOtherDescription(fee.feeDetail.feePaidToTypeOtherDescription);
-		closingCostProperties.setOptionalCostIndicator(Convertor.stringToBoolean(fee.feeDetail.optionalCostIndicator));
+		closingCostProperties.setOptionalCostIndicator(Boolean.valueOf(fee.feeDetail.optionalCostIndicator));
 		closingCostProperties.setFeePaidToType(fee.feeDetail.feePaidToType);
 		closingCostProperties.setFeePaidToTypeOtherDescription(fee.feeDetail.feePaidToTypeOtherDescription);
 		closingCostProperties.setIntegratedDisclosureSectionType(fee.feeDetail.integratedDisclosureSectionType);
 		closingCostProperties.setFeePercentBasisType(fee.feeDetail.feePercentBasisType);
-		closingCostProperties.setRegulationZPointsAndFeesIndicator(Convertor.stringToBoolean(fee.feeDetail.regulationZPointsAndFeesIndicator));
-		closingCostProperties.setPaymentIncludedInAPRIndicator(Convertor.stringToBoolean(fee.feeDetail.paymentIncludedInAPRIndicator));
+		closingCostProperties.setRegulationZPointsAndFeesIndicator(Boolean.valueOf(fee.feeDetail.regulationZPointsAndFeesIndicator));
+		closingCostProperties.setPaymentIncludedInAPRIndicator(Boolean.valueOf(fee.feeDetail.paymentIncludedInAPRIndicator));
 		closingCostProperties.setFeeTotalPercent(fee.feeDetail.feeTotalPercent);
 		closingCostProperties.setFeePaidToFullName(fee.feePaidTo.legalEntity.legalEntityDetail.fullName);
 		closingCostProperties.setFeeActualTotalAmount(fee.feeDetail.feeActualTotalAmount);
