@@ -6,10 +6,10 @@ package com.actualize.mortgage.services.impl;
 
 import java.io.InputStream;
 
-import com.actualize.mortgage.convertors.ClosingDisclosureConverter;
-import com.actualize.mortgage.datamodels.MISMODocument;
-import com.actualize.mortgage.domainmodels.ClosingDisclosure;
-import com.actualize.mortgage.utils.JsonToUcd;
+import com.actualize.mortgage.cd.convertors.ClosingDisclosureConverter;
+import com.actualize.mortgage.cd.datamodels.MISMODocument;
+import com.actualize.mortgage.cd.domainmodels.ClosingDisclosure;
+import com.actualize.mortgage.cd.utils.JsonToUcd;
 
 /**
  * This is the implementation class which is used to write 

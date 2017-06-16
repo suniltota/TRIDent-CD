@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.actualize.mortgage.domainmodels.ClosingDisclosure;
+import com.actualize.mortgage.cd.domainmodels.ClosingDisclosure;
 import com.actualize.mortgage.services.impl.ClosingDisclosureServicesImpl;
 
 /**
