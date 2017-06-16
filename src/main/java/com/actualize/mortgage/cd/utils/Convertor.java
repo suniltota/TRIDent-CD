@@ -35,7 +35,7 @@ public class Convertor {
 		
 		if("FEE".equalsIgnoreCase(type))
 		{
-			if( null != paymentsModel.getBpAtClosing() && !"".equals(paymentsModel.getBpAtClosing()))
+			if(checkNotNull(paymentsModel.getBpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getBpAtClosing());
@@ -43,7 +43,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("false");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if(null != paymentsModel.getBpB4Closing() && !"".equals(paymentsModel.getBpB4Closing()))
+			if(checkNotNull(paymentsModel.getBpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getBpB4Closing());
@@ -51,7 +51,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("true");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if( null != paymentsModel.getSpAtClosing() && !"".equals(paymentsModel.getSpAtClosing()) )
+			if(checkNotNull(paymentsModel.getSpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getSpAtClosing());
@@ -59,7 +59,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("false");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if( null != paymentsModel.getSpB4Closing() && !"".equals(paymentsModel.getSpB4Closing()))
+			if(checkNotNull(paymentsModel.getSpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getSpB4Closing());
@@ -67,7 +67,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("true");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if( null != paymentsModel.getPaidByOthers() && !"".equals(paymentsModel.getPaidByOthers()))
+			if(checkNotNull(paymentsModel.getPaidByOthers()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getPaidByOthers());
@@ -81,7 +81,7 @@ public class Convertor {
 		}
 		else if("ESCROW".equalsIgnoreCase(type))
 		{
-			if(null != paymentsModel.getBpAtClosing() && !"".equals(paymentsModel.getBpAtClosing()))
+			if(checkNotNull(paymentsModel.getBpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getBpAtClosing());
@@ -89,7 +89,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("AtClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if(null != paymentsModel.getBpB4Closing() && !"".equals(paymentsModel.getBpB4Closing()))
+			if(checkNotNull(paymentsModel.getBpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getBpB4Closing());
@@ -97,7 +97,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("false");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if(null != paymentsModel.getSpAtClosing() && !"".equals(paymentsModel.getSpAtClosing()))
+			if(checkNotNull(paymentsModel.getSpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getSpAtClosing());
@@ -105,7 +105,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("AtClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if(null != paymentsModel.getSpB4Closing() && !"".equals(paymentsModel.getSpB4Closing()))
+			if(checkNotNull(paymentsModel.getSpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getSpB4Closing());
@@ -113,7 +113,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("false");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if(null != paymentsModel.getPaidByOthers() && !"".equals(paymentsModel.getPaidByOthers()))
+			if(checkNotNull(paymentsModel.getPaidByOthers()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getPaidByOthers());
@@ -127,7 +127,7 @@ public class Convertor {
 		}
 		else if("PREPAID".equalsIgnoreCase(type))
 		{
-			if(null != paymentsModel.getBpAtClosing() && !"".equals(paymentsModel.getBpAtClosing()) )
+			if(checkNotNull(paymentsModel.getBpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getBpAtClosing());
@@ -135,7 +135,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("AtClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if(null != paymentsModel.getBpB4Closing() && !"".equals(paymentsModel.getBpB4Closing()))
+			if(checkNotNull(paymentsModel.getBpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getBpB4Closing());
@@ -143,7 +143,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("BeforeClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if(null != paymentsModel.getSpAtClosing() && !"".equals(paymentsModel.getSpAtClosing()))
+			if(checkNotNull(paymentsModel.getSpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getSpAtClosing());
@@ -151,7 +151,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("AtClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if(null != paymentsModel.getSpB4Closing() && !"".equals(paymentsModel.getSpB4Closing()))
+			if(checkNotNull(paymentsModel.getSpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getSpB4Closing());
@@ -159,7 +159,7 @@ public class Convertor {
 					mismoPaymentsModel.setClosingIndicator("BeforeClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
 			}
-			if(null != paymentsModel.getPaidByOthers() && !"".equals(paymentsModel.getPaidByOthers()))
+			if(checkNotNull(paymentsModel.getPaidByOthers()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
 					mismoPaymentsModel.setAmount(paymentsModel.getPaidByOthers());
@@ -225,7 +225,7 @@ public class Convertor {
 	{
 		List<IntegratedDisclosureSectionSummaryModel> integratedDisclosureSectionSummaryModels = new LinkedList<>();
 		
-		if(null != json.getClosingCostDetailsLoanCosts().getOcTotalAmount() && !"".equals(json.getClosingCostDetailsLoanCosts().getOcTotalAmount()))
+		if(checkNotNull(json.getClosingCostDetailsLoanCosts().getOcTotalAmount()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
 			
@@ -235,7 +235,7 @@ public class Convertor {
 			integratedDisclosureSectionSummaryModels.add(integratedDisclosureSectionSummaryModel);
 		}
 		
-		if(null != json.getClosingCostDetailsLoanCosts().getSbDidShopTotalAmount() && !"".equals(json.getClosingCostDetailsLoanCosts().getSbDidShopTotalAmount()))
+		if(checkNotNull(json.getClosingCostDetailsLoanCosts().getSbDidShopTotalAmount()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
 			
@@ -245,7 +245,7 @@ public class Convertor {
 			integratedDisclosureSectionSummaryModels.add(integratedDisclosureSectionSummaryModel);
 		}
 		
-		if(null != json.getClosingCostDetailsLoanCosts().getSbDidNotShopTotalAmount() && !"".equals(json.getClosingCostDetailsLoanCosts().getSbDidNotShopTotalAmount()))
+		if(checkNotNull(json.getClosingCostDetailsLoanCosts().getSbDidNotShopTotalAmount()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
 			
@@ -255,7 +255,7 @@ public class Convertor {
 			integratedDisclosureSectionSummaryModels.add(integratedDisclosureSectionSummaryModel);
 		}
 		
-		if(null != json.getClosingCostDetailsLoanCosts().getTlCostsTotalAmount() && !"".equals(json.getClosingCostDetailsLoanCosts().getTlCostsTotalAmount()))
+		if(checkNotNull(json.getClosingCostDetailsLoanCosts().getTlCostsTotalAmount()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
 			
@@ -266,7 +266,7 @@ public class Convertor {
 			integratedDisclosureSectionSummaryModels.add(integratedDisclosureSectionSummaryModel);
 		}
 		
-		if(null != json.getClosingCostDetailsOtherCosts().gettOGovtFeesTotalAmount() && !"".equals(json.getClosingCostDetailsOtherCosts().gettOGovtFeesTotalAmount()))
+		if(checkNotNull(json.getClosingCostDetailsOtherCosts().gettOGovtFeesTotalAmount()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
 						
@@ -276,7 +276,7 @@ public class Convertor {
 			integratedDisclosureSectionSummaryModels.add(integratedDisclosureSectionSummaryModel);
 		}
 		
-		if(null != json.getClosingCostDetailsOtherCosts().getPrepaidsTotalAmount() && !"".equals(json.getClosingCostDetailsOtherCosts().getPrepaidsTotalAmount()))
+		if(checkNotNull(json.getClosingCostDetailsOtherCosts().getPrepaidsTotalAmount()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
 						
@@ -286,10 +286,9 @@ public class Convertor {
 			integratedDisclosureSectionSummaryModels.add(integratedDisclosureSectionSummaryModel);
 		}
 		
-		if(null != json.getClosingCostDetailsOtherCosts().getEscrowItemsTotalAmount() && !"".equals(json.getClosingCostDetailsOtherCosts().getEscrowItemsTotalAmount()))
+		if(checkNotNull(json.getClosingCostDetailsOtherCosts().getEscrowItemsTotalAmount()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
-			IntegratedDisclosureSectionSummaryDetailModel integratedDisclosureSectionSummaryDetailModel = new IntegratedDisclosureSectionSummaryDetailModel();
 						
 			integratedDisclosureSectionSummaryModel = createIntegratedDisclosureSectionSummaryModel(json.getClosingCostDetailsOtherCosts().getEscrowItemsTotalAmount(),
 			"InitialEscrowPaymentAtClosing", "","", false, null);		
@@ -297,7 +296,7 @@ public class Convertor {
 			integratedDisclosureSectionSummaryModels.add(integratedDisclosureSectionSummaryModel);
 		}
 		
-		if(null != json.getClosingCostDetailsOtherCosts().getOtherTotalAmount() && !"".equals(json.getClosingCostDetailsOtherCosts().getOtherTotalAmount()))
+		if(checkNotNull(json.getClosingCostDetailsOtherCosts().getOtherTotalAmount()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
 			
@@ -307,7 +306,7 @@ public class Convertor {
 			integratedDisclosureSectionSummaryModels.add(integratedDisclosureSectionSummaryModel);
 		}
 		
-		if(null != json.getClosingCostDetailsOtherCosts().getTotalOtherCostsTotalAmount() && !"".equals(json.getClosingCostDetailsOtherCosts().getTotalOtherCostsTotalAmount()))
+		if(checkNotNull(json.getClosingCostDetailsOtherCosts().getTotalOtherCostsTotalAmount()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
 			
@@ -317,9 +316,8 @@ public class Convertor {
 			integratedDisclosureSectionSummaryModels.add(integratedDisclosureSectionSummaryModel);
 		}
 		
-		
 		//ClosingCostsTotal
-		if(null != json.getClosingCostsTotal().getTotalClosingCosts() && !"".equals(json.getClosingCostsTotal().getTotalClosingCosts()))
+		if(checkNotNull(json.getClosingCostsTotal().getTotalClosingCosts()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
 			
@@ -329,7 +327,7 @@ public class Convertor {
 			integratedDisclosureSectionSummaryModels.add(integratedDisclosureSectionSummaryModel);
 		}
 		
-		if(null != json.getClosingCostsTotal().getLenderCredits() && !"".equals(json.getClosingCostsTotal().getLenderCredits()))
+		if(checkNotNull(json.getClosingCostsTotal().getLenderCredits()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
 			PaymentsModel lenderCredits = new PaymentsModel();
@@ -344,40 +342,46 @@ public class Convertor {
 			integratedDisclosureSectionSummaryModels.add(integratedDisclosureSectionSummaryModel);
 		}
 		
-		if(null != json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing().
-			getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()
-				&& !"".equals(json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing()
-						.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()))
-			integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing());
+		if(checkNotNull(json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing().
+			getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()) &&
+				checkNotNull(json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing().
+						getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionType()))
+				integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing());
 
-		if(!"".equals(json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing()
-			.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()) 
-				&& null != json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing()
-						.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount())
-			integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing());	
+		if(checkNotNull(json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing()
+			.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()) && 
+				checkNotNull(json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing()
+						.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionType()))
+				integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing());	
 		
-		
-		if(!"".equals(json.getSummariesofTransactions().getSellerTransaction().getFromSellerAtClosing()
-				.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()) 
-					&& null != json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing()
-							.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount())
-			integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getSellerTransaction().getFromSellerAtClosing());
+		if(checkNotNull(json.getSummariesofTransactions().getSellerTransaction().getFromSellerAtClosing()
+				.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()) && 
+				checkNotNull(json.getSummariesofTransactions().getSellerTransaction().getFromSellerAtClosing()
+						.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionType()))
+					integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getSellerTransaction().getFromSellerAtClosing());
 
-		if(!"".equals(json.getSummariesofTransactions().getSellerTransaction().getToSellerAtClosing()
-			.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()) 
-				&& null != json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing()
-						.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount())
-			integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getSellerTransaction().getToSellerAtClosing());	
+		if(checkNotNull(json.getSummariesofTransactions().getSellerTransaction().getToSellerAtClosing()
+			.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()) &&
+				checkNotNull(json.getSummariesofTransactions().getSellerTransaction().getToSellerAtClosing()
+						.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionType())) 
+				integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getSellerTransaction().getToSellerAtClosing());	
 		
-		if(null != json.getPayoffsAndPayments() && null != json.getPayoffsAndPayments().getIntegratedDisclosureSectionSummary().getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()
-					&& !json.getPayoffsAndPayments().getIntegratedDisclosureSectionSummary().getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount().isEmpty())
-		{
+		if(null != json.getPayoffsAndPayments() && checkNotNull(json.getPayoffsAndPayments().getIntegratedDisclosureSectionSummary().getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()))
 			integratedDisclosureSectionSummaryModels.add(json.getPayoffsAndPayments().getIntegratedDisclosureSectionSummary());
-		}
 		
 		return integratedDisclosureSectionSummaryModels;
 	}
 	
+	/**
+	 * creates IntegratedDisclosureSectionSummaryModel container to insert into XML
+	 * @param secAmount section Total Amount
+	 * @param sectionType section Type
+	 * @param subAmount subSection TotalAmount
+	 * @param subSectionType subSection Type
+	 * @param hasPayments whether payments container present or not
+	 * @param paymentsModel payments 
+	 * @return IntegratedDisclosureSectionSummaryModel
+	 */
 	
 	private static IntegratedDisclosureSectionSummaryModel createIntegratedDisclosureSectionSummaryModel(String secAmount, String sectionType, String subAmount, String subSectionType, boolean hasPayments, PaymentsModel paymentsModel)
 	{
@@ -409,14 +413,23 @@ public class Convertor {
 		return integratedDisclosureSectionSummaryModel;
 	}
 	
-	
-	public static String booleanToString(boolean status)
+	/**
+	 * converts Boolean to string
+	 * @param status
+	 * @return
+	 */
+	public static String booleanToString(Boolean status)
 	{
 		if(status)
 			return "true";
 		return "false";
 	}
 	
+	/**
+	 * converts string to Boolean
+	 * @param status
+	 * @return
+	 */
 	public static boolean stringToBoolean(String status)
 	{
 		if(status.equalsIgnoreCase("true"))
@@ -447,6 +460,7 @@ public class Convertor {
         return formatter.format(date);  
 		
 	}
+	
 	/**
 	 * checks whether to insert payments section to MISMO XML
 	 * @param payment
@@ -454,15 +468,27 @@ public class Convertor {
 	 */
 	public static boolean isInsertFee(PaymentsModel payment)
 	{
-		if(null != payment.getBpAtClosing() && !payment.getBpAtClosing().isEmpty())
+		if(checkNotNull(payment.getBpAtClosing()))
 			return true;
-		else if(null != payment.getBpB4Closing() && !payment.getBpB4Closing().isEmpty())
+		else if(checkNotNull(payment.getBpB4Closing()))
 			return true;
-		else if(null != payment.getSpAtClosing() && !payment.getSpAtClosing().isEmpty())
+		else if(checkNotNull(payment.getSpAtClosing()))
 			return true;
-		else if(null != payment.getSpB4Closing() && !payment.getSpB4Closing().isEmpty())
+		else if(checkNotNull(payment.getSpB4Closing()))
 			return true;
-		else if(null != payment.getPaidByOthers() && !payment.getPaidByOthers().isEmpty())
+		else if(checkNotNull(payment.getPaidByOthers()))
+			return true;
+		return false;
+	}
+	
+	/**
+	 * checks for null and empty
+	 * @param amount
+	 * @return boolean
+	 */
+	public static boolean checkNotNull(String amount)
+	{
+		if(null != amount && !amount.isEmpty() && !"0".equalsIgnoreCase(amount) && !"0.00".equalsIgnoreCase(amount))
 			return true;
 		return false;
 	}
