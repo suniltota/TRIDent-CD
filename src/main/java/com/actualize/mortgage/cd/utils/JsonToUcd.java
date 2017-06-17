@@ -314,6 +314,16 @@ public class JsonToUcd {
      */
 	private void insertDealSets(Document document, Element element, ClosingDisclosure jsonDocument) {
 		insertDealSet(document, insertLevels(document, element, "DEAL_SET"), jsonDocument);
+		Element role =  insertLevels(document, element, "PARTIES/PARTY/ROLES/ROLE");
+		Element roleIdentifiers =  insertLevels(document, role, "PARTY_ROLE_IDENTIFIERS");
+		Element roleIdentifier = insertLevels(document, roleIdentifiers, "PARTY_ROLE_IDENTIFIER");
+		Element actualize = returnElement(document, roleIdentifier, "PartyRoleIdentifier","Actualize");
+			actualize.setAttribute("IdentifierOwnerURI", "www.fanniemae.com");
+		Element roleIdentifier2 = insertLevels(document, roleIdentifiers, "PARTY_ROLE_IDENTIFIER");
+		Element other =	returnElement(document, roleIdentifier2, "PartyRoleIdentifier","000100");
+			other.setAttribute("IdentifierOwnerURI", "www.freddiemac.com");
+		Element roleDetail =  insertLevels(document, role, "ROLE_DETAIL");
+		insertData(document, roleDetail, "PartyRoleType", "LoanDeliveryFilePreparer");
 	}
 	/**
      * Inserts Document Set to MISMO XML
@@ -449,7 +459,6 @@ public class JsonToUcd {
 		try {
 			element.appendChild(document.createElement(addNamespace("EmbeddedContentXML")))
 					.appendChild(document.createTextNode(Base64.getEncoder().encodeToString( new String(pdf.get(0).getResponseData()).getBytes( "utf-8" ) )));
-			//System.out.println(new String(pdf.get(0).getResponseData(), "UTF8"));
 		} catch (DOMException | UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -2346,10 +2355,6 @@ public class JsonToUcd {
 	{
 		for (Borrower borrower : borrowers) {
 			Element party = insertLevels(document, element, "PARTY");
-			Element roleDetail = insertLevels(document, party, "ROLES/ROLE/ROLE_DETAIL");
-			insertData(document, roleDetail, "PartyRoleType", borrower.getPartyRoleType());
-			if ("Other".equals(borrower.getPartyRoleType()))
-				insertData(document, roleDetail, "PartyRoleTypeOtherDescription", borrower.getPartyRoleOtherDescription());
 			
 			if(!borrower.getNameModel().getFullName().isEmpty())
 			{
@@ -2366,14 +2371,20 @@ public class JsonToUcd {
 			}
 			
 			Element address = insertLevels(document, party, "ADDRESSES/ADDRESS");
-			insertData(document, address, "AddressLineText", borrower.getAddress().getAddressLineText());
-			insertData(document, address, "AddressUnitDesignatorType", borrower.getAddress().getAddressUnitDesignatorType());
-			insertData(document, address, "AddressUnitIdentifier", borrower.getAddress().getAddressUnitIdentifier());
-			insertData(document, address, "AddressType", borrower.getAddress().getAddressType());
-			insertData(document, address, "CityName", borrower.getAddress().getCityName());
-			insertData(document, address, "CountryCode", borrower.getAddress().getCountryCode());
-			insertData(document, address, "PostalCode", borrower.getAddress().getPostalCode());
-			insertData(document, address, "StateCode", borrower.getAddress().getStateCode());
+				insertData(document, address, "AddressLineText", borrower.getAddress().getAddressLineText());
+				insertData(document, address, "AddressUnitDesignatorType", borrower.getAddress().getAddressUnitDesignatorType());
+				insertData(document, address, "AddressUnitIdentifier", borrower.getAddress().getAddressUnitIdentifier());
+				insertData(document, address, "AddressType", borrower.getAddress().getAddressType());
+				insertData(document, address, "CityName", borrower.getAddress().getCityName());
+				insertData(document, address, "CountryCode", borrower.getAddress().getCountryCode());
+				insertData(document, address, "PostalCode", borrower.getAddress().getPostalCode());
+				insertData(document, address, "StateCode", borrower.getAddress().getStateCode());
+			
+			Element roleDetail = insertLevels(document, party, "ROLES/ROLE/ROLE_DETAIL");
+				insertData(document, roleDetail, "PartyRoleType", borrower.getPartyRoleType());
+				if ("Other".equals(borrower.getPartyRoleType()))
+					insertData(document, roleDetail, "PartyRoleTypeOtherDescription", borrower.getPartyRoleOtherDescription());
+				
 		}
 	}
 	
@@ -2388,8 +2399,6 @@ public class JsonToUcd {
 		if(null != partyDetail.getOrganizationName() && !partyDetail.getOrganizationName().isEmpty())
 		{
 			Element party = insertLevels(document, element, "PARTY");
-			Element roleDetail = insertLevels(document, party, "ROLES/ROLE/ROLE_DETAIL");
-				insertData(document, roleDetail, "PartyRoleType", partyDetail.getPartyRoleType());
 			
 			Element legalEntity = insertLevels(document, party, "LEGAL_ENTITY/LEGAL_ENTITY_DETAIL");
 				insertData(document, legalEntity, "FullName",partyDetail.getOrganizationName());
@@ -2406,19 +2415,20 @@ public class JsonToUcd {
 				
 				Element licenseDetail = insertLevels(document, party, "LICENSE/LICENSE_DETAIL");
 					insertData(document, licenseDetail, "licenseAuthorityLevelType", partyDetail.getOrganizationLicenseDetail().getLicenseAuthorityLevelType());
-					Element identifier =  returnElement(document, licenseDetail, "licenseIdentifier", partyDetail.getOrganizationLicenseDetail().getLicenseIdentifier());
+				Element identifier =  returnElement(document, licenseDetail, "licenseIdentifier", partyDetail.getOrganizationLicenseDetail().getLicenseIdentifier());
 					if(null != partyDetail.getOrganizationLicenseDetail().getIdentifierOwnerURI() && !partyDetail.getOrganizationLicenseDetail().getIdentifierOwnerURI().isEmpty())
 						identifier.setAttribute("IdentifierOwnerURI", partyDetail.getOrganizationLicenseDetail().getIdentifierOwnerURI());
 					insertData(document, licenseDetail, "licenseIssueDate", partyDetail.getOrganizationLicenseDetail().getLicenseIssueDate());
 					insertData(document, licenseDetail, "licenseIssuingAuthorityName", partyDetail.getOrganizationLicenseDetail().getLicenseIssuingAuthorityName());
 					insertData(document, licenseDetail, "licenseIssuingAuthorityStateCode", partyDetail.getOrganizationLicenseDetail().getLicenseIssuingAuthorityStateCode());
+					
+				Element roleDetail = insertLevels(document, party, "ROLES/ROLE/ROLE_DETAIL");
+					insertData(document, roleDetail, "PartyRoleType", partyDetail.getPartyRoleType());
 		}
 		
 		if(!partyDetail.getName().getFirstName().isEmpty() || !partyDetail.getName().getLastName().isEmpty() || !partyDetail.getName().getMiddleName().isEmpty() || !partyDetail.getName().getSuffixName().isEmpty())
 		{
 			Element party = insertLevels(document, element, "PARTY");
-			Element roleDetail = insertLevels(document, party, "ROLES/ROLE/ROLE_DETAIL");
-				insertData(document, roleDetail, "PartyRoleType", partyDetail.getPartyRoleType());
 						
 			Element name = insertLevels(document, party, "INDIVIDUAL/NAME");
 				insertData(document, name, "FirstName", partyDetail.getName().getFirstName());
@@ -2443,6 +2453,7 @@ public class JsonToUcd {
 				}
 			
 			}
+			
 			Element licenseDetail = insertLevels(document, party, "LICENSE/LICENSE_DETAIL");
 			
 				insertData(document, licenseDetail, "licenseAuthorityLevelType", partyDetail.getIndividualLicenseDetail().getLicenseAuthorityLevelType());
@@ -2452,6 +2463,10 @@ public class JsonToUcd {
 				insertData(document, licenseDetail, "licenseIssueDate", partyDetail.getIndividualLicenseDetail().getLicenseIssueDate());
 				insertData(document, licenseDetail, "licenseIssuingAuthorityName", partyDetail.getIndividualLicenseDetail().getLicenseIssuingAuthorityName());
 				insertData(document, licenseDetail, "licenseIssuingAuthorityStateCode", partyDetail.getIndividualLicenseDetail().getLicenseIssuingAuthorityStateCode());
+			
+			Element roleDetail = insertLevels(document, party, "ROLES/ROLE/ROLE_DETAIL");
+				insertData(document, roleDetail, "PartyRoleType", partyDetail.getPartyRoleType());
+			
 		}
 		
 	}
