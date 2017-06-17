@@ -238,8 +238,6 @@ public class ClosingDisclosureConverter {
     	Deal deal = new Deal(Deal.NS, (Element)document.getElementAddNS("DEAL_SETS/DEAL_SET/DEALS/DEAL"));
         EscrowDetail escrowdetail = new EscrowDetail((Element)deal.getElementAddNS("LOANS/LOAN/ESCROW/ESCROW_DETAIL"));
         
-        
-       
         if("Seller".equalsIgnoreCase(escrowdetail.other.escrowAggregateAccountingAdjustmentPaidByType) )
         	closingDisclosureDocumentDetails.setEscrowAggregateAccountingAdjustmentAmountOthersPaid(escrowdetail.escrowAggregateAccountingAdjustmentAmount);
         else if("ThirdParty".equalsIgnoreCase(escrowdetail.other.escrowAggregateAccountingAdjustmentPaidByType) )
@@ -1616,11 +1614,17 @@ public class ClosingDisclosureConverter {
     	if(null != document.documentClassification)
     	{
     		DocumentClassification docClassification = new DocumentClassification(Document.NS, (Element)document.getElementAddNS("DOCUMENT_CLASSIFICATION"));
+    		if(null != document.documentClassification.documentClassificationDetail)
+    		{
 		 	    documentClassification.setDocumentFormIssuingEntityNameType(docClassification.documentClassificationDetail.documentFormIssuingEntityNameType);
 		 	    documentClassification.setDocumentFormIssuingEntityVersionIdentifier(docClassification.documentClassificationDetail.documentFormIssuingEntityVersionIdentifier);
 		 	    documentClassification.setDocumentSignatureRequiredIndicator(Boolean.parseBoolean(docClassification.documentClassificationDetail.other.documentSignatureRequiredIndicator));
+    		}
+    		if(null != document.documentClassification.documentClasses)
+    		{
 		 	    documentClassification.setDocumentType(docClassification.documentClasses.documentClass.documentType);
 		 	    documentClassification.setDocumentTypeOtherDescription(docClassification.documentClasses.documentClass.documentTypeOtherDescription);
+    		}
     	}
 		return documentClassification;
     }

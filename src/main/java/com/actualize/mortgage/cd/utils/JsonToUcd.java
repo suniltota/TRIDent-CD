@@ -2,6 +2,8 @@ package com.actualize.mortgage.cd.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,12 +12,14 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.logging.log4j.Logger;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -62,6 +66,7 @@ import com.actualize.mortgage.cd.domainmodels.MismoProjectedPaymentsModel;
 import com.actualize.mortgage.cd.domainmodels.NameModel;
 import com.actualize.mortgage.cd.domainmodels.NegativeAmortizationModel;
 import com.actualize.mortgage.cd.domainmodels.OtherModel;
+import com.actualize.mortgage.cd.domainmodels.PDFResponse;
 import com.actualize.mortgage.cd.domainmodels.PartialPaymentModel;
 import com.actualize.mortgage.cd.domainmodels.PartialPaymentsModel;
 import com.actualize.mortgage.cd.domainmodels.PaymentModel;
@@ -75,6 +80,8 @@ import com.actualize.mortgage.cd.domainmodels.ProrationModel;
 import com.actualize.mortgage.cd.domainmodels.QualifiedMortgageModel;
 import com.actualize.mortgage.cd.domainmodels.SalesContractDetailModel;
 import com.actualize.mortgage.cd.domainmodels.TermsOfLoanModel;
+import com.actualize.mortgage.exceptions.XMLServiceException;
+import com.actualize.mortgage.services.impl.ClosingDisclosureServicesImpl;
 
 
 
@@ -121,7 +128,7 @@ public class JsonToUcd {
         tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
         StreamResult result = new StreamResult(new StringWriter());
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+      //  ByteArrayOutputStream out = new ByteArrayOutputStream();
         removeEmptyNodes(document);
         tr.transform(new DOMSource(document), result);
         String xmlString = result.getWriter().toString();
@@ -338,8 +345,8 @@ public class JsonToUcd {
 	/*	insertAuditTrail(document, insertLevels(document, element, "AUDIT_TRAIL"), jsonDocument);
 		insertRelationships(document, insertLevels(document, element, "RELATIONSHIPS"), jsonDocument);
 		insertSignatories(document, insertLevels(document, element, "SIGNATORIES"), jsonDocument);
-		insertSystemSignatures(document, insertLevels(document, element, "SYSTEM_SIGNATORIES"), jsonDocument);
-		insertViews(document, insertLevels(document, element, "VIEWS"), jsonDocument);*/
+		insertSystemSignatures(document, insertLevels(document, element, "SYSTEM_SIGNATORIES"), jsonDocument);*/
+		insertViews(document, insertLevels(document, element, "VIEWS"));
 		insertAboutVersions(document, insertLevels(document, element, "ABOUT_VERSIONS"), null);
 		insertDocumentClassification(document, insertLevels(document, element, "DOCUMENT_CLASSIFICATION"), jsonDocument.getDocumentClassification());
 	}
@@ -377,45 +384,76 @@ public class JsonToUcd {
 		insertData(document, element, "DocumentTypeOtherDescription",documentClassification.getDocumentTypeOtherDescription());
 	}
 	/**
-     * Inserts Views from JSON Object
+     * Inserts Views to MISMO XML
      * @param document Output XML file
      * @param element parent node of XML
      * @param jsonDocument Input JSON Object
-     *//*
-	private void insertViews(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		// TODO Auto-generated method stub
+     */
+	private void insertViews(Document document, Element element) {
 		//for (String group : groupings)
-			insertView(document, insertLevels(document, element, "VIEW"), jsonDocument);
+			insertView(document, insertLevels(document, element, "VIEW"));
 	}
-	*//**
-     * Inserts View from JSON Object
+	/**
+     * Inserts View to MISMO XML
      * @param document Output XML file
      * @param element parent node of XML
      * @param jsonDocument Input JSON Object
-     *//*
-	private void insertView(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		// TODO Auto-generated method stub
-		insertViewFile(document, insertLevels(document, element, "VIEW_FILES/VIEW_FILE"), jsonDocument);
+     */
+	private void insertView(Document document, Element element) {
+		insertViewFile(document, insertLevels(document, element, "VIEW_FILES/VIEW_FILE"));
 	}
-	*//**
-     * Inserts View File from JSON Object
+	/**
+     * Inserts View File to MISMO XML
      * @param document Output XML file
      * @param element parent node of XML
      * @param jsonDocument Input JSON Object
-     *//*
-	private void insertViewFile(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		// TODO Auto-generated method stub
-		insertForeignObject(document, insertLevels(document, element, "FOREIGN_OBJECT"), jsonDocument);
+     */
+	private void insertViewFile(Document document, Element element) {
+		insertForeignObject(document, insertLevels(document, element, "FOREIGN_OBJECT"));
 	}
-	*//**
-     * Inserts Foreign Object from JSON Object
+	/**
+     * Inserts Foreign Object to MISMO XML
      * @param document Output XML file
      * @param element parent node of XML
      * @param jsonDocument Input JSON Object
-     *//*
-	private void insertForeignObject(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		// TODO Auto-generated method stub
-		insertLevels(document, element, "EmbeddedContentXML"); // Placeholder for Base64 document
+     */
+	private void insertForeignObject(Document document, Element element){
+		//insertLevels(document, element, ""); 
+		ClosingDisclosureServicesImpl closingDisclosureServicesImpl = new ClosingDisclosureServicesImpl();
+		Transformer tr = null;
+		try {
+			tr = TransformerFactory.newInstance().newTransformer();
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerFactoryConfigurationError e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        tr.setOutputProperty(OutputKeys.INDENT, "yes");
+        tr.setOutputProperty(OutputKeys.METHOD, "xml");
+        tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+        StreamResult result = new StreamResult(new StringWriter());
+      //  ByteArrayOutputStream out = new ByteArrayOutputStream();
+        //removeEmptyNodes(document);
+        try {
+			tr.transform(new DOMSource(document), result);
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        String xmlString = result.getWriter().toString();
+        
+        List<PDFResponse> pdf = closingDisclosureServicesImpl.createPDF(xmlString);
+		try {
+			element.appendChild(document.createElement(addNamespace("EmbeddedContentXML")))
+					.appendChild(document.createTextNode(Base64.getEncoder().encodeToString( new String(pdf.get(0).getResponseData()).getBytes( "utf-8" ) )));
+			//System.out.println(new String(pdf.get(0).getResponseData(), "UTF8"));
+		} catch (DOMException | UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         element.appendChild(document.createElement(addNamespace("MIMETypeIdentifier")))
                .appendChild(document.createTextNode("application/pdf"));
         element.appendChild(document.createElement(addNamespace("ObjectEncodingType")))
@@ -423,7 +461,7 @@ public class JsonToUcd {
         element.appendChild(document.createElement(addNamespace("ObjectName")))
                .appendChild(document.createTextNode("ClosingDisclosure.pdf"));
 	}
-	*//**
+	/**
      * Inserts System Signatories from JSON Object
      * @param document Output XML file
      * @param element parent node of XML

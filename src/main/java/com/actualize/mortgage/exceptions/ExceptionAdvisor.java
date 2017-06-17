@@ -19,7 +19,7 @@ public class ExceptionAdvisor {
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@ExceptionHandler(ServiceException.class)
+	@ExceptionHandler(XMLServiceException.class)
 	public ResponseEntity<ErrorResponse> exceptionHandler1(Exception ex) {
 		ErrorResponse error = new ErrorResponse();
 		error.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());

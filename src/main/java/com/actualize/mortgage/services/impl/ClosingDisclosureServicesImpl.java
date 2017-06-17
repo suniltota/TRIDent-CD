@@ -4,12 +4,36 @@
  */
 package com.actualize.mortgage.services.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+
+import org.apache.pdfbox.exceptions.COSVisitorException;
 
 import com.actualize.mortgage.cd.convertors.ClosingDisclosureConverter;
 import com.actualize.mortgage.cd.datamodels.MISMODocument;
 import com.actualize.mortgage.cd.domainmodels.ClosingDisclosure;
+import com.actualize.mortgage.cd.domainmodels.PDFResponse;
 import com.actualize.mortgage.cd.utils.JsonToUcd;
+import com.actualize.mortgage.exceptions.ServiceException;
+import com.uniformdisclosure.UniformDisclosureBuilder;
+import com.uniformdisclosure.UniformDisclosureBuilderSeller;
+
+import datalayer.InputData;
+import datalayer.PopulateInputData;
+
 
 /**
  * This is the implementation class which is used to write 
@@ -45,5 +69,60 @@ public class ClosingDisclosureServicesImpl {
     	JsonToUcd jsonToUcd = new JsonToUcd();
         return jsonToUcd.transform(closingDisclosure);
     }
+    
+    /**
+     * 
+     * @param xmlDoc
+     * @return
+     * @throws Exception
+     */
+    public List<PDFResponse> createPDF(String xmlDoc) {
+		 PopulateInputData reader = new PopulateInputData();
+		    List<InputData> inputData = new LinkedList<>();
+			try {
+				inputData = reader.getData(new ByteArrayInputStream(xmlDoc.getBytes("utf-8")));
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    ByteArrayOutputStream pdfOutStream = null;
+		    List<PDFResponse> pdfResponseList = new ArrayList<>();
+		    for (InputData data : inputData) {
+		    PDFResponse outputResponse = new PDFResponse();
+		    outputResponse.setFilename("ClosingDisclosure");
+		    outputResponse.setOutputType("application/pdf");
+		        if (data.isSellerOnly()) {
+		            UniformDisclosureBuilderSeller pdfbuilder = new UniformDisclosureBuilderSeller();
+		            try {
+						pdfOutStream = pdfbuilder.run(data);
+					} catch (COSVisitorException | ParserConfigurationException | TransformerFactoryConfigurationError
+							| TransformerException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		            try {
+						System.out.println(new String(pdfOutStream.toString("UTF8")));
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		            outputResponse.setResponseData(pdfOutStream.toByteArray());
+		        } else {
+		            UniformDisclosureBuilder pdfbuilder = new UniformDisclosureBuilder();
+		            try {
+						pdfOutStream = pdfbuilder.run(data);
+					} catch (COSVisitorException | ParserConfigurationException | TransformerFactoryConfigurationError
+							| TransformerException | IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		 
+		            outputResponse.setResponseData(pdfOutStream.toByteArray());
+		        }
+		        pdfResponseList.add(outputResponse);
+		    }
+		return pdfResponseList;
+	}
+
 
 }
