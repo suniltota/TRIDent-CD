@@ -55,6 +55,7 @@ public class ClosingDisclosure implements Serializable {
     private LateChargeRuleModel lateChargeRule;
     private LoanCalculationsQualifiedMortgage loanCalculationsQualifiedMortgage;
     private ContactInformationModel contactInformation;
+    private List<ContactInformationDetailModel> contactInformationList;
 	/**
 	 * @return the closingDisclosureDocDetails
 	 */
@@ -475,6 +476,18 @@ public class ClosingDisclosure implements Serializable {
 	 */
 	public void setContactInformation(ContactInformationModel contactInformation) {
 		this.contactInformation = contactInformation;
+	}
+	/**
+	 * @return the contactInformationList
+	 */
+	public List<ContactInformationDetailModel> getContactInformationList() {
+		return contactInformationList;
+	}
+	/**
+	 * @param contactInformationList the contactInformationList to set
+	 */
+	public void setContactInformationList(List<ContactInformationDetailModel> contactInformationList) {
+		this.contactInformationList = contactInformationList;
 	}
 	
     

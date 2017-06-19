@@ -15,6 +15,8 @@ public class ContactInformationDetailModel implements Serializable {
 	private static final long serialVersionUID = 5757669572320827341L;
 
 	private String partyRoleType = "";
+	private String organisationREAgentType = "";
+	private String individualREAgentType = "";
 	private String organizationName = "";  
 	private AddressModel address = new AddressModel();
 	private LicenseDetailModel organizationLicenseDetail = new LicenseDetailModel();
@@ -34,6 +36,30 @@ public class ContactInformationDetailModel implements Serializable {
 	 */
 	public void setPartyRoleType(String partyRoleType) {
 		this.partyRoleType = partyRoleType;
+	}
+	/**
+	 * @return the organisationREAgentType
+	 */
+	public String getOrganisationREAgentType() {
+		return organisationREAgentType;
+	}
+	/**
+	 * @param organisationREAgentType the organisationREAgentType to set
+	 */
+	public void setOrganisationREAgentType(String organisationREAgentType) {
+		this.organisationREAgentType = organisationREAgentType;
+	}
+	/**
+	 * @return the individualREAgentType
+	 */
+	public String getIndividualREAgentType() {
+		return individualREAgentType;
+	}
+	/**
+	 * @param individualREAgentType the individualREAgentType to set
+	 */
+	public void setIndividualREAgentType(String individualREAgentType) {
+		this.individualREAgentType = individualREAgentType;
 	}
 	/**
 	 * @return the organizationName

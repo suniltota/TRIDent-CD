@@ -216,6 +216,7 @@ public class ClosingDisclosureConverter {
 	     	closingDisclosure.setLateChargeRule(createLateChargeRuleModel(deal));
 	     	closingDisclosure.setLoanCalculationsQualifiedMortgage(createLoanCalculationsQualifiedMortgage(deal));
 	     	closingDisclosure.setContactInformation(createContactInformation(deal));
+	     	closingDisclosure.setContactInformationList(createContactInformationDetailModel(deal));
 	     	
         
         return closingDisclosure;
@@ -1458,6 +1459,63 @@ public class ClosingDisclosureConverter {
         	
         }
      
+     
+     /**
+      * create contact information for JSON response
+      * @param deal
+      * @return ContactInformationModel
+      */
+      private List<ContactInformationDetailModel> createContactInformationDetailModel(Deal deal)
+     {
+     
+ 		List<ContactInformationDetailModel> contactInformationDetailModels = new LinkedList<>();
+ 		Parties parties = new Parties((Element)deal.getElementAddNS("PARTIES"));
+ 		
+ 		List<Party> closingAgent = new LinkedList<>();
+ 		List<Party> lender = new LinkedList<>();
+ 		List<Party> realEstateAgentB = new LinkedList<>();
+ 		List<Party> realEstateAgentS = new LinkedList<>();
+ 		List<Party> mortgageBroker = new LinkedList<>();
+ 		
+        	if(parties.parties.length >0)
+ 		for(int i=0;i<parties.parties.length; i++)
+ 		{	
+ 			if(null != parties.parties[i].roles.element)
+ 				switch(parties.parties[i].roles.roles[0].roleDetail.PartyRoleType)
+ 				{
+ 					case "ClosingAgent":
+ 						closingAgent.add(parties.parties[i]);
+ 					break;
+ 					case "NotePayTo":
+ 						lender.add(parties.parties[i]);
+ 					break;
+ 					case "RealEstateAgent":
+ 						if ("Selling".equalsIgnoreCase(parties.parties[i].roles.roles[0].realEstateAgent.realEstateAgentType))
+ 							realEstateAgentB.add(parties.parties[i]);
+ 						else if("Listing".equalsIgnoreCase(parties.parties[i].roles.roles[0].realEstateAgent.realEstateAgentType))
+ 							realEstateAgentS.add(parties.parties[i]);
+ 					break;
+ 					case "MortgageBroker":
+ 						mortgageBroker.add(parties.parties[i]);
+ 					break;
+ 				}  		
+ 		}
+        	
+    		if(lender.size()>0)
+    			contactInformationDetailModels.add(getContactInformationDetail(lender, "NotePayTo"));
+    		if(mortgageBroker.size()>0)
+    			contactInformationDetailModels.add(getContactInformationDetail(mortgageBroker, "MortgageBroker"));
+    		if(realEstateAgentB.size()>0)
+    			contactInformationDetailModels.add(getContactInformationDetail(realEstateAgentB, "RealEstateAgent"));
+    		if(realEstateAgentS.size()>0)
+    			contactInformationDetailModels.add(getContactInformationDetail(realEstateAgentS, "RealEstateAgent"));
+    		if(closingAgent.size()>0)
+    			contactInformationDetailModels.add(getContactInformationDetail(closingAgent, "ClosingAgent"));
+         	
+     		return contactInformationDetailModels;
+         	
+         }
+     
    /**
     * get all the details from party and assigns to contactinformationDetail
     * @param party
@@ -1504,6 +1562,9 @@ public class ClosingDisclosureConverter {
 					organizationLicenseDetail.setLicenseIssuingAuthorityName(licenseDetail.licenseIssuingAuthorityName);
 					organizationLicenseDetail.setLicenseIssuingAuthorityStateCode(licenseDetail.licenseIssuingAuthorityStateCode);
 				}
+	    		
+	    		if(null != party.roles.element &&  null != party.roles.roles[0].realEstateAgent.element)
+	    			contactInformationDetailModel.setOrganisationREAgentType(party.roles.roles[0].realEstateAgent.realEstateAgentType);
 	    	}
 	    	if(null != party.individual.element && null != party.individual.name.element)
 	    	{	
@@ -1526,6 +1587,9 @@ public class ClosingDisclosureConverter {
 					individualLicenseDetail.setLicenseIssuingAuthorityName(licenseDetail.licenseIssuingAuthorityName);
 					individualLicenseDetail.setLicenseIssuingAuthorityStateCode(licenseDetail.licenseIssuingAuthorityStateCode);
 				}
+				
+				if(null != party.roles.element &&  null != party.roles.roles[0].realEstateAgent.element)
+					contactInformationDetailModel.setIndividualREAgentType(party.roles.roles[0].realEstateAgent.realEstateAgentType);
 	    	
     	}
 	    	if(null != party.individual.element && null != party.individual.contactPoints.element)

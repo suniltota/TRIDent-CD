@@ -2419,16 +2419,28 @@ public class JsonToUcd {
 				insertData(document, address, "StateCode", partyDetail.getAddress().getStateCode());
 									
 				Element role = insertLevels(document, party, "ROLES/ROLE");
+				
+				if("realEstateBrokerB".equalsIgnoreCase(type))
+				{
+					Element reAgent = insertLevels(document, role, "REAL_ESTATE_AGENT");
+						insertData(document, reAgent, "RealEstateAgentType", "Selling");
+				}
+				else if("realEstateBrokerS".equalsIgnoreCase(type))
+				{
+					Element reAgent = insertLevels(document, role, "REAL_ESTATE_AGENT");
+						insertData(document, reAgent, "RealEstateAgentType", "Listing");
+				}	
+				
 				Element roleDetail = insertLevels(document, role, "ROLE_DETAIL");
 				
 				Element licenseDetail = insertLevels(document, role, "LICENSES/LICENSE/LICENSE_DETAIL");
-				insertData(document, licenseDetail, "licenseAuthorityLevelType", partyDetail.getOrganizationLicenseDetail().getLicenseAuthorityLevelType());
-			Element identifier =  returnElement(document, licenseDetail, "licenseIdentifier", partyDetail.getOrganizationLicenseDetail().getLicenseIdentifier());
+				insertData(document, licenseDetail, "LicenseAuthorityLevelType", partyDetail.getOrganizationLicenseDetail().getLicenseAuthorityLevelType());
+			Element identifier =  returnElement(document, licenseDetail, "LicenseIdentifier", partyDetail.getOrganizationLicenseDetail().getLicenseIdentifier());
 				if(null != partyDetail.getOrganizationLicenseDetail().getIdentifierOwnerURI() && !partyDetail.getOrganizationLicenseDetail().getIdentifierOwnerURI().isEmpty())
 					identifier.setAttribute("IdentifierOwnerURI", partyDetail.getOrganizationLicenseDetail().getIdentifierOwnerURI());
-				insertData(document, licenseDetail, "licenseIssueDate", partyDetail.getOrganizationLicenseDetail().getLicenseIssueDate());
-				insertData(document, licenseDetail, "licenseIssuingAuthorityName", partyDetail.getOrganizationLicenseDetail().getLicenseIssuingAuthorityName());
-				insertData(document, licenseDetail, "licenseIssuingAuthorityStateCode", partyDetail.getOrganizationLicenseDetail().getLicenseIssuingAuthorityStateCode());
+				insertData(document, licenseDetail, "LicenseIssueDate", partyDetail.getOrganizationLicenseDetail().getLicenseIssueDate());
+				insertData(document, licenseDetail, "LicenseIssuingAuthorityName", partyDetail.getOrganizationLicenseDetail().getLicenseIssuingAuthorityName());
+				insertData(document, licenseDetail, "LicenseIssuingAuthorityStateCode", partyDetail.getOrganizationLicenseDetail().getLicenseIssuingAuthorityStateCode());
 
 				insertData(document, roleDetail, "PartyRoleType", partyDetail.getPartyRoleType());
 		}
@@ -2477,14 +2489,14 @@ public class JsonToUcd {
 			}	
 			
 			Element licenseDetail = insertLevels(document, role, "LICENSES/LICENSE/LICENSE_DETAIL");
-				insertData(document, licenseDetail, "licenseAuthorityLevelType", partyDetail.getIndividualLicenseDetail().getLicenseAuthorityLevelType());
+				insertData(document, licenseDetail, "LicenseAuthorityLevelType", partyDetail.getIndividualLicenseDetail().getLicenseAuthorityLevelType());
 				
-			Element identifier =  returnElement(document, licenseDetail, "licenseIdentifier", partyDetail.getIndividualLicenseDetail().getLicenseIdentifier());
+			Element identifier =  returnElement(document, licenseDetail, "LicenseIdentifier", partyDetail.getIndividualLicenseDetail().getLicenseIdentifier());
 					if(null != partyDetail.getIndividualLicenseDetail().getIdentifierOwnerURI() && !partyDetail.getIndividualLicenseDetail().getIdentifierOwnerURI().isEmpty())
 						identifier.setAttribute("IdentifierOwnerURI", partyDetail.getIndividualLicenseDetail().getIdentifierOwnerURI());
-				insertData(document, licenseDetail, "licenseIssueDate", partyDetail.getIndividualLicenseDetail().getLicenseIssueDate());
-				insertData(document, licenseDetail, "licenseIssuingAuthorityName", partyDetail.getIndividualLicenseDetail().getLicenseIssuingAuthorityName());
-				insertData(document, licenseDetail, "licenseIssuingAuthorityStateCode", partyDetail.getIndividualLicenseDetail().getLicenseIssuingAuthorityStateCode());			
+				insertData(document, licenseDetail, "LicenseIssueDate", partyDetail.getIndividualLicenseDetail().getLicenseIssueDate());
+				insertData(document, licenseDetail, "LicenseIssuingAuthorityName", partyDetail.getIndividualLicenseDetail().getLicenseIssuingAuthorityName());
+				insertData(document, licenseDetail, "LicenseIssuingAuthorityStateCode", partyDetail.getIndividualLicenseDetail().getLicenseIssuingAuthorityStateCode());			
 				
 			Element roleDetail = insertLevels(document, role, "ROLE_DETAIL");
 				
