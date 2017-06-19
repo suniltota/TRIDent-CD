@@ -1290,8 +1290,6 @@ public class JsonToUcd {
 	 */
 	private void insertFeeDetail(Document document, Element element,  ClosingCostProperties closingCostProperties) {
 		
-		OtherModel other = new OtherModel();
-			other.setPaymentIncludedInAPRIndicator(Boolean.toString(closingCostProperties.isPaymentIncludedInAPRIndicator()));
 		insertData(document, element, "BorrowerChosenProviderIndicator", "");
 		insertData(document, element, "FeeActualTotalAmount", closingCostProperties.getFeeActualTotalAmount());
 		insertData(document, element, "FeeEstimatedTotalAmount", "" );
@@ -1305,11 +1303,13 @@ public class JsonToUcd {
 		insertData(document, element, "FeeTypeOtherDescription", closingCostProperties.getFeeTypeOtherDescription());
 		insertData(document, element, "IntegratedDisclosureSectionType", closingCostProperties.getIntegratedDisclosureSectionType());
 		insertData(document, element, "OptionalCostIndicator", Boolean.toString(closingCostProperties.isOptionalCostIndicator()));
-		
-		insertData(document, element, "RegulationZPointsAndFeesIndicator", Boolean.toString(closingCostProperties.isRegulationZPointsAndFeesIndicator()).toLowerCase());
+		if(!Convertor.isPropertyTax(closingCostProperties.getFeeType()))
+			insertData(document, element, "RegulationZPointsAndFeesIndicator", Boolean.toString(closingCostProperties.isRegulationZPointsAndFeesIndicator()).toLowerCase());
 		insertData(document, element, "RequiredProviderOfServiceIndicator", "");
-		
-		insertExtension(document, insertLevels(document, element, "EXTENSION"), other);
+		//if(!Convertor.isPropertyTax(closingCostProperties.getFeeType()));
+			OtherModel other = new OtherModel();
+				other.setPaymentIncludedInAPRIndicator(Boolean.toString(closingCostProperties.isPaymentIncludedInAPRIndicator()));
+			insertExtension(document, insertLevels(document, element, "EXTENSION"), other);
 	}
 	
 	/**
@@ -1345,14 +1345,14 @@ public class JsonToUcd {
      */
 	private void insertEscrowItem(Document document, Element element, EscrowItemModel escrowItem) {
 		insertEscrowItemDetail(document, insertLevels(document, element, "ESCROW_ITEM_DETAIL"), escrowItem);
-		PaymentsModel paymentsModel = new PaymentsModel();
+		/*PaymentsModel paymentsModel = new PaymentsModel();
 			paymentsModel.setBpAtClosing(escrowItem.getBpAtClosing());
 			paymentsModel.setBpB4Closing(escrowItem.getBpB4Closing());
 			paymentsModel.setSpAtClosing(escrowItem.getSpAtClosing());
 			paymentsModel.setSpB4Closing(escrowItem.getSpB4Closing());
 			paymentsModel.setLenderStatus(escrowItem.isLenderStatus());
-			paymentsModel.setPaidByOthers(escrowItem.getPaidByOthers());
-		List<MismoPaymentsModel> mismoPaymentsList = Convertor.toMismoFeePayments(paymentsModel, "ESCROW");
+			paymentsModel.setPaidByOthers(escrowItem.getPaidByOthers());*/
+		List<MismoPaymentsModel> mismoPaymentsList = Convertor.toMismoFeePayments(escrowItem, "ESCROW");
 		if(mismoPaymentsList.size() > 0)
 			insertEscrowItemPayments(document,  insertLevels(document, element, "ESCROW_ITEM_PAYMENTS"), mismoPaymentsList);
 	}
@@ -1398,10 +1398,12 @@ public class JsonToUcd {
 		insertData(document, element, "FeePaidToType", escrowItem.getFeePaidToType());
 		insertData(document, element, "FeePaidToTypeOtherDescription", escrowItem.getFeePaidToTypeOtherDescription());
 		insertData(document, element, "IntegratedDisclosureSectionType", escrowItem.getIntegratedDisclosureSectionType());
-		insertData(document, element, "RegulationZPointsAndFeesIndicator", Boolean.toString(escrowItem.isRegulationZPointsAndFeesIndicator()));
-		OtherModel other = new OtherModel();
+		if(!Convertor.isPropertyTax(escrowItem.getEscrowItemType()))
+			insertData(document, element, "RegulationZPointsAndFeesIndicator", Boolean.toString(escrowItem.isRegulationZPointsAndFeesIndicator()));
+	//	if(!Convertor.isPropertyTax(escrowItem.getEscrowItemType()));
+			OtherModel other = new OtherModel();
 			other.setPaymentIncludedInAPRIndicator(Boolean.toString(escrowItem.isPaymentIncludedInAPRIndicator()));
-		insertExtension(document, insertLevels(document, element, "EXTENSION"), other);
+				insertExtension(document, insertLevels(document, element, "EXTENSION"), other);
 	}
 	
 	/**
@@ -1882,10 +1884,13 @@ public class JsonToUcd {
 			if(null != prepaidItemTypeElement && null != prepaidItem.getDisplayLabel() && !prepaidItem.getDisplayLabel().isEmpty())
 				prepaidItemTypeElement.setAttribute("gse:DisplayLabelText", prepaidItem.getDisplayLabel());
 		insertData(document, element, "PrepaidItemTypeOtherDescription", prepaidItem.getPrepaidItemTypeOtherDescription());
-		insertData(document, element, "RegulationZPointsAndFeesIndicator", Boolean.toString(prepaidItem.isRegulationZPointsAndFeesIndicator()));
-		OtherModel other = new OtherModel();
-		other.setPaymentIncludedInAPRIndicator(Boolean.toString(prepaidItem.isPaymentIncludedInAPRIndicator()));
-		insertExtension(document,insertLevels(document, element, "EXTENSION"), other);
+		if(!Convertor.isPropertyTax(prepaidItem.getPrepaidItemType()))
+			insertData(document, element, "RegulationZPointsAndFeesIndicator", Boolean.toString(prepaidItem.isRegulationZPointsAndFeesIndicator()));
+		//if(!Convertor.isPropertyTax(prepaidItem.getFeePaidToType())){
+			OtherModel other = new OtherModel();
+			other.setPaymentIncludedInAPRIndicator(Boolean.toString(prepaidItem.isPaymentIncludedInAPRIndicator()));
+			insertExtension(document,insertLevels(document, element, "EXTENSION"), other);
+	//	}
 	}
 	/**
 	 * inserts ClosingCostFunds in MISMO XML 
@@ -2473,9 +2478,11 @@ public class JsonToUcd {
 				insertData(document, name, "SuffixName", partyDetail.getName().getSuffixName());
 					
 			Element role = insertLevels(document, party, "ROLES/ROLE");
+			if(!"lender".equalsIgnoreCase(type))
+			{
 				role.setAttribute("SequenceNumber", Integer.toString(i));
-					i++;
-			
+				i++;
+			}
 			
 			if("realEstateBrokerB".equalsIgnoreCase(type))
 			{
@@ -2499,8 +2506,6 @@ public class JsonToUcd {
 				insertData(document, licenseDetail, "LicenseIssuingAuthorityStateCode", partyDetail.getIndividualLicenseDetail().getLicenseIssuingAuthorityStateCode());			
 				
 			Element roleDetail = insertLevels(document, role, "ROLE_DETAIL");
-				
-			
 			
 			insertData(document, roleDetail, "PartyRoleType", partyDetail.getPartyRoleType());
 		}
