@@ -9,10 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +24,6 @@ import com.actualize.mortgage.cd.datamodels.MISMODocument;
 import com.actualize.mortgage.cd.domainmodels.ClosingDisclosure;
 import com.actualize.mortgage.cd.domainmodels.PDFResponse;
 import com.actualize.mortgage.cd.utils.JsonToUcd;
-import com.actualize.mortgage.exceptions.ServiceException;
 import com.uniformdisclosure.UniformDisclosureBuilder;
 import com.uniformdisclosure.UniformDisclosureBuilderSeller;
 

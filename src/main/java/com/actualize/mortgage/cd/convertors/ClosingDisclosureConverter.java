@@ -476,7 +476,9 @@ public class ClosingDisclosureConverter {
  	  	}
  	  	
  	    loanInformationSection.setLoanIdentifiers(loanInformationLoanIdentifiers);
- 	    loanInformationSection.setAmortizationType(amortization.AmortizationType);
+ 	    loanInformationSection.setAmortizationType(amortization.amortizationType);
+ 	   	loanInformationSection.setLoanAmortizationPeriodCount(amortization.loanAmortizationPeriodCount);
+ 	   	loanInformationSection.setLoanAmortizationPeriodType(amortization.loanAmortizationPeriodType);
  	    loanInformationSection.setAutomatedUnderwritings(automatedUnderwritingsModelList);
  	    loanInformationSection.setLoanManualUnderwritingIndicator(Boolean.parseBoolean(underwriting.underwritingDetail.loanManualUnderwritingIndicator));
 
@@ -1259,19 +1261,19 @@ public class ClosingDisclosureConverter {
     	
     	for(int i=0; i<principalAndInterestPaymentPerChangeAdjustmentRule.length; i++)
     	{
-    		if("First".equalsIgnoreCase(principalAndInterestPaymentPerChangeAdjustmentRule[i].adjustmentRuleType))
+    		if("Subsequent".equalsIgnoreCase(principalAndInterestPaymentPerChangeAdjustmentRule[i].adjustmentRuleType))
+    		{
+    			principalAndInterestPaymentAdjustmentModel.setSubsequentAdjustmentRuleType(principalAndInterestPaymentPerChangeAdjustmentRule[i].adjustmentRuleType);
+	        	principalAndInterestPaymentAdjustmentModel.setSubsequentPerChangeMaximumPrincipalAndInterestPaymentAmount(principalAndInterestPaymentPerChangeAdjustmentRule[i].perChangeMaximumPrincipalAndInterestPaymentAmount);
+	        	principalAndInterestPaymentAdjustmentModel.setSubsequentPerChangeMinimumPrincipalAndInterestPaymentAmount(principalAndInterestPaymentPerChangeAdjustmentRule[i].perChangeMinimumPrincipalAndInterestPaymentAmount);
+	        	principalAndInterestPaymentAdjustmentModel.setSubsequentPerChangePrincipalAndInterestPaymentAdjustmentFrequencyMonthsCount(principalAndInterestPaymentPerChangeAdjustmentRule[i].perChangePrincipalAndInterestPaymentAdjustmentFrequencyMonthsCount);
+    		}
+    		else
     		{
 	    		principalAndInterestPaymentAdjustmentModel.setFirstAdjustmentRuleType(principalAndInterestPaymentPerChangeAdjustmentRule[i].adjustmentRuleType);
 	        	principalAndInterestPaymentAdjustmentModel.setFirstPerChangeMaximumPrincipalAndInterestPaymentAmount(principalAndInterestPaymentPerChangeAdjustmentRule[i].perChangeMaximumPrincipalAndInterestPaymentAmount);
 	        	principalAndInterestPaymentAdjustmentModel.setFirstPerChangeMinimumPrincipalAndInterestPaymentAmount(principalAndInterestPaymentPerChangeAdjustmentRule[i].perChangeMinimumPrincipalAndInterestPaymentAmount);
 	        	principalAndInterestPaymentAdjustmentModel.setFirstPerChangePrincipalAndInterestPaymentAdjustmentFrequencyMonthsCount(principalAndInterestPaymentPerChangeAdjustmentRule[i].perChangePrincipalAndInterestPaymentAdjustmentFrequencyMonthsCount);
-    		}
-    		else if("Subsequent".equalsIgnoreCase(principalAndInterestPaymentPerChangeAdjustmentRule[i].adjustmentRuleType))
-    		{
-	        	principalAndInterestPaymentAdjustmentModel.setSubsequentAdjustmentRuleType(principalAndInterestPaymentPerChangeAdjustmentRule[i].adjustmentRuleType);
-	        	principalAndInterestPaymentAdjustmentModel.setSubsequentPerChangeMaximumPrincipalAndInterestPaymentAmount(principalAndInterestPaymentPerChangeAdjustmentRule[i].perChangeMaximumPrincipalAndInterestPaymentAmount);
-	        	principalAndInterestPaymentAdjustmentModel.setSubsequentPerChangeMinimumPrincipalAndInterestPaymentAmount(principalAndInterestPaymentPerChangeAdjustmentRule[i].perChangeMinimumPrincipalAndInterestPaymentAmount);
-	        	principalAndInterestPaymentAdjustmentModel.setSubsequentPerChangePrincipalAndInterestPaymentAdjustmentFrequencyMonthsCount(principalAndInterestPaymentPerChangeAdjustmentRule[i].perChangePrincipalAndInterestPaymentAdjustmentFrequencyMonthsCount);
     		}
     	}
     	

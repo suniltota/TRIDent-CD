@@ -12,10 +12,14 @@ public class AmortizationRule extends MISMODataAccessObject {
 
 	private static final long serialVersionUID = -1233053842692113481L;
 
-	public final String AmortizationType;
+	public final String amortizationType;
+	public final String loanAmortizationPeriodCount;
+	public final String loanAmortizationPeriodType;
 	
 	public AmortizationRule(Element element) {
 		super(element);
-		AmortizationType = getValueAddNS("AmortizationType");
+		amortizationType = getValueAddNS("AmortizationType");
+		loanAmortizationPeriodCount = getValueAddNS("LoanAmortizationPeriodCount");
+		loanAmortizationPeriodType = getValueAddNS("LoanAmortizationPeriodType");
 	}
 }

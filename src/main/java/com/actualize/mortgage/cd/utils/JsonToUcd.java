@@ -1,6 +1,5 @@
 package com.actualize.mortgage.cd.utils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
@@ -18,7 +17,6 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.logging.log4j.Logger;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -80,7 +78,6 @@ import com.actualize.mortgage.cd.domainmodels.ProrationModel;
 import com.actualize.mortgage.cd.domainmodels.QualifiedMortgageModel;
 import com.actualize.mortgage.cd.domainmodels.SalesContractDetailModel;
 import com.actualize.mortgage.cd.domainmodels.TermsOfLoanModel;
-import com.actualize.mortgage.exceptions.XMLServiceException;
 import com.actualize.mortgage.services.impl.ClosingDisclosureServicesImpl;
 
 
@@ -94,6 +91,7 @@ public class JsonToUcd {
 	private static final String MISMO_URI = "http://www.mismo.org/residential/2009/schemas";
 	private static final String XLINK_URI = "http://www.w3.org/1999/xlink";
 	private static final String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
+	private static int i = 0;
 
 	//private static final Logger LOGGER = Logger.getLogger(JsonToUcd.class.getName());
 
@@ -1307,6 +1305,7 @@ public class JsonToUcd {
 		insertData(document, element, "FeeTypeOtherDescription", closingCostProperties.getFeeTypeOtherDescription());
 		insertData(document, element, "IntegratedDisclosureSectionType", closingCostProperties.getIntegratedDisclosureSectionType());
 		insertData(document, element, "OptionalCostIndicator", Boolean.toString(closingCostProperties.isOptionalCostIndicator()));
+		
 		insertData(document, element, "RegulationZPointsAndFeesIndicator", Boolean.toString(closingCostProperties.isRegulationZPointsAndFeesIndicator()).toLowerCase());
 		insertData(document, element, "RequiredProviderOfServiceIndicator", "");
 		
@@ -2067,6 +2066,8 @@ public class JsonToUcd {
 	 */
 	private void insertAmortizationRule(Document document, Element element, LoanInformation loanInformation) {
 		insertData(document ,element ,"AmortizationType" , loanInformation.getAmortizationType());
+		insertData(document ,element ,"LoanAmortizationPeriodCount" , loanInformation.getLoanAmortizationPeriodCount());
+		insertData(document ,element ,"loanAmortizationPeriodType" , loanInformation.getLoanAmortizationPeriodType());
 	}
 	/**
      * Inserts Adjustment to MISMO XML
@@ -2321,28 +2322,28 @@ public class JsonToUcd {
 			insertPartys(document, element, borrowers);
 		List<Borrower> sellers = jsonDocument.getTransactionInformation().getSeller();
 			insertPartys(document, element, sellers);
-		List<Borrower> lenders = jsonDocument.getTransactionInformation().getLender();
-			insertPartys(document, element, lenders);
+	/*	List<Borrower> lenders = jsonDocument.getTransactionInformation().getLender();
+			insertPartys(document, element, lenders);*/
 				
 		ContactInformationDetailModel mortagageBroker =	jsonDocument.getContactInformation().getMortagageBroker();
 		if(null != mortagageBroker)
-			insertParty(document, element, mortagageBroker);
+			insertParty(document, element, mortagageBroker,"mortagageBroker");
 		
 		ContactInformationDetailModel lender =	jsonDocument.getContactInformation().getLender();
 		if(null != lender)
-			insertParty(document, element, lender);
+			insertParty(document, element, lender, "lender");
 		
 		ContactInformationDetailModel realEstateBrokerB =	jsonDocument.getContactInformation().getRealEstateBrokerB();
 		if(null != realEstateBrokerB)
-			insertParty(document, element, realEstateBrokerB);
+			insertParty(document, element, realEstateBrokerB, "realEstateBrokerB");
 		
 		ContactInformationDetailModel realEstateBrokerS =	jsonDocument.getContactInformation().getRealEstateBrokerS();
 		if(null != realEstateBrokerS)
-			insertParty(document, element, realEstateBrokerS);
+			insertParty(document, element, realEstateBrokerS, "realEstateBrokerS");
 		
 		ContactInformationDetailModel settlementAgent =	jsonDocument.getContactInformation().getSettlementAgent();
 		if(null != settlementAgent)
-			insertParty(document, element, settlementAgent);
+			insertParty(document, element, settlementAgent, "settlementAgent");
 	}
 	
 	/**
@@ -2380,7 +2381,11 @@ public class JsonToUcd {
 				insertData(document, address, "PostalCode", borrower.getAddress().getPostalCode());
 				insertData(document, address, "StateCode", borrower.getAddress().getStateCode());
 			
-			Element roleDetail = insertLevels(document, party, "ROLES/ROLE/ROLE_DETAIL");
+				
+			Element role = insertLevels(document, party, "ROLES/ROLE");
+		
+			
+			Element roleDetail = insertLevels(document, role, "ROLE_DETAIL");
 				insertData(document, roleDetail, "PartyRoleType", borrower.getPartyRoleType());
 				if ("Other".equals(borrower.getPartyRoleType()))
 					insertData(document, roleDetail, "PartyRoleTypeOtherDescription", borrower.getPartyRoleOtherDescription());
@@ -2394,7 +2399,7 @@ public class JsonToUcd {
 	 * @param element parent node of XML
 	 * @param partyDetail Input JSON Object
 	 */
-	private void insertParty(Document document, Element element, ContactInformationDetailModel partyDetail)
+	private void insertParty(Document document, Element element, ContactInformationDetailModel partyDetail, String type)
 	{
 		if(null != partyDetail.getOrganizationName() && !partyDetail.getOrganizationName().isEmpty())
 		{
@@ -2447,7 +2452,6 @@ public class JsonToUcd {
 					Element phone = insertLevels(document, contact, "CONTACT_POINT/CONTACT_POINT_TELEPHONE");
 						insertData(document, phone, "ContactPointTelephoneValue", partyDetail.getIndividualPhone());
 				}
-			
 			}
 			
 			Element name = insertLevels(document, individual, "NAME");
@@ -2457,21 +2461,36 @@ public class JsonToUcd {
 				insertData(document, name, "SuffixName", partyDetail.getName().getSuffixName());
 					
 			Element role = insertLevels(document, party, "ROLES/ROLE");
+				role.setAttribute("SequenceNumber", Integer.toString(i));
+					i++;
+			
+			
+			if("realEstateBrokerB".equalsIgnoreCase(type))
+			{
+				Element reAgent = insertLevels(document, role, "REAL_ESTATE_AGENT");
+					insertData(document, reAgent, "RealEstateAgentType", "Selling");
+			}
+			else if("realEstateBrokerS".equalsIgnoreCase(type))
+			{
+				Element reAgent = insertLevels(document, role, "REAL_ESTATE_AGENT");
+					insertData(document, reAgent, "RealEstateAgentType", "Listing");
+			}	
 			
 			Element licenseDetail = insertLevels(document, role, "LICENSES/LICENSE/LICENSE_DETAIL");
-			
 				insertData(document, licenseDetail, "licenseAuthorityLevelType", partyDetail.getIndividualLicenseDetail().getLicenseAuthorityLevelType());
-				Element identifier =  returnElement(document, licenseDetail, "licenseIdentifier", partyDetail.getIndividualLicenseDetail().getLicenseIdentifier());
+				
+			Element identifier =  returnElement(document, licenseDetail, "licenseIdentifier", partyDetail.getIndividualLicenseDetail().getLicenseIdentifier());
 					if(null != partyDetail.getIndividualLicenseDetail().getIdentifierOwnerURI() && !partyDetail.getIndividualLicenseDetail().getIdentifierOwnerURI().isEmpty())
 						identifier.setAttribute("IdentifierOwnerURI", partyDetail.getIndividualLicenseDetail().getIdentifierOwnerURI());
 				insertData(document, licenseDetail, "licenseIssueDate", partyDetail.getIndividualLicenseDetail().getLicenseIssueDate());
 				insertData(document, licenseDetail, "licenseIssuingAuthorityName", partyDetail.getIndividualLicenseDetail().getLicenseIssuingAuthorityName());
-				insertData(document, licenseDetail, "licenseIssuingAuthorityStateCode", partyDetail.getIndividualLicenseDetail().getLicenseIssuingAuthorityStateCode());
-			
+				insertData(document, licenseDetail, "licenseIssuingAuthorityStateCode", partyDetail.getIndividualLicenseDetail().getLicenseIssuingAuthorityStateCode());			
+				
 			Element roleDetail = insertLevels(document, role, "ROLE_DETAIL");
 				
-			insertData(document, roleDetail, "PartyRoleType", partyDetail.getPartyRoleType());
 			
+			
+			insertData(document, roleDetail, "PartyRoleType", partyDetail.getPartyRoleType());
 		}
 		
 	}

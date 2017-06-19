@@ -492,4 +492,22 @@ public class Convertor {
 			return true;
 		return false;
 	}
+	
+	/**
+	 * checks for propertyTax
+	 * @param type
+	 * @return boolean
+	 */
+	public static boolean isPropertyTax(String type)
+	{
+		if(null != type)
+		return	   type.equalsIgnoreCase("BoroughPropertyTax")
+				|| type.equalsIgnoreCase("CityPropertyTax")
+				|| type.equalsIgnoreCase("CountyPropertyTax")
+				|| type.equalsIgnoreCase("DistrictPropertyTax")
+				|| type.equalsIgnoreCase("PropertyTaxes")
+				|| type.equalsIgnoreCase("StatePropertyTax")
+				|| type.equalsIgnoreCase("TownPropertyTax");
+		return false;
+	}
 }
