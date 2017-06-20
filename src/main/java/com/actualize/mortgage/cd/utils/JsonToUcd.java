@@ -836,9 +836,9 @@ public class JsonToUcd {
 	private void insertPaymentRule(Document document, Element element, PaymentRuleModel paymentRule) {
 		insertData(document, element, "FullyIndexedInitialPrincipalAndInterestPaymentAmount", paymentRule.getFullyIndexedInitialPrincipalAndInterestPaymentAmount());
 		insertData(document, element, "InitialPrincipalAndInterestPaymentAmount", paymentRule.getInitialPrincipalAndInterestPaymentAmount());
-		//insertData(document, element, "PartialPaymentAllowedIndicator", paymentRule.get);
+		insertData(document, element, "PartialPaymentAllowedIndicator", Boolean.toString(paymentRule.isPartialPaymentAllowedIndicator()));
 		insertData(document, element, "PaymentFrequencyType", paymentRule.getPaymentFrequencyType());
-		//insertData(document, element, "PaymentOptionIndicator", paymentRule.get);
+		insertData(document, element, "PaymentOptionIndicator", Boolean.toString(paymentRule.isPaymentOptionIndicator()));
 		insertData(document, element, "SeasonalPaymentPeriodEndMonth", paymentRule.getSeasonalPaymentPeriodEndMonth());
 		insertData(document, element, "SeasonalPaymentPeriodStartMonth", paymentRule.getSeasonalPaymentPeriodStartMonth());
 		OtherModel other = new OtherModel();
@@ -1302,13 +1302,13 @@ public class JsonToUcd {
 				feeTypeElement.setAttribute("gse:DisplayLabelText", closingCostProperties.getDisplayLabel());
 		insertData(document, element, "FeeTypeOtherDescription", closingCostProperties.getFeeTypeOtherDescription());
 		insertData(document, element, "IntegratedDisclosureSectionType", closingCostProperties.getIntegratedDisclosureSectionType());
-		insertData(document, element, "OptionalCostIndicator", Boolean.toString(closingCostProperties.isOptionalCostIndicator()));
+		insertData(document, element, "OptionalCostIndicator", Convertor.booleanToString(closingCostProperties.getOptionalCostIndicator()));
 		if(!Convertor.isPropertyTax(closingCostProperties.getFeeType()))
-			insertData(document, element, "RegulationZPointsAndFeesIndicator", Boolean.toString(closingCostProperties.isRegulationZPointsAndFeesIndicator()).toLowerCase());
+			insertData(document, element, "RegulationZPointsAndFeesIndicator", Convertor.booleanToString(closingCostProperties.getRegulationZPointsAndFeesIndicator()).toLowerCase());
 		insertData(document, element, "RequiredProviderOfServiceIndicator", "");
 		//if(!Convertor.isPropertyTax(closingCostProperties.getFeeType()));
 			OtherModel other = new OtherModel();
-				other.setPaymentIncludedInAPRIndicator(Boolean.toString(closingCostProperties.isPaymentIncludedInAPRIndicator()));
+				other.setPaymentIncludedInAPRIndicator(Convertor.booleanToString(closingCostProperties.getPaymentIncludedInAPRIndicator()));
 			insertExtension(document, insertLevels(document, element, "EXTENSION"), other);
 	}
 	

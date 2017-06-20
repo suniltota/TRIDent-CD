@@ -2043,13 +2043,13 @@ public class ClosingDisclosureConverter {
 		  
 		closingCostProperties.setFeeType(fee.feeDetail.feeType);
 		closingCostProperties.setFeeTypeOtherDescription(fee.feeDetail.feePaidToTypeOtherDescription);
-		closingCostProperties.setOptionalCostIndicator(Boolean.valueOf(fee.feeDetail.optionalCostIndicator));
+		closingCostProperties.setOptionalCostIndicator(Convertor.stringToBoolean(fee.feeDetail.optionalCostIndicator));
 		closingCostProperties.setFeePaidToType(fee.feeDetail.feePaidToType);
 		closingCostProperties.setFeePaidToTypeOtherDescription(fee.feeDetail.feePaidToTypeOtherDescription);
 		closingCostProperties.setIntegratedDisclosureSectionType(fee.feeDetail.integratedDisclosureSectionType);
 		closingCostProperties.setFeePercentBasisType(fee.feeDetail.feePercentBasisType);
-		closingCostProperties.setRegulationZPointsAndFeesIndicator(Boolean.valueOf(fee.feeDetail.regulationZPointsAndFeesIndicator));
-		closingCostProperties.setPaymentIncludedInAPRIndicator(Boolean.valueOf(fee.feeDetail.paymentIncludedInAPRIndicator));
+		closingCostProperties.setRegulationZPointsAndFeesIndicator(Convertor.stringToBoolean(fee.feeDetail.regulationZPointsAndFeesIndicator));
+		closingCostProperties.setPaymentIncludedInAPRIndicator(Convertor.stringToBoolean(fee.feeDetail.paymentIncludedInAPRIndicator));
 		closingCostProperties.setFeeTotalPercent(fee.feeDetail.feeTotalPercent);
 		closingCostProperties.setFeePaidToFullName(fee.feePaidTo.legalEntity.legalEntityDetail.fullName);
 		closingCostProperties.setFeeActualTotalAmount(fee.feeDetail.feeActualTotalAmount);
