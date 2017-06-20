@@ -11,7 +11,7 @@ public class LoanTermsTemporaryBuydown implements Serializable {
 	private static final long serialVersionUID = 4018555262212370899L;
 	
 	private String buydownInitialEffectiveInterestRatePercent;
-	private boolean gseBuydownReflectedInNoteIndicator;
+	private Boolean gseBuydownReflectedInNoteIndicator;
 	private String buydownChangeFrequencyMonthsCount;
 	private String buydownDurationMonthsCount;
 	private String buydownIncreaseRatePercent;
@@ -31,13 +31,13 @@ public class LoanTermsTemporaryBuydown implements Serializable {
 	/**
 	 * @return the gseBuydownReflectedInNoteIndicator
 	 */
-	public boolean isGseBuydownReflectedInNoteIndicator() {
+	public Boolean getGseBuydownReflectedInNoteIndicator() {
 		return gseBuydownReflectedInNoteIndicator;
 	}
 	/**
 	 * @param gseBuydownReflectedInNoteIndicator the gseBuydownReflectedInNoteIndicator to set
 	 */
-	public void setGseBuydownReflectedInNoteIndicator(boolean gseBuydownReflectedInNoteIndicator) {
+	public void setGseBuydownReflectedInNoteIndicator(Boolean gseBuydownReflectedInNoteIndicator) {
 		this.gseBuydownReflectedInNoteIndicator = gseBuydownReflectedInNoteIndicator;
 	}
 	/**

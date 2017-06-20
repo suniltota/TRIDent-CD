@@ -1721,7 +1721,7 @@ public class JsonToUcd {
 	 */
 	private void insertBuydownRule(Document document, Element element, LoanTermsTemporaryBuydown temporaryBuydown) {
 		OtherModel other = new OtherModel();
-			other.setBuydownReflectedInNoteIndicator(Boolean.toString(temporaryBuydown.isGseBuydownReflectedInNoteIndicator()));
+			other.setBuydownReflectedInNoteIndicator(Convertor.booleanToString(temporaryBuydown.getGseBuydownReflectedInNoteIndicator()));
 		insertData(document, element, "BuydownChangeFrequencyMonthsCount", temporaryBuydown.getBuydownChangeFrequencyMonthsCount());
 		insertData(document, element, "BuydownDurationMonthsCount", temporaryBuydown.getBuydownDurationMonthsCount());
 		insertData(document, element, "BuydownIncreaseRatePercent", temporaryBuydown.getBuydownIncreaseRatePercent());
@@ -2478,11 +2478,20 @@ public class JsonToUcd {
 				insertData(document, name, "SuffixName", partyDetail.getName().getSuffixName());
 					
 			Element role = insertLevels(document, party, "ROLES/ROLE");
-			if(!"lender".equalsIgnoreCase(type))
-			{
-				role.setAttribute("SequenceNumber", Integer.toString(i));
-				i++;
-			}
+				
+				String reType = "";
+				if("realEstateBrokerB".equalsIgnoreCase(type))
+					reType = "Selling";
+				else if("realEstateBrokerS".equalsIgnoreCase(type))
+					reType = "Listing";
+				
+			String label = Convertor.getSNumber(partyDetail.getPartyRoleType(), "I", reType);
+			String xlink = Convertor.getXLink(partyDetail.getPartyRoleType(), "I", reType);
+			
+				if(null != label && !label.isEmpty())
+					role.setAttribute("SequenceNumber", label);
+				if(null != xlink && !xlink.isEmpty())
+					role.setAttribute(XLINK_ALIAS+":label", xlink);
 			
 			if("realEstateBrokerB".equalsIgnoreCase(type))
 			{
