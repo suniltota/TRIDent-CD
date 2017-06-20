@@ -1219,7 +1219,7 @@ public class JsonToUcd {
 		
 		if(null != jsonDocument.getClosingCostDetailsOtherCosts().gettOGovtFeesList())
 			for (ClosingCostProperties closingCostProperties : jsonDocument.getClosingCostDetailsOtherCosts().gettOGovtFeesList())
-				if(Convertor.isInsertFee(closingCostProperties))
+				if(Convertor.checkFeeActualTotalAmount(closingCostProperties))
 					insertFee(document, insertLevels(document, element, "FEE"), closingCostProperties);
 		
 		if(null != jsonDocument.getClosingCostDetailsOtherCosts().getOtherCostsList())
