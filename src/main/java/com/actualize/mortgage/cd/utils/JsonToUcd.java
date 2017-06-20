@@ -1304,7 +1304,7 @@ public class JsonToUcd {
 		insertData(document, element, "FeeTypeOtherDescription", closingCostProperties.getFeeTypeOtherDescription());
 		insertData(document, element, "IntegratedDisclosureSectionType", closingCostProperties.getIntegratedDisclosureSectionType());
 		insertData(document, element, "OptionalCostIndicator", Convertor.booleanToString(closingCostProperties.getOptionalCostIndicator()));
-		if(!Convertor.isPropertyTax(closingCostProperties.getFeeType()))
+		if(null != closingCostProperties.getFeeType() && !Convertor.isPropertyTax(closingCostProperties.getFeeType()))
 			insertData(document, element, "RegulationZPointsAndFeesIndicator", Convertor.booleanToString(closingCostProperties.getRegulationZPointsAndFeesIndicator()).toLowerCase());
 		insertData(document, element, "RequiredProviderOfServiceIndicator", "");
 		//if(!Convertor.isPropertyTax(closingCostProperties.getFeeType()));
@@ -1399,7 +1399,7 @@ public class JsonToUcd {
 		insertData(document, element, "FeePaidToType", escrowItem.getFeePaidToType());
 		insertData(document, element, "FeePaidToTypeOtherDescription", escrowItem.getFeePaidToTypeOtherDescription());
 		insertData(document, element, "IntegratedDisclosureSectionType", escrowItem.getIntegratedDisclosureSectionType());
-		if(!Convertor.isPropertyTax(escrowItem.getEscrowItemType()))
+		if(null != escrowItem.getEscrowItemType() && !Convertor.isPropertyTax(escrowItem.getEscrowItemType()))
 			insertData(document, element, "RegulationZPointsAndFeesIndicator", Boolean.toString(escrowItem.isRegulationZPointsAndFeesIndicator()));
 	//	if(!Convertor.isPropertyTax(escrowItem.getEscrowItemType()));
 			OtherModel other = new OtherModel();
@@ -1885,7 +1885,7 @@ public class JsonToUcd {
 			if(null != prepaidItemTypeElement && null != prepaidItem.getDisplayLabel() && !prepaidItem.getDisplayLabel().isEmpty())
 				prepaidItemTypeElement.setAttribute("gse:DisplayLabelText", prepaidItem.getDisplayLabel());
 		insertData(document, element, "PrepaidItemTypeOtherDescription", prepaidItem.getPrepaidItemTypeOtherDescription());
-		if(!Convertor.isPropertyTax(prepaidItem.getPrepaidItemType()))
+		if(null != prepaidItem.getPrepaidItemType() &&  !Convertor.isPropertyTax(prepaidItem.getPrepaidItemType()))
 			insertData(document, element, "RegulationZPointsAndFeesIndicator", Boolean.toString(prepaidItem.isRegulationZPointsAndFeesIndicator()));
 		//if(!Convertor.isPropertyTax(prepaidItem.getFeePaidToType())){
 			OtherModel other = new OtherModel();

@@ -425,7 +425,7 @@ public class Convertor {
 				return "true";
 			else if(!status)
 				return "false";
-			return null;
+			return "";
 	}
 	
 	/**
@@ -505,7 +505,7 @@ public class Convertor {
 	 */
 	public static boolean isPropertyTax(String type)
 	{
-		if(null != type)
+		if(null != type && !type.isEmpty())
 		return	   type.equalsIgnoreCase("BoroughPropertyTax")
 				|| type.equalsIgnoreCase("CityPropertyTax")
 				|| type.equalsIgnoreCase("CountyPropertyTax")
