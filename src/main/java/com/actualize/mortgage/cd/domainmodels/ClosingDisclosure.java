@@ -56,6 +56,8 @@ public class ClosingDisclosure implements Serializable {
     private LoanCalculationsQualifiedMortgage loanCalculationsQualifiedMortgage;
     private ContactInformationModel contactInformation;
     private List<ContactInformationDetailModel> contactInformationList;
+    private boolean embeddedPDF;
+    
 	/**
 	 * @return the closingDisclosureDocDetails
 	 */
@@ -488,6 +490,18 @@ public class ClosingDisclosure implements Serializable {
 	 */
 	public void setContactInformationList(List<ContactInformationDetailModel> contactInformationList) {
 		this.contactInformationList = contactInformationList;
+	}
+	/**
+	 * @return the embeddedPDF
+	 */
+	public boolean isEmbeddedPDF() {
+		return embeddedPDF;
+	}
+	/**
+	 * @param embeddedPDF the embeddedPDF to set
+	 */
+	public void setEmbeddedPDF(boolean embeddedPDF) {
+		this.embeddedPDF = embeddedPDF;
 	}
 	
     
