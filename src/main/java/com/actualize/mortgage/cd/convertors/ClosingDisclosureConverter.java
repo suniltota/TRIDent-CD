@@ -431,7 +431,7 @@ public class ClosingDisclosureConverter {
     	transactionInformation.setLender(createBorrowers(lenders));
     	
     	
-    	transactionInformation.setRefinanceSameLenderIndicator(Boolean.parseBoolean(refinanceSameLenderIndicator));
+    	transactionInformation.setRefinanceSameLenderIndicator(Convertor.stringToBoolean(refinanceSameLenderIndicator));
     	
 		return transactionInformation;
     	

@@ -656,7 +656,7 @@ public class JsonToUcd {
 		insertPrepaymentPenalty(document, insertLevels(document, element, "PREPAYMENT_PENALTY"), jsonDocument.getLoanTerms().getLoanTermsPrepaymentPenalty());
 		//insertQualification(document, insertLevels(document, element, "QUALIFICATION"), jsonDocument); //Not needed for LE
 		insertQualifiedMortgage(document, insertLevels(document, element, "QUALIFIED_MORTGAGE"), jsonDocument.getLoanCalculationsQualifiedMortgage().getQualifiedMortgage()); // Not needed for LE
-		insertRefinance(document, insertLevels(document, element, "REFINANCE"),Boolean.toString(jsonDocument.getTransactionInformation().isRefinanceSameLenderIndicator()).toLowerCase()); //Not needed for LE
+		insertRefinance(document, insertLevels(document, element, "REFINANCE"),Convertor.booleanToString(jsonDocument.getTransactionInformation().getRefinanceSameLenderIndicator()).toLowerCase()); //Not needed for LE
 		/*insertReverseMortgage(document, insertLevels(document, element, "REVERSE_MORTGAGE"), jsonDocument); //Not needed for LE
 		insertServicing(document, insertLevels(document, element, "SERVICING"), jsonDocument); // Not needed for LE
 */		insertTermsOfLoan(document, insertLevels(document, element, "TERMS_OF_LOAN"), jsonDocument.getTermsOfLoan());
