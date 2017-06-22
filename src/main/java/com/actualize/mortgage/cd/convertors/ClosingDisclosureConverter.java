@@ -232,9 +232,16 @@ public class ClosingDisclosureConverter {
     	ClosingDisclosureDocumentDetails closingDisclosureDocumentDetails = new ClosingDisclosureDocumentDetails();
     	if(null != document.documentClassification)
     	{
+    		String type = "";
+    		String formType = "";
     		DocumentClassification docClassification = new DocumentClassification(Document.NS, (Element)document.getElementAddNS("DOCUMENT_CLASSIFICATION"));
-    		closingDisclosureDocumentDetails.setDocumentType(docClassification.documentClasses.documentClass.documentTypeOtherDescription.split(":")[0]);
-            closingDisclosureDocumentDetails.setFormType(docClassification.documentClasses.documentClass.documentTypeOtherDescription.split(":")[1]);
+    		if(docClassification.documentClasses.documentClass.documentTypeOtherDescription.contains(":"))
+    		{
+    			type = docClassification.documentClasses.documentClass.documentTypeOtherDescription.split(":")[0];
+    			formType = docClassification.documentClasses.documentClass.documentTypeOtherDescription.split(":")[1];
+    		}
+    		closingDisclosureDocumentDetails.setDocumentType(type);
+            closingDisclosureDocumentDetails.setFormType(formType);
     	}
     	Deal deal = new Deal(Deal.NS, (Element)document.getElementAddNS("DEAL_SETS/DEAL_SET/DEALS/DEAL"));
         EscrowDetail escrowdetail = new EscrowDetail((Element)deal.getElementAddNS("LOANS/LOAN/ESCROW/ESCROW_DETAIL"));

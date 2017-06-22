@@ -17,6 +17,8 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -76,6 +78,7 @@ import com.actualize.mortgage.cd.domainmodels.ProjectedPaymentsDetails;
 import com.actualize.mortgage.cd.domainmodels.PropertyValuationDetailModel;
 import com.actualize.mortgage.cd.domainmodels.ProrationModel;
 import com.actualize.mortgage.cd.domainmodels.QualifiedMortgageModel;
+import com.actualize.mortgage.cd.domainmodels.RelationshipsModel;
 import com.actualize.mortgage.cd.domainmodels.SalesContractDetailModel;
 import com.actualize.mortgage.cd.domainmodels.TermsOfLoanModel;
 import com.actualize.mortgage.services.impl.ClosingDisclosureServicesImpl;
@@ -83,6 +86,7 @@ import com.actualize.mortgage.services.impl.ClosingDisclosureServicesImpl;
 
 
 public class JsonToUcd {
+	
 	private static final String GSE_ALIAS = "gse";
 	private static final String MISMO_ALIAS = "mismo";
 	private static final String XLINK_ALIAS = "xlink";
@@ -91,9 +95,12 @@ public class JsonToUcd {
 	private static final String MISMO_URI = "http://www.mismo.org/residential/2009/schemas";
 	private static final String XLINK_URI = "http://www.w3.org/1999/xlink";
 	private static final String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
-	private static int i = 0;
 
-	//private static final Logger LOGGER = Logger.getLogger(JsonToUcd.class.getName());
+	private List<RelationshipsModel> relationships = new LinkedList<>();
+	private static int borrowerSNumber = 11;
+	private static int sellerSNumber = 21;
+	
+	private static final Logger LOG = LogManager.getLogger(JsonToUcd.class.getName());
 
 	private static final DocumentBuilderFactory dbf = initializeDocumentBuilderFactory();
 //	private static final XPath xPath = XPathFactory.newInstance().newXPath();
@@ -350,9 +357,9 @@ public class JsonToUcd {
 	private void insertDocument(Document document, Element element, ClosingDisclosure jsonDocument) {
 		element.setAttribute("MISMOReferenceModelIdentifier", "3.3.0299");
 		insertDealSets(document, insertLevels(document, element, "DEAL_SETS"), jsonDocument);
-	/*	insertAuditTrail(document, insertLevels(document, element, "AUDIT_TRAIL"), jsonDocument);
-		insertRelationships(document, insertLevels(document, element, "RELATIONSHIPS"), jsonDocument);
-		insertSignatories(document, insertLevels(document, element, "SIGNATORIES"), jsonDocument);
+	//	insertAuditTrail(document, insertLevels(document, element, "AUDIT_TRAIL"), jsonDocument);
+		insertRelationships(document, insertLevels(document, element, "RELATIONSHIPS"), relationships);
+		/*insertSignatories(document, insertLevels(document, element, "SIGNATORIES"), jsonDocument);
 		insertSystemSignatures(document, insertLevels(document, element, "SYSTEM_SIGNATORIES"), jsonDocument);*/
 		if(jsonDocument.isEmbeddedPDF())
 		insertViews(document, insertLevels(document, element, "VIEWS"));
@@ -515,30 +522,28 @@ public class JsonToUcd {
 		insertExecution(document, insertLevels(document, element, "EXECUTION"), jsonDocument);
 	}
 	*//**
-     * Inserts Relationships from JSON Object
+     * Inserts Relationships to MISMO XML
      * @param document Output XML file
      * @param element parent node of XML
-     * @param jsonDocument Input JSON Object
-     *//*		
-	private void insertRelationships(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		// TODO Auto-generated method stub
-		//for (String group : groupings)
-			insertRelationship(document, insertLevels(document, element, "RELATIONSHIP"), jsonDocument);
+     * @param list of RelationshipsModel 
+     */		
+	private void insertRelationships(Document document, Element element, List<RelationshipsModel> relationships) {
+		for (RelationshipsModel relationship : relationships)
+			insertRelationship(document, insertLevels(document, element, "RELATIONSHIP"), relationship);
 	}
-	*//**
-     * Inserts Relationship from JSON Object
+	/**
+     * Inserts Relationship to MISMO XML
      * @param document Output XML file
      * @param element parent node of XML
-     * @param jsonDocument Input JSON Object
-     *//*	
-	private void insertRelationship(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		// TODO Auto-generated method stub
-		element.setAttribute("SequenceNumber", "");
-		element.setAttribute(XLINK_ALIAS + ":from", "");
-		element.setAttribute(XLINK_ALIAS + ":to", "");
-		element.setAttribute(XLINK_ALIAS + ":arcrole", "");
+     * @param RelationshipsModel 
+     */	
+	private void insertRelationship(Document document, Element element, RelationshipsModel relationship) {
+		element.setAttribute("SequenceNumber", relationship.getSequenceNumber());
+		element.setAttribute(XLINK_ALIAS + ":from", relationship.getXlinkFrom());
+		element.setAttribute(XLINK_ALIAS + ":to", relationship.getXlinkTo());
+		element.setAttribute(XLINK_ALIAS + ":arcrole", relationship.getXlinkArcrole());
 	}
-	*//**
+	/**
      * Inserts Audit Trail from JSON Object
      * @param document Output XML file
      * @param element parent node of XML
@@ -2387,9 +2392,7 @@ public class JsonToUcd {
 				insertData(document, address, "PostalCode", borrower.getAddress().getPostalCode());
 				insertData(document, address, "StateCode", borrower.getAddress().getStateCode());
 			
-				
 			Element role = insertLevels(document, party, "ROLES/ROLE");
-		
 			
 			Element roleDetail = insertLevels(document, role, "ROLE_DETAIL");
 				insertData(document, roleDetail, "PartyRoleType", borrower.getPartyRoleType());
@@ -2407,6 +2410,14 @@ public class JsonToUcd {
 	 */
 	private void insertParty(Document document, Element element, ContactInformationDetailModel partyDetail, String type)
 	{
+		RelationshipsModel relationship = new RelationshipsModel();
+		
+		String reType = "";
+		if("realEstateBrokerB".equalsIgnoreCase(type))
+			reType = "Selling";
+		else if("realEstateBrokerS".equalsIgnoreCase(type))
+			reType = "Listing";
+		
 		if(null != partyDetail.getOrganizationName() && !partyDetail.getOrganizationName().isEmpty())
 		{
 			Element party = insertLevels(document, element, "PARTY");
@@ -2425,6 +2436,16 @@ public class JsonToUcd {
 				insertData(document, address, "StateCode", partyDetail.getAddress().getStateCode());
 									
 				Element role = insertLevels(document, party, "ROLES/ROLE");
+				
+				String label = Convertor.getPartySNumber(partyDetail.getPartyRoleType(), "O", reType);
+				String xlink = Convertor.getXLink(partyDetail.getPartyRoleType(), "O", reType);
+			
+				if(null != label && !label.isEmpty())
+					role.setAttribute("SequenceNumber", label);
+				if(null != xlink && !xlink.isEmpty())
+					role.setAttribute(XLINK_ALIAS+":label", xlink);
+				
+				relationship.setXlinkTo(xlink);
 				
 				if("realEstateBrokerB".equalsIgnoreCase(type))
 				{
@@ -2480,13 +2501,7 @@ public class JsonToUcd {
 					
 			Element role = insertLevels(document, party, "ROLES/ROLE");
 				
-				String reType = "";
-				if("realEstateBrokerB".equalsIgnoreCase(type))
-					reType = "Selling";
-				else if("realEstateBrokerS".equalsIgnoreCase(type))
-					reType = "Listing";
-				
-			String label = Convertor.getSNumber(partyDetail.getPartyRoleType(), "I", reType);
+			String label = Convertor.getPartySNumber(partyDetail.getPartyRoleType(), "I", reType);
 			String xlink = Convertor.getXLink(partyDetail.getPartyRoleType(), "I", reType);
 			
 				if(null != label && !label.isEmpty())
@@ -2494,6 +2509,8 @@ public class JsonToUcd {
 				if(null != xlink && !xlink.isEmpty())
 					role.setAttribute(XLINK_ALIAS+":label", xlink);
 			
+				relationship.setXlinkFrom(xlink);
+				
 			if("realEstateBrokerB".equalsIgnoreCase(type))
 			{
 				Element reAgent = insertLevels(document, role, "REAL_ESTATE_AGENT");
@@ -2519,6 +2536,12 @@ public class JsonToUcd {
 			
 			insertData(document, roleDetail, "PartyRoleType", partyDetail.getPartyRoleType());
 		}
+		
+			relationship.setXlinkArcrole("urn:fdc:mismo.org:2009:residential/ROLE_IsEmployedBy_ROLE");
+			relationship.setSequenceNumber(Convertor.getRelationshipSNumber(partyDetail.getPartyRoleType(), reType));
+			
+		if(Convertor.checkNotNull(relationship.getXlinkFrom()) && Convertor.checkNotNull(relationship.getXlinkTo()))
+			relationships.add(relationship);
 		
 	}
 	
