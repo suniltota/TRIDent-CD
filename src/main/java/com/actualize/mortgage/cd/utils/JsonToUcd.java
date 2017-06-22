@@ -226,10 +226,11 @@ public class JsonToUcd {
      */
 	private void insertDeal(Document document, Element element, ClosingDisclosure jsonDocument) {
 		insertSubjectProperty(document, insertLevels(document, element, "COLLATERALS/COLLATERAL/SUBJECT_PROPERTY"), jsonDocument);
-		insertLoan(document, insertLevels(document, element, "LOANS/LOAN"), jsonDocument);
-		   insertParties(document, insertLevels(document, element, "PARTIES"), jsonDocument);
 		if(jsonDocument.getLiabilityList().size() > 0)
 			insertLiabilities(document, insertLevels(document, element, "LIABILITIES"), jsonDocument.getLiabilityList());
+		insertLoan(document, insertLevels(document, element, "LOANS/LOAN"), jsonDocument);
+		   insertParties(document, insertLevels(document, element, "PARTIES"), jsonDocument);
+		
 	}
 	
 	/**
