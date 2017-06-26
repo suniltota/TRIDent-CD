@@ -3,6 +3,8 @@ package com.actualize.mortgage.cd.utils;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -80,6 +82,7 @@ import com.actualize.mortgage.cd.domainmodels.ProrationModel;
 import com.actualize.mortgage.cd.domainmodels.QualifiedMortgageModel;
 import com.actualize.mortgage.cd.domainmodels.RelationshipsModel;
 import com.actualize.mortgage.cd.domainmodels.SalesContractDetailModel;
+import com.actualize.mortgage.cd.domainmodels.SignatoriesModel;
 import com.actualize.mortgage.cd.domainmodels.TermsOfLoanModel;
 import com.actualize.mortgage.services.impl.ClosingDisclosureServicesImpl;
 
@@ -97,8 +100,13 @@ public class JsonToUcd {
 	private static final String XSI_URI = "http://www.w3.org/2001/XMLSchema-instance";
 
 	private List<RelationshipsModel> relationships = new LinkedList<>();
+	private List<SignatoriesModel> signatories = new LinkedList<>();
 	private static int borrowerSNumber = 11;
-	private static int sellerSNumber = 21;
+	private static int sellerSNumber = 13;
+	private static int signatoryBorrowerSNumber = 1;
+	private static int signatorySellerSNumber = 3;
+	private static int relationshipSellerSNumber = 13;
+	
 	
 	private static final Logger LOG = LogManager.getLogger(JsonToUcd.class.getName());
 
@@ -196,7 +204,6 @@ public class JsonToUcd {
      * @param jsonDocument Input JSON Object
      */
 	private void insertAboutVersion(Document document, Element element, ClosingDisclosure jsonDocument) {
-		// TODO: set correct version number and created date time
 		insertData(document, element, "AboutVersionIdentifier", "TRIDent Web Toolkit, v0.1"); //TODO: This datapoint is not found in UCD Spec. 
 		insertData(document, element, "CreatedDatetime", Convertor.getUTCDate());
 	}
@@ -329,7 +336,7 @@ public class JsonToUcd {
 		Element other =	returnElement(document, roleIdentifier2, "PartyRoleIdentifier","000100");
 			other.setAttribute("IdentifierOwnerURI", "www.freddiemac.com");
 		Element roleDetail =  insertLevels(document, role, "ROLE_DETAIL");
-		insertData(document, roleDetail, "PartyRoleType", "LoanDeliveryFilePreparer");
+			insertData(document, roleDetail, "PartyRoleType", "LoanDeliveryFilePreparer");
 	}
 	/**
      * Inserts Document Set to MISMO XML
@@ -360,10 +367,10 @@ public class JsonToUcd {
 		insertDealSets(document, insertLevels(document, element, "DEAL_SETS"), jsonDocument);
 	//	insertAuditTrail(document, insertLevels(document, element, "AUDIT_TRAIL"), jsonDocument);
 		insertRelationships(document, insertLevels(document, element, "RELATIONSHIPS"), relationships);
-		/*insertSignatories(document, insertLevels(document, element, "SIGNATORIES"), jsonDocument);
-		insertSystemSignatures(document, insertLevels(document, element, "SYSTEM_SIGNATORIES"), jsonDocument);*/
+		insertSignatories(document, insertLevels(document, element, "SIGNATORIES"), signatories);
+		//insertSystemSignatures(document, insertLevels(document, element, "SYSTEM_SIGNATORIES"), jsonDocument);
 		if(jsonDocument.isEmbeddedPDF())
-		insertViews(document, insertLevels(document, element, "VIEWS"));
+			insertViews(document, insertLevels(document, element, "VIEWS"));
 		insertAboutVersions(document, insertLevels(document, element, "ABOUT_VERSIONS"), null);
 		insertDocumentClassification(document, insertLevels(document, element, "DOCUMENT_CLASSIFICATION"), jsonDocument.getDocumentClassification());
 	}
@@ -408,7 +415,9 @@ public class JsonToUcd {
      */
 	private void insertViews(Document document, Element element) {
 		//for (String group : groupings)
-			insertView(document, insertLevels(document, element, "VIEW"));
+		Element view = insertLevels(document, element, "VIEW");
+			view.setAttribute("SequenceNumber", "1");
+			insertView(document, view);
 	}
 	/**
      * Inserts View to MISMO XML
@@ -500,35 +509,51 @@ public class JsonToUcd {
 		insertData(document, element, "XMLDigitalSignatureElement", "");
 	}
 	*//**
-     * Inserts Signatories from JSON Object
+     * Inserts Signatories to MISMO XML
      * @param document Output XML file
      * @param element parent node of XML
-     * @param jsonDocument Input JSON Object
-     *//*	
-	private void insertSignatories(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		// TODO Auto-generated method stub
-		//for (String group : groupings)
-			insertSignatory(document, insertLevels(document, element, "SIGNATORY"), jsonDocument);
+     * @param signatories list of signatories
+     */	
+	private void insertSignatories(Document document, Element element, List<SignatoriesModel> signatories) {
+		signatories.sort(new Comparator<SignatoriesModel>(){
+
+			@Override
+			public int compare(SignatoriesModel o1, SignatoriesModel o2) {
+				return Integer.parseInt(o1.getSequenceNumber()) - Integer.parseInt(o2.getSequenceNumber());
+			}
+			
+		});
+		for (SignatoriesModel signatory : signatories)
+			insertSignatory(document, insertLevels(document, element, "SIGNATORY"), signatory);
 	}
-	*//**
-     * Inserts Signatory from JSON Object
+	/**
+     * Inserts Signatory to MISMO XML
      * @param document Output XML file
      * @param element parent node of XML
-     * @param jsonDocument Input JSON Object
-     *//*	
-	private void insertSignatory(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		// TODO Auto-generated method stub
-		element.setAttribute("SequenceNumber", "");
-		element.setAttribute(XLINK_ALIAS + ":label", "");
-		insertExecution(document, insertLevels(document, element, "EXECUTION"), jsonDocument);
+     * @param signatory Input SignatoriesModel Object
+     */	
+	private void insertSignatory(Document document, Element element, SignatoriesModel signatory) {
+		element.setAttribute("SequenceNumber", signatory.getSequenceNumber());
+		element.setAttribute(XLINK_ALIAS + ":label", signatory.getXlabel());
+		insertExecution(document, insertLevels(document, element, "EXECUTION"), signatory);
 	}
-	*//**
+	/**
      * Inserts Relationships to MISMO XML
      * @param document Output XML file
      * @param element parent node of XML
      * @param list of RelationshipsModel 
      */		
 	private void insertRelationships(Document document, Element element, List<RelationshipsModel> relationships) {
+		
+		relationships.sort(new Comparator<RelationshipsModel>(){
+
+			@Override
+			public int compare(RelationshipsModel o1, RelationshipsModel o2) {
+				return Integer.parseInt(o1.getSequenceNumber()) - Integer.parseInt(o2.getSequenceNumber());
+			}
+			
+		});
+		
 		for (RelationshipsModel relationship : relationships)
 			insertRelationship(document, insertLevels(document, element, "RELATIONSHIP"), relationship);
 	}
@@ -596,7 +621,6 @@ public class JsonToUcd {
      * @param jsonDocument Input JSON Object
      */	
 	private void insertAboutVersions(Document document, Element element, ClosingDisclosure jsonDocument) {
-		// TODO Auto-generated method stub
 		//for (String group : groupings)
 		insertAboutVersionsInDocument(document, insertLevels(document, element, "ABOUT_VERSION"), jsonDocument);
 			
@@ -654,7 +678,7 @@ public class JsonToUcd {
 		insertLoanIdentifiers(document, insertLevels(document, element, "LOAN_IDENTIFIERS"), jsonDocument.getLoanInformation().getLoanIdentifiers());
 		//insertLoanLevelCredit(document, insertLevels(document, element, "LOAN_LEVEL_CREDIT"), jsonDocument);
 		if(! jsonDocument.getLoanProduct().getLoanPriceQuoteInterestRatePercent().isEmpty() && null != jsonDocument.getLoanProduct().getLoanPriceQuoteInterestRatePercent())
-		insertLoanProduct(document, insertLevels(document, element, "LOAN_PRODUCT"), jsonDocument.getLoanProduct());
+			insertLoanProduct(document, insertLevels(document, element, "LOAN_PRODUCT"), jsonDocument.getLoanProduct());
 		insertMaturityRule(document, insertLevels(document, element, "MATURITY/MATURITY_RULE"), jsonDocument.getMaturityRule());
 		insertMIDataDetail(document, insertLevels(document, element, "MI_DATA/MI_DATA_DETAIL"), jsonDocument.getMiDataDetail()); 
 		insertNegativeAmortization(document, insertLevels(document, element, "NEGATIVE_AMORTIZATION"), jsonDocument.getNegativeAmortization());
@@ -1653,7 +1677,8 @@ public class JsonToUcd {
 		
 		if(cashToClose.getCashToCloseTotal().size() > 0)
 			for(CashToCloseModel cashToCloseModel : cashToClose.getCashToCloseTotal())
-				insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToCloseModel);
+				if(Convertor.checkNotNull(cashToCloseModel.getIntegratedDisclosureCashToCloseItemType()))
+					insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToCloseModel);
 	}
 	/**
      * Inserts Cash To Close Item to MISMO XML
@@ -1671,31 +1696,27 @@ public class JsonToUcd {
 			insertData(document, element, "IntegratedDisclosureCashToCloseItemType",  cashToClose.getIntegratedDisclosureCashToCloseItemType());
 	}
 	/**
-     * Inserts Execution from JSON Object
+     * Inserts Execution to MISMO XML
      * @param document Output XML file
      * @param element parent node of XML
-     * @param jsonDocument Input JSON Object
-     *//*
-	private void insertExecution(Document document, Element element, ClosingDisclosureDocument jsonDocument) {
-		// TODO Auto-generated method stub
-		insertExecutionDetail(document,	insertLevels(document, element, "EXECUTION_DETAIL"), jsonDocument);
+     * @param signatory Input SignatoriesModel Object
+     */
+	private void insertExecution(Document document, Element element, SignatoriesModel signatory) {
+		insertExecutionDetail(document,	insertLevels(document, element, "EXECUTION_DETAIL"), signatory);
 	}
-	*//**
-     * Inserts Execution Detail from JSON Object
+	/**
+     * Inserts Execution Detail to MISMO XML
      * @param document Output XML file
      * @param element parent node of XML
-     * @param jsonDocument Input JSON Object
-     *//*
+     * @param signatory Input SignatoriesModel Object
+     */
 	private void insertExecutionDetail(Document document, Element element,
-			ClosingDisclosureDocument jsonDocument) {
-		// TODO Auto-generated method stub
-		insertData(document, element, "ActualSignatureType", "");
+			SignatoriesModel signatory) {
+		insertData(document, element, "ActualSignatureType", signatory.getActualSignatureType());
 		insertData(document, element, "ActualSignatureTypeOtherDescription", "");
-		insertData(document, element, "ExecutionDate", "");
+		insertData(document, element, "ExecutionDate", signatory.getExecutionDate());
 		insertData(document, element, "ExecutionDatetime", "");
-		//TODO Need To Add the Object
 	}
-	*/
 	
 	/**
 	 * inserts construction to MISMO XML 
@@ -2367,6 +2388,9 @@ public class JsonToUcd {
 	private void insertPartys(Document document, Element element, List<Borrower> borrowers)
 	{
 		for (Borrower borrower : borrowers) {
+			RelationshipsModel relationship = new RelationshipsModel();
+			SignatoriesModel signatory = new SignatoriesModel();
+			
 			Element party = insertLevels(document, element, "PARTY");
 			
 			if(!borrower.getNameModel().getFullName().isEmpty())
@@ -2394,7 +2418,78 @@ public class JsonToUcd {
 				insertData(document, address, "StateCode", borrower.getAddress().getStateCode());
 			
 			Element role = insertLevels(document, party, "ROLES/ROLE");
+			if("Borrower".equalsIgnoreCase(borrower.getPartyRoleType()))
+			{
+				role.setAttribute("SequenceNumber", Integer.toString(borrowerSNumber));
+				role.setAttribute(XLINK_ALIAS+":label", "PARTY" + Integer.toString(borrowerSNumber) + "_ROLE1");
+				relationship.setXlinkFrom("PARTY" + Integer.toString(borrowerSNumber) + "_ROLE1");
+				relationship.setSequenceNumber(Integer.toString(borrowerSNumber));
+				borrowerSNumber ++;
+				if(13 == borrowerSNumber)
+					borrowerSNumber = borrowerSNumber + 2;
+				
+				signatory.setSequenceNumber(Integer.toString(signatoryBorrowerSNumber));
+				signatory.setXlabel("SIGNATORY_"+ Integer.toString(signatoryBorrowerSNumber));
+				
+				
+				relationship.setXlinkTo("SIGNATORY_"+ Integer.toString(signatoryBorrowerSNumber));
+				
+				signatoryBorrowerSNumber++;
+				
+				if(3 == signatoryBorrowerSNumber)
+					signatoryBorrowerSNumber = signatoryBorrowerSNumber + 2;
+				
+			}
+			else if("PropertySeller".equalsIgnoreCase(borrower.getPartyRoleType()))
+			{
+				if(14 > sellerSNumber)
+				{
+					role.setAttribute("SequenceNumber", Integer.toString(sellerSNumber));
+					role.setAttribute(XLINK_ALIAS+":label", "PARTY" + Integer.toString(sellerSNumber) + "_ROLE1");
+					relationship.setXlinkFrom("PARTY" + Integer.toString(sellerSNumber) + "_ROLE1");
+					sellerSNumber ++;
+				}
+				else
+				{
+					role.setAttribute("SequenceNumber", Integer.toString(borrowerSNumber));
+					role.setAttribute(XLINK_ALIAS+":label", "PARTY" + Integer.toString(borrowerSNumber) + "_ROLE1");
+					relationship.setXlinkFrom("PARTY" + Integer.toString(borrowerSNumber) + "_ROLE1");
+					borrowerSNumber ++;
+				}
+				
+		
+				if(14 > relationshipSellerSNumber && 4 > signatorySellerSNumber)
+				{
+					signatory.setSequenceNumber(Integer.toString(signatorySellerSNumber));
+					signatory.setXlabel("SIGNATORY_"+ Integer.toString(signatorySellerSNumber));
+					
+					relationship.setSequenceNumber(Integer.toString(relationshipSellerSNumber));
+					relationship.setXlinkTo("SIGNATORY_"+ Integer.toString(signatorySellerSNumber));
+					
+					relationshipSellerSNumber++;
+					signatorySellerSNumber++;
+				}
+				else
+				{
+					signatory.setSequenceNumber(Integer.toString(signatoryBorrowerSNumber));
+					signatory.setXlabel("SIGNATORY_"+ Integer.toString(signatoryBorrowerSNumber));
+					
+					relationship.setSequenceNumber(Integer.toString(borrowerSNumber));
+					relationship.setXlinkTo("SIGNATORY_"+ Integer.toString(signatoryBorrowerSNumber));
+					
+					signatoryBorrowerSNumber++;
+					borrowerSNumber++;
+				}
+			}
 			
+				signatory.setActualSignatureType("wet");
+				signatory.setExecutionDate("2013-04-15");
+				
+			signatories.add(signatory);
+				
+				relationship.setXlinkArcrole("urn:fdc:mismo.org:2009:residential/ROLE_IsAssociatedWith_SIGNATORY");
+			relationships.add(relationship);
+				
 			Element roleDetail = insertLevels(document, role, "ROLE_DETAIL");
 				insertData(document, roleDetail, "PartyRoleType", borrower.getPartyRoleType());
 				if ("Other".equals(borrower.getPartyRoleType()))

@@ -417,7 +417,7 @@ public class Convertor {
 	/**
 	 * converts Boolean to string
 	 * @param status
-	 * @return
+	 * @return string
 	 */
 	public static String booleanToString(Boolean status)
 	{
@@ -653,6 +653,8 @@ public class Convertor {
 		
 		return "";
 	}
+	
+	
 	
 	/**
 	 * checks for null of Fee Actual Total Amount
