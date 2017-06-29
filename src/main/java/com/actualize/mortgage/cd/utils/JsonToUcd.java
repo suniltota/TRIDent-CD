@@ -476,7 +476,6 @@ public class JsonToUcd {
 			element.appendChild(document.createElement(addNamespace("EmbeddedContentXML")))
 					.appendChild(document.createTextNode(Base64.getEncoder().encodeToString( new String(pdf.get(0).getResponseData()).getBytes( "utf-8" ) )));
 		} catch (DOMException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         element.appendChild(document.createElement(addNamespace("MIMETypeIdentifier")))
@@ -516,12 +515,10 @@ public class JsonToUcd {
      */	
 	private void insertSignatories(Document document, Element element, List<SignatoriesModel> signatories) {
 		signatories.sort(new Comparator<SignatoriesModel>(){
-
 			@Override
 			public int compare(SignatoriesModel o1, SignatoriesModel o2) {
 				return Integer.parseInt(o1.getSequenceNumber()) - Integer.parseInt(o2.getSequenceNumber());
 			}
-			
 		});
 		for (SignatoriesModel signatory : signatories)
 			insertSignatory(document, insertLevels(document, element, "SIGNATORY"), signatory);
@@ -546,12 +543,10 @@ public class JsonToUcd {
 	private void insertRelationships(Document document, Element element, List<RelationshipsModel> relationships) {
 		
 		relationships.sort(new Comparator<RelationshipsModel>(){
-
 			@Override
 			public int compare(RelationshipsModel o1, RelationshipsModel o2) {
 				return Integer.parseInt(o1.getSequenceNumber()) - Integer.parseInt(o2.getSequenceNumber());
 			}
-			
 		});
 		
 		for (RelationshipsModel relationship : relationships)
@@ -677,7 +672,7 @@ public class JsonToUcd {
 		insertLoanDetail(document, insertLevels(document, element, "LOAN_DETAIL"), jsonDocument.getLoanDetail());
 		insertLoanIdentifiers(document, insertLevels(document, element, "LOAN_IDENTIFIERS"), jsonDocument.getLoanInformation().getLoanIdentifiers());
 		//insertLoanLevelCredit(document, insertLevels(document, element, "LOAN_LEVEL_CREDIT"), jsonDocument);
-		if(! jsonDocument.getLoanProduct().getLoanPriceQuoteInterestRatePercent().isEmpty() && null != jsonDocument.getLoanProduct().getLoanPriceQuoteInterestRatePercent())
+		if(null != jsonDocument.getLoanProduct().getLoanPriceQuoteInterestRatePercent() && ! jsonDocument.getLoanProduct().getLoanPriceQuoteInterestRatePercent().isEmpty())
 			insertLoanProduct(document, insertLevels(document, element, "LOAN_PRODUCT"), jsonDocument.getLoanProduct());
 		insertMaturityRule(document, insertLevels(document, element, "MATURITY/MATURITY_RULE"), jsonDocument.getMaturityRule());
 		insertMIDataDetail(document, insertLevels(document, element, "MI_DATA/MI_DATA_DETAIL"), jsonDocument.getMiDataDetail()); 
