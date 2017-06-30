@@ -53,9 +53,9 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>UniformDisclosure</groupId>
-			<artifactId>UniformDisclosure</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<groupId>com.actualize.mortgage</groupId>
+	<artifactId>TransformX-Service-UCD-ClosingDisclosurePdf</artifactId>
+	<version>1.0-SNAPSHOT</version>
 		</dependency>
 		
 	</dependencies>

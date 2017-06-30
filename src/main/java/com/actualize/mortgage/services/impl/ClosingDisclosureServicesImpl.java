@@ -24,11 +24,10 @@ import com.actualize.mortgage.cd.datamodels.MISMODocument;
 import com.actualize.mortgage.cd.domainmodels.ClosingDisclosure;
 import com.actualize.mortgage.cd.domainmodels.PDFResponse;
 import com.actualize.mortgage.cd.utils.JsonToUcd;
-import com.uniformdisclosure.UniformDisclosureBuilder;
-import com.uniformdisclosure.UniformDisclosureBuilderSeller;
-
-import datalayer.InputData;
-import datalayer.PopulateInputData;
+import com.actualize.mortgage.datalayer.InputData;
+import com.actualize.mortgage.datalayer.PopulateInputData;
+import com.actualize.mortgage.domainmodels.UniformDisclosureBuilder;
+import com.actualize.mortgage.domainmodels.UniformDisclosureBuilderSeller;
 
 
 /**
@@ -93,12 +92,6 @@ public class ClosingDisclosureServicesImpl {
 						pdfOutStream = pdfbuilder.run(data);
 					} catch (COSVisitorException | ParserConfigurationException | TransformerFactoryConfigurationError
 							| TransformerException | IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		            try {
-						System.out.println(new String(pdfOutStream.toString("UTF8")));
-					} catch (UnsupportedEncodingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
