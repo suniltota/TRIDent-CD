@@ -1772,7 +1772,7 @@ public class JsonToUcd {
 	 */
 	private void insertBuydownOccurences(Document document, Element element, LoanTermsTemporaryBuydown temporaryBuydown) {
 		//for (BuyDownOccurance buyDownOccurance : buyDownOccurances)
-			insertBuydownOccurence(document ,insertLevels(document, element, "BUYDOWN_OCCURRENCES"), temporaryBuydown);
+			insertBuydownOccurence(document ,insertLevels(document, element, "BUYDOWN_OCCURRENCE"), temporaryBuydown);
 	}
 	
 	/**
