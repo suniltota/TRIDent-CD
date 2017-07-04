@@ -10,7 +10,7 @@ import com.actualize.mortgage.cd.domainmodels.MISMODataAccessObject;
  */
 public class LateChargeRule extends MISMODataAccessObject {
 
-	private static final long serialVersionUID = -4163076749563272406L;
+	private static final long serialVersionUID = -8894459264425661828L;
 	public final String lateChargeAmount;
 	public final String lateChargeGracePeriodDaysCount;
 	public final String lateChargeMaximumAmount;
@@ -20,11 +20,11 @@ public class LateChargeRule extends MISMODataAccessObject {
 	
 	public LateChargeRule(Element element) {
 		super(element);
-		lateChargeAmount = getValueAddNS("LateChargeAmount");
-		lateChargeGracePeriodDaysCount = getValueAddNS("LateChargeGracePeriodDaysCount");
-		lateChargeMaximumAmount = getValueAddNS("LateChargeMaximumAmount");
-		lateChargeMinimumAmount = getValueAddNS("LateChargeMinimumAmount");
-		lateChargeRatePercent = getValueAddNS("LateChargeRatePercent");
-		lateChargeType = getValueAddNS("LateChargeType");
+		lateChargeAmount = getValue("gse:LateChargeAmount");
+		lateChargeGracePeriodDaysCount = getValue("gse:LateChargeGracePeriodDaysCount");
+		lateChargeMaximumAmount = getValue("gse:LateChargeMaximumAmount");
+		lateChargeMinimumAmount = getValue("gse:LateChargeMinimumAmount");
+		lateChargeRatePercent = getValue("gse:LateChargeRatePercent");
+		lateChargeType = getValue("gse:LateChargeType");
 	}
 }

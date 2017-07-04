@@ -671,7 +671,7 @@ public class JsonToUcd {
 		insertHighCostMortgages(document, insertLevels(document, element, "HIGH_COST_MORTGAGES"), jsonDocument.getLoanCalculationsQualifiedMortgage().getQualifiedMortgage()); //  Not needed for LE
 		//insertHmdaLoan(document, insertLevels(document, element, "HMDA_LOAN"), jsonDocument); //  Not needed for LE*/
 		insertInterestOnly(document, insertLevels(document, element, "INTEREST_ONLY"), jsonDocument.getInterestOnly());
-		insertLateChargeRule(document, insertLevels(document, element, "LATE_CHARGE/EXTENSION/OTHER/gse:LATE_CHARGE_RULES/LATE_CHARGE_RULE"), jsonDocument.getLateChargeRule());
+		insertLateChargeRule(document, insertLevels(document, element, "LATE_CHARGE/EXTENSION/OTHER/gse:LATE_CHARGE_RULES/gse:LATE_CHARGE_RULE"), jsonDocument.getLateChargeRule());
 		insertLoanDetail(document, insertLevels(document, element, "LOAN_DETAIL"), jsonDocument.getLoanDetail());
 		insertLoanIdentifiers(document, insertLevels(document, element, "LOAN_IDENTIFIERS"), jsonDocument.getLoanInformation().getLoanIdentifiers());
 		//insertLoanLevelCredit(document, insertLevels(document, element, "LOAN_LEVEL_CREDIT"), jsonDocument);
@@ -1058,12 +1058,12 @@ public class JsonToUcd {
      * @param jsonDocument Input JSON Object
      */
 	private void insertLateChargeRule(Document document, Element element, LateChargeRuleModel lateChargeRule) {
-		insertData(document, element, "LateChargeAmount", lateChargeRule.getLateChargeAmount());
-		insertData(document, element, "LateChargeGracePeriodDaysCount", lateChargeRule.getLateChargeGracePeriodDaysCount() );
+		insertData(document, element, GSE_ALIAS + ":LateChargeAmount", lateChargeRule.getLateChargeAmount());
+		insertData(document, element, GSE_ALIAS + ":LateChargeGracePeriodDaysCount", lateChargeRule.getLateChargeGracePeriodDaysCount() );
 		//insertData(document, element, "LateChargeMaximumAmount", "");
 		//insertData(document, element, "LateChargeMinimumAmount", "");
-		insertData(document, element, "LateChargeRatePercent", lateChargeRule.getLateChargeRatePercent());
-		insertData(document, element, "LateChargeType",  lateChargeRule.getLateChargeType());
+		insertData(document, element, GSE_ALIAS + ":LateChargeRatePercent", lateChargeRule.getLateChargeRatePercent());
+		insertData(document, element, GSE_ALIAS + ":LateChargeType",  lateChargeRule.getLateChargeType());
 	}
 	/**
 	 * insert insterestOnly in MISMO XML

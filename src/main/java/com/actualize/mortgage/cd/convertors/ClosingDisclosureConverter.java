@@ -1340,7 +1340,7 @@ public class ClosingDisclosureConverter {
     {
     	LateChargeRuleModel lateChargeRuleModel = new LateChargeRuleModel();
     	
-    	LateChargeRule lateChargeRule = new LateChargeRule((Element)deal.getElement("mismo:LOANS/mismo:LOAN/mismo:LATE_CHARGE/mismo:EXTENSION/mismo:OTHER/gse:LATE_CHARGE_RULES/mismo:LATE_CHARGE_RULE"));
+    	LateChargeRule lateChargeRule = new LateChargeRule((Element)deal.getElement("mismo:LOANS/mismo:LOAN/mismo:LATE_CHARGE/mismo:EXTENSION/mismo:OTHER/gse:LATE_CHARGE_RULES/gse:LATE_CHARGE_RULE"));
 		
     	lateChargeRuleModel.setLateChargeAmount(lateChargeRule.lateChargeAmount);
     	lateChargeRuleModel.setLateChargeGracePeriodDaysCount(lateChargeRule.lateChargeGracePeriodDaysCount);
