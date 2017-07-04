@@ -1662,16 +1662,26 @@ public class JsonToUcd {
      */
 	private void insertCashToCloseItems(Document document, Element element,
 			CashToClose cashToClose) {
-		insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getAdjustmentsAndOtherCredits());
-		insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getClosingCostsFinanced());
-		insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getClosingCostsPaidBeforeClosing());
-		insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getDeposit());
-		insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getDownPayment());
-		insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getFundsForBorrower());
-		insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getLoanAmount());
-		insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getSellerCredits());
-		insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getTotalClosingCosts());
-		insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getTotalPayoffsAndPayments());
+		if(Convertor.checkNotNull(cashToClose.getAdjustmentsAndOtherCredits().getIntegratedDisclosureCashToCloseItemType()))
+			insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getAdjustmentsAndOtherCredits());
+		if(Convertor.checkNotNull(cashToClose.getClosingCostsFinanced().getIntegratedDisclosureCashToCloseItemType()))
+			insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getClosingCostsFinanced());
+		if(Convertor.checkNotNull(cashToClose.getClosingCostsPaidBeforeClosing().getIntegratedDisclosureCashToCloseItemType()))
+			insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getClosingCostsPaidBeforeClosing());
+		if(Convertor.checkNotNull(cashToClose.getDeposit().getIntegratedDisclosureCashToCloseItemType()))
+			insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getDeposit());
+		if(Convertor.checkNotNull(cashToClose.getDownPayment().getIntegratedDisclosureCashToCloseItemType()))
+			insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getDownPayment());
+		if(Convertor.checkNotNull(cashToClose.getFundsForBorrower().getIntegratedDisclosureCashToCloseItemType()))
+			insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getFundsForBorrower());
+		if(Convertor.checkNotNull(cashToClose.getLoanAmount().getIntegratedDisclosureCashToCloseItemType()))
+			insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getLoanAmount());
+		if(Convertor.checkNotNull(cashToClose.getSellerCredits().getIntegratedDisclosureCashToCloseItemType()))	
+			insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getSellerCredits());
+		if(Convertor.checkNotNull(cashToClose.getTotalClosingCosts().getIntegratedDisclosureCashToCloseItemType()))
+			insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getTotalClosingCosts());
+		if(Convertor.checkNotNull(cashToClose.getTotalPayoffsAndPayments().getIntegratedDisclosureCashToCloseItemType()))
+			insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToClose.getTotalPayoffsAndPayments());
 		
 		if(cashToClose.getCashToCloseTotal().size() > 0)
 			for(CashToCloseModel cashToCloseModel : cashToClose.getCashToCloseTotal())
