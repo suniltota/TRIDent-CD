@@ -669,4 +669,20 @@ public class Convertor {
 			return true;
 		return false;
 	}
+	
+	/**
+	 * restricts the numbers to two after decimal point
+	 * @param amount
+	 * @return amount as String specific 9.2 format
+	 */
+	public static String checkAmountFormat(String amount)
+	{
+		if(amount.contains("."))
+		{
+			float val = Float.parseFloat(amount);
+			return String.format("%.2f", val);
+		}
+		
+		return amount;
+	}
 }
