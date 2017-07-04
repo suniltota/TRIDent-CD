@@ -1914,7 +1914,7 @@ public class JsonToUcd {
 		//insertData(document, element, "PrepaidItemNumberOfDaysCount", prepaidItem.getprep);// TODO Value Not binded with object 
 		insertData(document, element, "PrepaidItemPaidFromDate", prepaidItem.getPrepaidItemPaidFromDate());
 		insertData(document, element, "PrepaidItemPaidThroughDate", prepaidItem.getPrepaidItemPaidThroughDate());
-		insertData(document, element, "PrepaidItemPerDiemAmount", prepaidItem.getPrepaidItemPerDiemAmount());
+		insertData(document, element, "PrepaidItemPerDiemAmount", Convertor.checkAmountFormat(prepaidItem.getPrepaidItemPerDiemAmount()));
 		insertData(document, element, "PrepaidItemPerDiemCalculationMethodType", prepaidItem.getPrepaidItemPerDiemCalculationMethodType());
 		Element prepaidItemTypeElement = returnElement(document, element, "PrepaidItemType", prepaidItem.getPrepaidItemType());
 			if(null != prepaidItemTypeElement && null != prepaidItem.getDisplayLabel() && !prepaidItem.getDisplayLabel().isEmpty())
