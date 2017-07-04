@@ -39,7 +39,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getBpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getBpAtClosing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getBpAtClosing()));
 					mismoPaymentsModel.setPaidByType("Buyer");
 					mismoPaymentsModel.setClosingIndicator("false");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -47,7 +47,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getBpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getBpB4Closing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getBpB4Closing()));
 					mismoPaymentsModel.setPaidByType("Buyer");
 					mismoPaymentsModel.setClosingIndicator("true");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -55,7 +55,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getSpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getSpAtClosing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getSpAtClosing()));
 					mismoPaymentsModel.setPaidByType("Seller");
 					mismoPaymentsModel.setClosingIndicator("false");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -63,7 +63,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getSpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getSpB4Closing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getSpB4Closing()));
 					mismoPaymentsModel.setPaidByType("Seller");
 					mismoPaymentsModel.setClosingIndicator("true");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -71,7 +71,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getPaidByOthers()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getPaidByOthers());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getPaidByOthers()));
 					if(paymentsModel.isLenderStatus())
 						mismoPaymentsModel.setPaidByType("Lender");
 					else
@@ -85,7 +85,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getBpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getBpAtClosing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getBpAtClosing()));
 					mismoPaymentsModel.setPaidByType("Buyer");
 					mismoPaymentsModel.setClosingIndicator("AtClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -93,7 +93,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getBpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getBpB4Closing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getBpB4Closing()));
 					mismoPaymentsModel.setPaidByType("Buyer");
 					mismoPaymentsModel.setClosingIndicator("false");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -101,7 +101,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getSpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getSpAtClosing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getSpAtClosing()));
 					mismoPaymentsModel.setPaidByType("Seller");
 					mismoPaymentsModel.setClosingIndicator("AtClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -109,7 +109,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getSpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getSpB4Closing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getSpB4Closing()));
 					mismoPaymentsModel.setPaidByType("Seller");
 					mismoPaymentsModel.setClosingIndicator("false");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -117,7 +117,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getPaidByOthers()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getPaidByOthers());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getPaidByOthers()));
 					if(paymentsModel.isLenderStatus())
 						mismoPaymentsModel.setPaidByType("Lender");
 					else
@@ -131,7 +131,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getBpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getBpAtClosing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getBpAtClosing()));
 					mismoPaymentsModel.setPaidByType("Buyer");
 					mismoPaymentsModel.setClosingIndicator("AtClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -139,7 +139,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getBpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getBpB4Closing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getBpB4Closing()));
 					mismoPaymentsModel.setPaidByType("Buyer");
 					mismoPaymentsModel.setClosingIndicator("BeforeClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -147,7 +147,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getSpAtClosing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getSpAtClosing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getSpAtClosing()));
 					mismoPaymentsModel.setPaidByType("Seller");
 					mismoPaymentsModel.setClosingIndicator("AtClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -155,7 +155,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getSpB4Closing()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getSpB4Closing());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getSpB4Closing()));
 					mismoPaymentsModel.setPaidByType("Seller");
 					mismoPaymentsModel.setClosingIndicator("BeforeClosing");
 				mismoFeePaymentList.add(mismoPaymentsModel);
@@ -163,7 +163,7 @@ public class Convertor {
 			if(checkNotNull(paymentsModel.getPaidByOthers()))
 			{
 				MismoPaymentsModel mismoPaymentsModel = new MismoPaymentsModel();
-					mismoPaymentsModel.setAmount(paymentsModel.getPaidByOthers());
+					mismoPaymentsModel.setAmount(checkAmountFormat(paymentsModel.getPaidByOthers()));
 					if(paymentsModel.isLenderStatus())
 						mismoPaymentsModel.setPaidByType("Lender");
 					else
@@ -198,20 +198,20 @@ public class Convertor {
 		
 		for(int i=0; i<projectedPayments.getPrincipalInterest().size(); i++)
 		{
-			mismoProjectedPaymentsModels.get(i).setProjectedPaymentPrincipalAndInterestMaximumPaymentAmount(projectedPayments.getPrincipalInterest().get(i).getProjectedPaymentPrincipalAndInterestMaximumPaymentAmount());
-			mismoProjectedPaymentsModels.get(i).setProjectedPaymentPrincipalAndInterestMinimumPaymentAmount(projectedPayments.getPrincipalInterest().get(i).getProjectedPaymentPrincipalAndInterestMinimumPaymentAmount());
+			mismoProjectedPaymentsModels.get(i).setProjectedPaymentPrincipalAndInterestMaximumPaymentAmount(checkAmountFormat(projectedPayments.getPrincipalInterest().get(i).getProjectedPaymentPrincipalAndInterestMaximumPaymentAmount()));
+			mismoProjectedPaymentsModels.get(i).setProjectedPaymentPrincipalAndInterestMinimumPaymentAmount(checkAmountFormat(projectedPayments.getPrincipalInterest().get(i).getProjectedPaymentPrincipalAndInterestMinimumPaymentAmount()));
 		}
 		
 		for(int i=0; i<projectedPayments.getMortgageInsurance().size(); i++)
-			mismoProjectedPaymentsModels.get(i).setProjectedPaymentMIPaymentAmount(projectedPayments.getMortgageInsurance().get(i).getProjectedPaymentMIPaymentAmount());
+			mismoProjectedPaymentsModels.get(i).setProjectedPaymentMIPaymentAmount(checkAmountFormat(projectedPayments.getMortgageInsurance().get(i).getProjectedPaymentMIPaymentAmount()));
 		
 		for(int i=0; i<projectedPayments.getEstimatedEscrow().size(); i++)
-			mismoProjectedPaymentsModels.get(i).setProjectedPaymentEstimatedEscrowPaymentAmount(projectedPayments.getEstimatedEscrow().get(i).getProjectedPaymentEstimatedEscrowPaymentAmount());
+			mismoProjectedPaymentsModels.get(i).setProjectedPaymentEstimatedEscrowPaymentAmount(checkAmountFormat(projectedPayments.getEstimatedEscrow().get(i).getProjectedPaymentEstimatedEscrowPaymentAmount()));
 		
 		for(int i=0; i<projectedPayments.getEstimatedTotal().size(); i++)
 		{
-			mismoProjectedPaymentsModels.get(i).setProjectedPaymentEstimatedTotalMaximumPaymentAmount(projectedPayments.getEstimatedTotal().get(i).getProjectedPaymentEstimatedTotalMaximumPaymentAmount());
-			mismoProjectedPaymentsModels.get(i).setProjectedPaymentEstimatedTotalMinimumPaymentAmount(projectedPayments.getEstimatedTotal().get(i).getProjectedPaymentEstimatedTotalMinimumPaymentAmount());
+			mismoProjectedPaymentsModels.get(i).setProjectedPaymentEstimatedTotalMaximumPaymentAmount(checkAmountFormat(projectedPayments.getEstimatedTotal().get(i).getProjectedPaymentEstimatedTotalMaximumPaymentAmount()));
+			mismoProjectedPaymentsModels.get(i).setProjectedPaymentEstimatedTotalMinimumPaymentAmount(checkAmountFormat(projectedPayments.getEstimatedTotal().get(i).getProjectedPaymentEstimatedTotalMinimumPaymentAmount()));
 		}
 		
 		return mismoProjectedPaymentsModels;
@@ -347,26 +347,52 @@ public class Convertor {
 			getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()) &&
 				checkNotNull(json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing().
 						getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionType()))
-				integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing());
-
+		{
+			String amount = Convertor.checkAmountFormat(json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing().
+					getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount());
+			
+			json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing().
+						getIntegratedDisclosureSectionSummaryDetailModel().setIntegratedDisclosureSectionTotalAmount(amount);
+			integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getBorrowerTransaction().getPaidAlreadyByOrOnBehalfOfBorrowerAtClosing());
+		}
 		if(checkNotNull(json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing()
 			.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()) && 
 				checkNotNull(json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing()
 						.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionType()))
+		{
+			String amount = Convertor.checkAmountFormat(json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing()
+					.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount());
+			json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing()
+			.getIntegratedDisclosureSectionSummaryDetailModel().setIntegratedDisclosureSectionTotalAmount(amount);
 				integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getBorrowerTransaction().getDueFromBorrowerAtClosing());	
 		
+		}
 		if(checkNotNull(json.getSummariesofTransactions().getSellerTransaction().getFromSellerAtClosing()
 				.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()) && 
 				checkNotNull(json.getSummariesofTransactions().getSellerTransaction().getFromSellerAtClosing()
 						.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionType()))
-					integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getSellerTransaction().getFromSellerAtClosing());
-
+		{
+			String amount = Convertor.checkAmountFormat(json.getSummariesofTransactions().getSellerTransaction().getFromSellerAtClosing()
+					.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount());
+			json.getSummariesofTransactions().getSellerTransaction().getFromSellerAtClosing()
+			.getIntegratedDisclosureSectionSummaryDetailModel().setIntegratedDisclosureSectionTotalAmount(amount);
+			
+			integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getSellerTransaction().getFromSellerAtClosing());
+		}
+					
 		if(checkNotNull(json.getSummariesofTransactions().getSellerTransaction().getToSellerAtClosing()
 			.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()) &&
 				checkNotNull(json.getSummariesofTransactions().getSellerTransaction().getToSellerAtClosing()
-						.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionType())) 
+						.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionType()))
+		{
+			String amount = Convertor.checkAmountFormat(json.getSummariesofTransactions().getSellerTransaction().getToSellerAtClosing()
+								.getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount());
+			json.getSummariesofTransactions().getSellerTransaction().getToSellerAtClosing()
+			.getIntegratedDisclosureSectionSummaryDetailModel().setIntegratedDisclosureSectionTotalAmount(amount);
+			
 				integratedDisclosureSectionSummaryModels.add(json.getSummariesofTransactions().getSellerTransaction().getToSellerAtClosing());	
-		
+		}
+				
 		if(null != json.getPayoffsAndPayments() && checkNotNull(json.getPayoffsAndPayments().getIntegratedDisclosureSectionSummary().getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()))
 			integratedDisclosureSectionSummaryModels.add(json.getPayoffsAndPayments().getIntegratedDisclosureSectionSummary());
 		
@@ -390,9 +416,9 @@ public class Convertor {
 		IntegratedDisclosureSectionSummaryDetailModel integratedDisclosureSectionSummaryDetail = new IntegratedDisclosureSectionSummaryDetailModel();
 		List<IntegratedDisclosureSubsectionPaymentModel> integratedDisclosureSubsectionPaymentModels = new LinkedList<>();
 		
-		integratedDisclosureSectionSummaryDetail.setIntegratedDisclosureSectionTotalAmount(secAmount);
+		integratedDisclosureSectionSummaryDetail.setIntegratedDisclosureSectionTotalAmount(checkAmountFormat(secAmount));
 		integratedDisclosureSectionSummaryDetail.setIntegratedDisclosureSectionType(sectionType);
-		integratedDisclosureSectionSummaryDetail.setIntegratedDisclosureSubsectionTotalAmount(subAmount);
+		integratedDisclosureSectionSummaryDetail.setIntegratedDisclosureSubsectionTotalAmount(checkAmountFormat(subAmount));
 		integratedDisclosureSectionSummaryDetail.setIntegratedDisclosureSubsectionType(subSectionType);
 		
 		if(hasPayments)
@@ -499,6 +525,17 @@ public class Convertor {
 		return false;
 	}
 	
+	/**
+	 * checks amount for null and empty
+	 * @param amount
+	 * @return boolean
+	 */
+	public static boolean checkAmountNotNull(String amount)
+	{
+		if(null != amount && !amount.isEmpty())
+			return true;
+		return false;
+	}
 	/**
 	 * checks for propertyTax
 	 * @param type
@@ -677,12 +714,11 @@ public class Convertor {
 	 */
 	public static String checkAmountFormat(String amount)
 	{
-		if(amount.contains("."))
+		if(checkAmountNotNull(amount))
 		{
 			float val = Float.parseFloat(amount);
 			return String.format("%.2f", val);
 		}
-		
 		return amount;
 	}
 }
