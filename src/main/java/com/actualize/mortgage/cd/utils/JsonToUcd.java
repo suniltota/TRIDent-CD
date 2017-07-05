@@ -101,12 +101,11 @@ public class JsonToUcd {
 
 	private List<RelationshipsModel> relationships = new LinkedList<>();
 	private List<SignatoriesModel> signatories = new LinkedList<>();
-	private static int borrowerSNumber = 11;
-	private static int sellerSNumber = 13;
-	private static int signatoryBorrowerSNumber = 1;
-	private static int signatorySellerSNumber = 3;
-	private static int relationshipSellerSNumber = 13;
-	
+	private int borrowerSNumber = 11;
+	private int sellerSNumber = 13;
+	private int signatoryBorrowerSNumber = 1;
+	private int signatorySellerSNumber = 3;
+	private int relationshipSellerSNumber = 13;
 	
 	private static final Logger LOG = LogManager.getLogger(JsonToUcd.class.getName());
 
