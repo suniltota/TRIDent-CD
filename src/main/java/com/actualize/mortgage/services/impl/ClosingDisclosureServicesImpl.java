@@ -18,6 +18,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.springframework.stereotype.Service;
 
 import com.actualize.mortgage.cd.convertors.ClosingDisclosureConverter;
 import com.actualize.mortgage.cd.datamodels.MISMODocument;
@@ -39,7 +40,8 @@ import com.actualize.mortgage.domainmodels.UniformDisclosureBuilderSeller;
  * @version 1.0
  * 
  */
-public class ClosingDisclosureServicesImpl {
+@Service
+public class ClosingDisclosureServicesImpl implements IClosingDisclosureServices{
 	
 	/**
 	 * create closing disclosure JSON object from MISMO XML

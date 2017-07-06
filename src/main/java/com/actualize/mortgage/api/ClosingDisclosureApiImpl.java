@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.actualize.mortgage.cd.domainmodels.ClosingDisclosure;
-import com.actualize.mortgage.services.impl.ClosingDisclosureServicesImpl;
+import com.actualize.mortgage.services.impl.IClosingDisclosureServices;
 
 /**
  * This controller is used to define all the endpoints (APIs) for Closing Disclosure
@@ -32,6 +33,8 @@ public class ClosingDisclosureApiImpl {
 
 	private static final Logger LOG = LogManager.getLogger(ClosingDisclosureApiImpl.class);
 	
+	@Autowired
+	private IClosingDisclosureServices closingDisclosureServices;
 
     /**
      * Generates JSON response for closing disclosure on giving xml as input in
@@ -46,8 +49,7 @@ public class ClosingDisclosureApiImpl {
     public ClosingDisclosure convertXMLtoObject(@PathVariable String version, @RequestBody String xmldoc) throws Exception {
 		LOG.info("Service: ucdtojson called");
         InputStream in = new ByteArrayInputStream(xmldoc.getBytes(StandardCharsets.UTF_8));
-        ClosingDisclosureServicesImpl closingDisclosureServicesImpl = new ClosingDisclosureServicesImpl();
-        return closingDisclosureServicesImpl.createClosingDisclosureObjectfromXMLDoc(in);
+        return closingDisclosureServices.createClosingDisclosureObjectfromXMLDoc(in);
     }
     
     /**
@@ -60,8 +62,7 @@ public class ClosingDisclosureApiImpl {
     @RequestMapping(value = "/{version}/jsontoucd", method = { RequestMethod.POST })
     public String convertObjecttoXML(@PathVariable String version, @RequestBody ClosingDisclosure closingDisclosure) throws Exception {
     	LOG.info("Service: jsontoucd called"); 
-    	ClosingDisclosureServicesImpl closingDisclosureServicesImpl = new ClosingDisclosureServicesImpl();
-    	return closingDisclosureServicesImpl.createClosingDisclosureXMLfromObject(closingDisclosure);
+    	return closingDisclosureServices.createClosingDisclosureXMLfromObject(closingDisclosure);
     }
     
     /**
