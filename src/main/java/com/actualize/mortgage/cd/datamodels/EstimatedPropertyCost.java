@@ -11,6 +11,7 @@ import com.actualize.mortgage.cd.domainmodels.MISMODataAccessObject;
 public class EstimatedPropertyCost extends MISMODataAccessObject {
 
 	private static final long serialVersionUID = 9146288208554322644L;
+	public String displayLabelText = "";
 	public final EstimatedPropertyCostComponents estimatedPropertyCostComponents;
 	public final EstimatedPropertyCostDetail estimatedPropertyCostDetail;
 

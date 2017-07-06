@@ -572,6 +572,7 @@ public class ClosingDisclosureConverter {
   	{
   		ETIASection etiaSection = new ETIASection();
   		List<String> escrowTypes = new LinkedList<>();
+  		
   		EstimatedPropertyCostComponents estimatedPropertyCostComponents = new EstimatedPropertyCostComponents((Element)deal.getElementAddNS("LOANS/LOAN/DOCUMENT_SPECIFIC_DATA_SETS/DOCUMENT_SPECIFIC_DATA_SET/INTEGRATED_DISCLOSURE/ESTIMATED_PROPERTY_COST/ESTIMATED_PROPERTY_COST_COMPONENTS"));
   		
   		String projectedPaymentEstimatedTaxesInsuranceAssessmentTotalAmount = deal.getValueAddNS("LOANS/LOAN/DOCUMENT_SPECIFIC_DATA_SETS/DOCUMENT_SPECIFIC_DATA_SET/INTEGRATED_DISCLOSURE/ESTIMATED_PROPERTY_COST/ESTIMATED_PROPERTY_COST_DETAIL/ProjectedPaymentEstimatedTaxesInsuranceAssessmentTotalAmount");
@@ -591,6 +592,7 @@ public class ClosingDisclosureConverter {
   			eTIAs.add(eTIA);
   		}
   		
+  		etiaSection.setDisplayLabel(estimatedPropertyCostComponents.displayLabel);
   		etiaSection.setEtiaValues(eTIAs);
 		etiaSection.setProjectedPaymentEstimatedTaxesInsuranceAssessmentTotalAmount(projectedPaymentEstimatedTaxesInsuranceAssessmentTotalAmount);
   		etiaSection.setEscrowTypes(escrowTypes);
