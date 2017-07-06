@@ -2658,8 +2658,8 @@ public class JsonToUcd {
 	private void insertSubjectProperty(Document document, Element element, ClosingDisclosure jsonDocument) {
 
 		insertAddress(document, insertLevels(document, element, "ADDRESS"), jsonDocument.getClosingInformation().getProperty());
-		//insertUnparsedLegalDescription(document, 
-			//	insertLevels(document, element,"LEGAL_DESCRIPTIONS/LEGAL_DESCRIPTION/UNPARSED_LEGAL_DESCRIPTIONS/UNPARSED_LEGAL_DESCRIPTION"), "TODO");
+		insertUnparsedLegalDescription(document, 
+				insertLevels(document, element,"LEGAL_DESCRIPTIONS/LEGAL_DESCRIPTION/UNPARSED_LEGAL_DESCRIPTIONS/UNPARSED_LEGAL_DESCRIPTION"), jsonDocument.getClosingInformation().getProperty().getUnparsedLegalDescription());
 		//insertLocationIdentifier(document, insertLevels(document, element, "LOCATION_IDENTIFIER"), jsonDocument);
 		insertPropertyDetail(document, insertLevels(document, element, "PROPERTY_DETAIL"), Convertor.checkAmountFormat(jsonDocument.getClosingInformation().getPropertyValuationDetail().getPropertyEstimatedValueAmount()));
 		insertPropertyValuations(document, insertLevels(document, element, "PROPERTY_VALUATIONS"), jsonDocument.getClosingInformation().getPropertyValuationDetail());
@@ -2787,7 +2787,7 @@ public class JsonToUcd {
      */
 	private void insertUnparsedLegalDescription(Document document, Element element,
 			String unparsedLegalDescription) {
-		insertData(document, element, "UnparsedLegalDescription", "");
+		insertData(document, element, "UnparsedLegalDescription", unparsedLegalDescription);
 	}
 	/**
      * Inserts Terms Of Loan from JSON Object
