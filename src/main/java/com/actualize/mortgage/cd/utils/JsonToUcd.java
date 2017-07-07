@@ -1636,7 +1636,6 @@ public class JsonToUcd {
 			ETIASection propertyCost) {
 		if(null != element && null != propertyCost.getDisplayLabel() && !propertyCost.getDisplayLabel().isEmpty())
 			element.setAttribute("gse:DisplayLabelText", propertyCost.getDisplayLabel());
-		//element.setAttribute("gse:DisplayLabelText", estimatedPropertyCostComponents.getgseDispalyLabelText()); //TODO Data Not found for this field
 		for (ETIA ETIA : propertyCost.getEtiaValues())
 			insertEstimatedPropertyCostComponent(document, insertLevels(document, element, "ESTIMATED_PROPERTY_COST_COMPONENT"), ETIA);
 	}

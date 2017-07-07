@@ -17,9 +17,8 @@ public class EstimatedPropertyCostComponents extends MISMODataAccessObject {
 
 	public EstimatedPropertyCostComponents(Element element) {
 		super(element);
-			
+		if(null != element)
 		displayLabel = element.getAttribute("gse:DisplayLabelText");
-		
 		NodeList nodes = getElementsAddNS((NS == null ? "" : NS)+"ESTIMATED_PROPERTY_COST_COMPONENT");
 		estimatedPropertyCostComponent = new EstimatedPropertyCostComponent[nodes==null ? 0 : nodes.getLength()];
 		for (int i = 0; i < estimatedPropertyCostComponent.length; i++)

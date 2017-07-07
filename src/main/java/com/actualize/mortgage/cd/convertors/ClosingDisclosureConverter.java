@@ -237,7 +237,7 @@ public class ClosingDisclosureConverter {
     		DocumentClassification docClassification = new DocumentClassification(Document.NS, (Element)document.getElementAddNS("DOCUMENT_CLASSIFICATION"));
     		if(docClassification.documentClasses.documentClass.documentTypeOtherDescription.contains(":"))
     		{
-    			type = docClassification.documentClasses.documentClass.documentTypeOtherDescription.split(":")[0];
+    			type = "ClosingDisclosure";
     			formType = docClassification.documentClasses.documentClass.documentTypeOtherDescription.split(":")[1];
     		}
     		closingDisclosureDocumentDetails.setDocumentType(type);
