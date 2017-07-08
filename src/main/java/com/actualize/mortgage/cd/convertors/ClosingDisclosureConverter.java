@@ -2201,6 +2201,9 @@ public class ClosingDisclosureConverter {
 		prepaid.setPrepaidItemPerDiemCalculationMethodType(prepaidItem.prepaidItemDetail.prepaidItemPerDiemCalculationMethodType);
 	 	prepaid.setPrepaidPaidToFullName(prepaidItem.prepaidItemPaidTo.legalEntity.legalEntityDetail.fullName);
 	 	prepaid.setBpAtClosing(prepaidItem.prepaidItemDetail.prepaidItemEstimatedTotalAmount);
+	 	prepaid.setPaymentIncludedInAPRIndicator(Boolean.parseBoolean(prepaidItem.prepaidItemDetail.paymentIncludedInAPRIndicator));
+	 	prepaid.setRegulationZPointsAndFeesIndicator(Boolean.parseBoolean(prepaidItem.prepaidItemDetail.regulationZPointsAndFeesIndicator));
+	 	
 	 	
 	 	if(prepaidItem.prepaidItemDetail.prepaidItemEstimatedTotalAmount.isEmpty())
 		for(PrepaidItemPayment prepaidPayment: prepaidItem.prepaidItemPayments.prepaidItemPayments)
