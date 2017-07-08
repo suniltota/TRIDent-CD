@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +48,7 @@ public class ClosingDisclosureApiImpl {
 	@ResponseBody
     @RequestMapping(value = "/{version}/ucdtojson", method = { RequestMethod.POST })
     public ClosingDisclosure convertXMLtoObject(@PathVariable String version, @RequestBody String xmldoc) throws Exception {
-		LOG.info("Service: ucdtojson called");
+		LOG.info("user "+SecurityContextHolder.getContext().getAuthentication().getName()+" used Service: MISMO XML to CD JSON");
         InputStream in = new ByteArrayInputStream(xmldoc.getBytes(StandardCharsets.UTF_8));
         return closingDisclosureServices.createClosingDisclosureObjectfromXMLDoc(in);
     }
@@ -61,7 +62,7 @@ public class ClosingDisclosureApiImpl {
      */
     @RequestMapping(value = "/{version}/jsontoucd", method = { RequestMethod.POST })
     public String convertObjecttoXML(@PathVariable String version, @RequestBody ClosingDisclosure closingDisclosure) throws Exception {
-    	LOG.info("Service: jsontoucd called"); 
+    	LOG.info("user "+SecurityContextHolder.getContext().getAuthentication().getName()+" used Service: CD JSON to MISMO XML"); 
     	return closingDisclosureServices.createClosingDisclosureXMLfromObject(closingDisclosure);
     }
     
@@ -74,7 +75,7 @@ public class ClosingDisclosureApiImpl {
      */
     @RequestMapping(value = "/{version}/ping", method = { RequestMethod.GET })
     public String status(@PathVariable String version) throws Exception {
-    	LOG.info("Service: ping for TRIDENT-CD called"); 
+    	LOG.info("user "+SecurityContextHolder.getContext().getAuthentication().getName()+" used Service: Ping to TRIDent-CD Service"); 
         return "The service for generating JSON from UCD XML and vice versa is running and ready to accept your request";
     }
     
