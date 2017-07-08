@@ -2103,7 +2103,7 @@ public class ClosingDisclosureConverter {
 		
 		closingCostProperties.setBpAtClosing(fee.feeDetail.feeEstimatedTotalAmount);
 		
-		if(fee.feePayments.feePayments.length > 0 && fee.feeDetail.feeActualTotalAmount.isEmpty())
+		if(fee.feePayments.feePayments.length > 0 && fee.feeDetail.feeEstimatedTotalAmount.isEmpty())
 		for(FeePayment feepay :fee.feePayments.feePayments)
 		{
 			if(!"".equals(feepay.feePaymentPaidByType))
