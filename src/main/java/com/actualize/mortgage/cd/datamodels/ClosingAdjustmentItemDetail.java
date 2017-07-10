@@ -16,7 +16,7 @@ import com.actualize.mortgage.cd.domainmodels.MISMODataAccessObject;
 public class ClosingAdjustmentItemDetail extends MISMODataAccessObject {
 
 	private static final long serialVersionUID = 481322330655835160L;
-	public String displayLabelText;
+	public String displayLabelText = "";
 	public final String closingAdjustmentItemAmount;
 	public final String closingAdjustmentItemPaidOutsideOfClosingIndicator;
 	public final String closingAdjustmentItemType;

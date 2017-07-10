@@ -372,7 +372,7 @@ public class JsonToUcd {
 		if(jsonDocument.isEmbeddedPDF())
 			 view = insertLevels(document, element, "VIEWS");
 		insertAboutVersions(document, insertLevels(document, element, "ABOUT_VERSIONS"), null);
-		insertDocumentClassification(document, insertLevels(document, element, "DOCUMENT_CLASSIFICATION"), jsonDocument.getDocumentClassification());
+		insertDocumentClassification(document, insertLevels(document, element, "DOCUMENT_CLASSIFICATION"), jsonDocument.getClosingDisclosureDocDetails());
 		if(jsonDocument.isEmbeddedPDF())
 			insertViews(document, view);
 	}
@@ -384,30 +384,30 @@ public class JsonToUcd {
 	 * @param jsonDocument
 	 */
 	private void insertDocumentClassification(Document document, Element element,
-			DocumentClassificationModel documentClassification) {
-		insertDocumentClasses(document,	insertLevels(document, element, "DOCUMENT_CLASSES"), documentClassification);
-		insertDocumentClassificationDetail(document, insertLevels(document, element, "DOCUMENT_CLASSIFICATION_DETAIL"), documentClassification);
+			ClosingDisclosureDocumentDetails closingDisclosureDocDetails) {
+		insertDocumentClasses(document,	insertLevels(document, element, "DOCUMENT_CLASSES"), closingDisclosureDocDetails);
+		insertDocumentClassificationDetail(document, insertLevels(document, element, "DOCUMENT_CLASSIFICATION_DETAIL"), null);
 	}
 	
 	private void insertDocumentClassificationDetail(Document document, Element element,
 			DocumentClassificationModel documentClassification) {
 		OtherModel other = new OtherModel();
-			other.setDocumentSignatureRequiredIndicator(Boolean.toString(documentClassification.isDocumentSignatureRequiredIndicator()).toLowerCase());
-		insertData(document, element, "DocumentFormIssuingEntityNameType", documentClassification.getDocumentFormIssuingEntityNameType());
-		insertData(document, element, "DocumentFormIssuingEntityVersionIdentifier", documentClassification.getDocumentFormIssuingEntityVersionIdentifier());
+			other.setDocumentSignatureRequiredIndicator("false");
+		insertData(document, element, "DocumentFormIssuingEntityNameType","CFPB");
+		insertData(document, element, "DocumentFormIssuingEntityVersionIdentifier", "11-20-2013");
 		insertExtension(document, insertLevels(document, element, "EXTENSION"), other);
 	}
 	
 	private void insertDocumentClasses(Document document, Element element,
-			DocumentClassificationModel documentClassification) {
+			ClosingDisclosureDocumentDetails closingDisclosureDocDetails) {
 		//for (String group : groupings)
-			insertDocumentClass(document, insertLevels(document, element, "DOCUMENT_CLASS"), documentClassification);
+			insertDocumentClass(document, insertLevels(document, element, "DOCUMENT_CLASS"), closingDisclosureDocDetails);
 	}
 	
-	private void insertDocumentClass(Document document, Element element, DocumentClassificationModel documentClassification) {
+	private void insertDocumentClass(Document document, Element element, ClosingDisclosureDocumentDetails closingDisclosureDocDetails) {
 
-		insertData(document, element, "DocumentType", documentClassification.getDocumentType());
-		insertData(document, element, "DocumentTypeOtherDescription",documentClassification.getDocumentTypeOtherDescription());
+		insertData(document, element, "DocumentType", "Other");
+		insertData(document, element, "DocumentTypeOtherDescription", closingDisclosureDocDetails.getDocumentType()+":"+closingDisclosureDocDetails.getFormType());
 	}
 	/**
      * Inserts Views to MISMO XML
