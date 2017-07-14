@@ -811,14 +811,14 @@ public class ClosingDisclosureConverter {
 			else if("ServicesYouCannotShopFor".equalsIgnoreCase(fee.feeDetail.integratedDisclosureSectionType))
 			{
 				ClosingCostProperties closingCostProperties = new ClosingCostProperties();
-					closingCostProperties = loanCostsTable(fee,"ServicesYouCannotShopFor");
+					closingCostProperties = loanCostsTable(fee,"ServicesBorrowerDidNotShopFor");
 					if(null != closingCostProperties.getFeeType())
 						sbDidNotShopFors.add(closingCostProperties);
 			}
 			else if("ServicesYouCanShopFor".equalsIgnoreCase(fee.feeDetail.integratedDisclosureSectionType))
 			{
 				ClosingCostProperties closingCostProperties = new ClosingCostProperties();
-					closingCostProperties = loanCostsTable(fee,"ServicesYouCanShopFor");
+					closingCostProperties = loanCostsTable(fee,"ServicesBorrowerDidShopFor");
 					if(null != closingCostProperties.getFeeType())
 						sbDidShopFors.add(closingCostProperties);
 			}
@@ -923,7 +923,7 @@ public class ClosingDisclosureConverter {
     	}
     	
     	for(Fee fee : taxesAndOtherGovernmentFees.fees)
-			tOGovtFeesList.add(feeCostsTableRow(fee));
+			tOGovtFeesList.add(feeCostsTableRow(fee, "TaxesAndOtherGovernmentFees"));
     	
     	PrepaidItems prepaidItems = new PrepaidItems((Element)deal.getElementAddNS("LOANS/LOAN/CLOSING_INFORMATION/PREPAID_ITEMS"));
     	
@@ -986,7 +986,7 @@ public class ClosingDisclosureConverter {
 		//OtherFees
 		for(int i=0;i<otherFees.fees.length;i++)
 			if(!"".equals(otherFees.fees[i].feeDetail.feeType))
-				otherCostsList.add(feeCostsTableRow(otherFees.fees[i]));
+				otherCostsList.add(feeCostsTableRow(otherFees.fees[i], "OtherCosts"));
 		 
 		closingCostDetailsOtherCosts.settOGovtFeesList(tOGovtFeesList);
 		closingCostDetailsOtherCosts.setPrepaidsList(prepaidsList);
@@ -2051,20 +2051,21 @@ public class ClosingDisclosureConverter {
 	{
 		ClosingCostProperties closingCostProperties = new ClosingCostProperties();
 		
-		if(sectionType.equalsIgnoreCase(fee.feeDetail.integratedDisclosureSectionType))
-		{
+		//if(sectionType.equalsIgnoreCase(fee.feeDetail.integratedDisclosureSectionType))
+	//	{
 			if (("LoanDiscountPoints").equalsIgnoreCase(fee.feeDetail.feeType))
 				if(!"".equals(fee.feeDetail.feeTotalPercent) && !"0.0000".equalsIgnoreCase(fee.feeDetail.feeTotalPercent)&& !"".equals(fee.feeDetail.feePaidToType))
 				{
-					closingCostProperties = feeCostsTableRow(fee);
+					closingCostProperties = feeCostsTableRow(fee, sectionType);
 				}
 				else
 				{
-					closingCostProperties = feeCostsTableRow(fee);
+					closingCostProperties = feeCostsTableRow(fee, sectionType);
 				}
 			else
-				closingCostProperties = feeCostsTableRow(fee);
-		}
+				closingCostProperties = feeCostsTableRow(fee, sectionType);
+			
+		//}
 		return closingCostProperties;
 	}
 	
@@ -2076,7 +2077,7 @@ public class ClosingDisclosureConverter {
      * @param to
      * @return ClosingCostProperties
      */
-	private ClosingCostProperties feeCostsTableRow(Fee fee) 
+	private ClosingCostProperties feeCostsTableRow(Fee fee, String sectionType) 
 	{
 		ClosingCostProperties closingCostProperties = new ClosingCostProperties();
 		
@@ -2088,7 +2089,7 @@ public class ClosingDisclosureConverter {
 		closingCostProperties.setOptionalCostIndicator(Convertor.stringToBoolean(fee.feeDetail.optionalCostIndicator));
 		closingCostProperties.setFeePaidToType(fee.feeDetail.feePaidToType);
 		closingCostProperties.setFeePaidToTypeOtherDescription(fee.feeDetail.feePaidToTypeOtherDescription);
-		closingCostProperties.setIntegratedDisclosureSectionType(fee.feeDetail.integratedDisclosureSectionType);
+		closingCostProperties.setIntegratedDisclosureSectionType(sectionType);
 		closingCostProperties.setFeePercentBasisType(fee.feeDetail.feePercentBasisType);
 		closingCostProperties.setRegulationZPointsAndFeesIndicator(Convertor.stringToBoolean(fee.feeDetail.regulationZPointsAndFeesIndicator));
 		closingCostProperties.setPaymentIncludedInAPRIndicator(Convertor.stringToBoolean(fee.feeDetail.paymentIncludedInAPRIndicator));
