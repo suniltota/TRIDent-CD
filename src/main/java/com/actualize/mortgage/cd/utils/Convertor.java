@@ -394,8 +394,10 @@ public class Convertor {
 		}
 				
 		if(null != json.getPayoffsAndPayments() && checkNotNull(json.getPayoffsAndPayments().getIntegratedDisclosureSectionSummary().getIntegratedDisclosureSectionSummaryDetailModel().getIntegratedDisclosureSectionTotalAmount()))
+		{
+			json.getPayoffsAndPayments().getIntegratedDisclosureSectionSummary().getIntegratedDisclosureSectionSummaryDetailModel().setIntegratedDisclosureSectionType("PayoffsAndPayments");
 			integratedDisclosureSectionSummaryModels.add(json.getPayoffsAndPayments().getIntegratedDisclosureSectionSummary());
-		
+		}
 		return integratedDisclosureSectionSummaryModels;
 	}
 	

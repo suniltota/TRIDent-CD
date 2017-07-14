@@ -2401,7 +2401,7 @@ public class JsonToUcd {
 			
 			Element party = insertLevels(document, element, "PARTY");
 			
-			if(!borrower.getNameModel().getFullName().isEmpty())
+			if("O".equalsIgnoreCase(borrower.getType()))
 			{
 				Element legalEntity = insertLevels(document, party, "LEGAL_ENTITY/LEGAL_ENTITY_DETAIL");
 					insertData(document, legalEntity, "FullName", borrower.getNameModel().getFullName());
