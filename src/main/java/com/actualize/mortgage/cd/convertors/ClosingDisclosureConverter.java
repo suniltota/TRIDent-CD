@@ -756,9 +756,6 @@ public class ClosingDisclosureConverter {
 		IntegratedDisclosureSectionSummaryDetail idServicesBorrowerDidShopFor = new IntegratedDisclosureSectionSummaryDetail((Element)deal.getElementAddNS(idDetail + "[IntegratedDisclosureSectionType='ServicesBorrowerDidShopFor']"));
 		Fees fees = new Fees((Element)deal.getElementAddNS(loan + "/FEE_INFORMATION/FEES"));
 
-		closingCostDetailsLoanCosts.setOcTotalAmount(idOraganisationCharges.integratedDisclosureSectionTotalAmount);
-		closingCostDetailsLoanCosts.setSbDidNotShopTotalAmount(idServicesBorrowerDidNotShopFor.integratedDisclosureSectionTotalAmount);
-		closingCostDetailsLoanCosts.setSbDidShopTotalAmount(idServicesBorrowerDidShopFor.integratedDisclosureSectionTotalAmount);
 		
 		if(null != document.documentClassification)
     	{
@@ -769,18 +766,19 @@ public class ClosingDisclosureConverter {
     		}
     	}
 		
-		
 		if("LoanEstimate".equalsIgnoreCase(type))
 		{
 			 idServicesBorrowerDidNotShopFor = new IntegratedDisclosureSectionSummaryDetail((Element)deal.getElementAddNS(idDetail + "[IntegratedDisclosureSectionType='ServicesYouCannotShopFor']"));
 			 idServicesBorrowerDidShopFor = new IntegratedDisclosureSectionSummaryDetail((Element)deal.getElementAddNS(idDetail + "[IntegratedDisclosureSectionType='ServicesYouCanShopFor']"));
 		}
 		
-		/* if (!("Other".equalsIgnoreCase(documentClass.documentType) && "ClosingDisclosure:SellerOnly".equalsIgnoreCase(documentClass.documentTypeOtherDescription))) 
-		 {	
-			closingCostDetailsLoanCosts.setTlCostsTotalAmount(totalLoanCosts.integratedDisclosureSectionTotalAmount);
-			tlCosts = calculateTLCosts(totalLoanCosts, integratedDisclosureSectionSummaries);
-		 }*/
+		closingCostDetailsLoanCosts.setOcTotalAmount(idOraganisationCharges.integratedDisclosureSectionTotalAmount);
+		closingCostDetailsLoanCosts.setSbDidNotShopTotalAmount(idServicesBorrowerDidNotShopFor.integratedDisclosureSectionTotalAmount);
+		closingCostDetailsLoanCosts.setSbDidShopTotalAmount(idServicesBorrowerDidShopFor.integratedDisclosureSectionTotalAmount);
+		
+		
+		closingCostDetailsLoanCosts.setTlCostsTotalAmount(totalLoanCosts.integratedDisclosureSectionTotalAmount);
+		tlCosts = calculateTLCosts(totalLoanCosts, integratedDisclosureSectionSummaries);
 		
 		if(null != fees.fees && fees.fees.length>0)
 		for(Fee fee : fees.fees)
@@ -1949,11 +1947,19 @@ public class ClosingDisclosureConverter {
 	 */
 	private static NameModel toNameModel(Name name) {
 		NameModel nameModel = new NameModel();
-		
+		String fullName = "";
 		if (!name.fullName.equals(""))
-			nameModel.setFullName(name.fullName);
+		{
+			fullName = name.fullName;
+			nameModel.setFirstName(fullName);
+		}
 		if (!name.firstName.equals(""))
-			nameModel.setFirstName(name.firstName);
+		{
+			if(!fullName.isEmpty())
+				nameModel.setFirstName(fullName + " "+name.firstName);
+			else
+				nameModel.setFirstName(name.firstName);
+		}
 		if (!name.middleName.equals("")) 
 			nameModel.setMiddleName(name.middleName);
 		if (!name.lastName.equals("")) 
