@@ -337,7 +337,7 @@ public class ClosingDisclosureConverter {
      * @return NegativeAmortizationModel
      */
     private NegativeAmortizationModel createNegativeAmortizationModel(Deal deal) {
-    	NegativeAmortization negativeAmortization = new NegativeAmortization(null, (Element)deal.getElementAddNS("LOANS/LOAN/NEGATIVE_AMORTIZATION_RULE"));
+    	NegativeAmortization negativeAmortization = new NegativeAmortization(null, (Element)deal.getElementAddNS("LOANS/LOAN/NEGATIVE_AMORTIZATION/NEGATIVE_AMORTIZATION_RULE"));
     	NegativeAmortizationModel negativeAmortizationModel = new NegativeAmortizationModel();
 	    	negativeAmortizationModel.setNegativeAmortizationLimitMonthsCount(negativeAmortization.negativeAmortizationLimitMonthsCount);
 	    	negativeAmortizationModel.setNegativeAmortizationMaximumLoanBalanceAmount(negativeAmortization.negativeAmortizationMaximumLoanBalanceAmount);
