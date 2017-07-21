@@ -870,8 +870,8 @@ public class JsonToUcd {
 		insertData(document, element, "SeasonalPaymentPeriodEndMonth", paymentRule.getSeasonalPaymentPeriodEndMonth());
 		insertData(document, element, "SeasonalPaymentPeriodStartMonth", paymentRule.getSeasonalPaymentPeriodStartMonth());
 		OtherModel other = new OtherModel();
-			other.setTotalOptionalPaymentCount(Convertor.checkAmountFormat(paymentRule.getTotalOptionalPaymentCount()));
-			other.setTotalStepPaymentCount(Convertor.checkAmountFormat(paymentRule.getTotalStepPaymentCount()));
+			other.setTotalOptionalPaymentCount(paymentRule.getTotalOptionalPaymentCount());
+			other.setTotalStepPaymentCount(paymentRule.getTotalStepPaymentCount());
 		insertExtension(document, insertLevels(document, element, "EXTENSION"), other);
 	}
 	/**
@@ -2108,7 +2108,7 @@ public class JsonToUcd {
 	private void insertAmortizationRule(Document document, Element element, LoanInformation loanInformation) {
 		insertData(document ,element ,"AmortizationType" , loanInformation.getAmortizationType());
 		insertData(document ,element ,"LoanAmortizationPeriodCount" , loanInformation.getLoanAmortizationPeriodCount());
-		insertData(document ,element ,"loanAmortizationPeriodType" , loanInformation.getLoanAmortizationPeriodType());
+		insertData(document ,element ,"LoanAmortizationPeriodType" , loanInformation.getLoanAmortizationPeriodType());
 	}
 	/**
      * Inserts Adjustment to MISMO XML
