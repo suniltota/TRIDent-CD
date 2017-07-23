@@ -18,6 +18,8 @@ public class LateChargeRuleModel implements Serializable {
     private String lateChargeGracePeriodDaysCount;
     private String lateChargeRatePercent;
     private String lateChargeType;
+    private String lateChargeMaximumAmount;
+	private String lateChargeMinimumAmount;
     
 	/**
 	 * @return the lateChargeAmount
@@ -66,6 +68,30 @@ public class LateChargeRuleModel implements Serializable {
 	 */
 	public void setLateChargeType(String lateChargeType) {
 		this.lateChargeType = lateChargeType;
+	}
+	/**
+	 * @return the lateChargeMaximumAmount
+	 */
+	public String getLateChargeMaximumAmount() {
+		return lateChargeMaximumAmount;
+	}
+	/**
+	 * @param lateChargeMaximumAmount the lateChargeMaximumAmount to set
+	 */
+	public void setLateChargeMaximumAmount(String lateChargeMaximumAmount) {
+		this.lateChargeMaximumAmount = lateChargeMaximumAmount;
+	}
+	/**
+	 * @return the lateChargeMinimumAmount
+	 */
+	public String getLateChargeMinimumAmount() {
+		return lateChargeMinimumAmount;
+	}
+	/**
+	 * @param lateChargeMinimumAmount the lateChargeMinimumAmount to set
+	 */
+	public void setLateChargeMinimumAmount(String lateChargeMinimumAmount) {
+		this.lateChargeMinimumAmount = lateChargeMinimumAmount;
 	}
     
     

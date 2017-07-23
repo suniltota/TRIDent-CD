@@ -1059,8 +1059,8 @@ public class JsonToUcd {
 	private void insertLateChargeRule(Document document, Element element, LateChargeRuleModel lateChargeRule) {
 		insertData(document, element, GSE_ALIAS + ":LateChargeAmount", Convertor.checkAmountFormat(lateChargeRule.getLateChargeAmount()));
 		insertData(document, element, GSE_ALIAS + ":LateChargeGracePeriodDaysCount", Convertor.checkAmountFormat(lateChargeRule.getLateChargeGracePeriodDaysCount()));
-		//insertData(document, element, "LateChargeMaximumAmount", "");
-		//insertData(document, element, "LateChargeMinimumAmount", "");
+		insertData(document, element, GSE_ALIAS + ":LateChargeMaximumAmount", lateChargeRule.getLateChargeMaximumAmount());
+		insertData(document, element, GSE_ALIAS + ":LateChargeMinimumAmount", lateChargeRule.getLateChargeMinimumAmount());
 		insertData(document, element, GSE_ALIAS + ":LateChargeRatePercent", lateChargeRule.getLateChargeRatePercent());
 		insertData(document, element, GSE_ALIAS + ":LateChargeType",  lateChargeRule.getLateChargeType());
 	}
