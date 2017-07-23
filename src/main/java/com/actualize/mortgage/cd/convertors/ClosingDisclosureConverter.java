@@ -1381,6 +1381,8 @@ public class ClosingDisclosureConverter {
     	lateChargeRuleModel.setLateChargeGracePeriodDaysCount(lateChargeRule.lateChargeGracePeriodDaysCount);
     	lateChargeRuleModel.setLateChargeRatePercent(lateChargeRule.lateChargeRatePercent);
     	lateChargeRuleModel.setLateChargeType(lateChargeRule.lateChargeType);
+    	lateChargeRuleModel.setLateChargeMaximumAmount(lateChargeRule.lateChargeMaximumAmount);
+    	lateChargeRuleModel.setLateChargeMinimumAmount(lateChargeRule.lateChargeMinimumAmount);
     	
     	return lateChargeRuleModel;
     }
