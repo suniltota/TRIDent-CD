@@ -14,9 +14,9 @@ public class MIPremiumModel implements Serializable{
 
 	private static final long serialVersionUID = 3152227342376780954L;
 	
-	private String miPremiumPeriodType;
-	private String miPremiumRateDurationMonthsCount;
-	private String miPremiumRatePercent;
+	private String miPremiumPeriodType = "";
+	private String miPremiumRateDurationMonthsCount = "";
+	private String miPremiumRatePercent = "";
 	/**
 	 * @return the miPremiumPeriodType
 	 */
