@@ -929,7 +929,6 @@ public class JsonToUcd {
 		insertData(document, element, "MICertificateIdentifier", miDataDetail.getMiCertificateIdentifier());
 		insertData(document, element, "MICompanyNameType", miDataDetail.getMiCompanyNameType());
 		insertData(document, element, "MICompanyNameTypeOtherDescription",  miDataDetail.getMiCompanyNameTypeOtherDescription());
-		insertData(document, element, "MICoveragePercent",  miDataDetail.getMiCoveragePercent());
 		insertData(document, element, "MIScheduledTerminationDate",  miDataDetail.getMiScheduledTerminationDate());
 		
 	}

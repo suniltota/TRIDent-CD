@@ -529,7 +529,6 @@ public class ClosingDisclosureConverter {
     		miDataDetailModel.setMiCompanyNameTypeOtherDescription(miDataDetail.miCompanyNameTypeOtherDescription);
     		miDataDetailModel.setMiInitialPremiumAmount(miDataDetail.miInitialPremiumAmount);
     		miDataDetailModel.setMiScheduledTerminationDate(miDataDetail.miScheduledTerminationDate);
-    		miDataDetailModel.setMiCoveragePercent(miDataDetail.miCoveragePercent);
 		return miDataDetailModel;
     	
     }
