@@ -15,6 +15,7 @@ public class MIDataDetail extends MISMODataAccessObject {
 	public final String miCompanyNameTypeOtherDescription;
 	public final String miScheduledTerminationDate;
 	public final String miInitialPremiumAmount;
+	public final String miCoveragePercent; 
 	
 	public MIDataDetail(Element element) {
 		super(element);
@@ -23,5 +24,6 @@ public class MIDataDetail extends MISMODataAccessObject {
 		miCompanyNameTypeOtherDescription = getValueAddNS("MICompanyNameTypeOtherDescription");
 		miScheduledTerminationDate = getValueAddNS("MIScheduledTerminationDate");
 		miInitialPremiumAmount = getValueAddNS("MIInitialPremiumAmount");
+		miCoveragePercent = getValueAddNS("MICoveragePercent");
 	}
 }
