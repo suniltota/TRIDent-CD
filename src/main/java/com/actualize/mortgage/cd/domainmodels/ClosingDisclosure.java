@@ -27,6 +27,7 @@ public class ClosingDisclosure implements Serializable {
     private ClosingInformationDetailModel closingInformationDetail;
     private ConstructionModel construction;
     private MIDataDetailModel miDataDetail;
+    private List<MIPremiumModel> miPremium;
     private TransactionInformation transactionInformation;
     private LoanInformation loanInformation;
     private SalesContractDetailModel salesContractDetail;
@@ -153,6 +154,18 @@ public class ClosingDisclosure implements Serializable {
 	 */
 	public void setMiDataDetail(MIDataDetailModel miDataDetail) {
 		this.miDataDetail = miDataDetail;
+	}
+	/**
+	 * @return the miPremium
+	 */
+	public List<MIPremiumModel> getMiPremium() {
+		return miPremium;
+	}
+	/**
+	 * @param miPremium the miPremium to set
+	 */
+	public void setMiPremium(List<MIPremiumModel> miPremium) {
+		this.miPremium = miPremium;
 	}
 	/**
 	 * @return the transactionInformation

@@ -59,6 +59,8 @@ import com.actualize.mortgage.cd.datamodels.LoanDetail;
 import com.actualize.mortgage.cd.datamodels.LoanIdentifiers;
 import com.actualize.mortgage.cd.datamodels.LoanProduct;
 import com.actualize.mortgage.cd.datamodels.MIDataDetail;
+import com.actualize.mortgage.cd.datamodels.MIPremium;
+import com.actualize.mortgage.cd.datamodels.MIPremiums;
 import com.actualize.mortgage.cd.datamodels.MISMODocument;
 import com.actualize.mortgage.cd.datamodels.MaturityRule;
 import com.actualize.mortgage.cd.datamodels.Name;
@@ -127,6 +129,7 @@ import com.actualize.mortgage.cd.domainmodels.LoanTerms;
 import com.actualize.mortgage.cd.domainmodels.LoanTermsPrepaymentPenalty;
 import com.actualize.mortgage.cd.domainmodels.LoanTermsTemporaryBuydown;
 import com.actualize.mortgage.cd.domainmodels.MIDataDetailModel;
+import com.actualize.mortgage.cd.domainmodels.MIPremiumModel;
 import com.actualize.mortgage.cd.domainmodels.MaturityRuleModel;
 import com.actualize.mortgage.cd.domainmodels.NameModel;
 import com.actualize.mortgage.cd.domainmodels.NegativeAmortizationModel;
@@ -190,6 +193,7 @@ public class ClosingDisclosureConverter {
 	        closingDisclosure.setTransactionInformation(createTransactionInformation(deal));
 	        closingDisclosure.setIntegratedDisclosureDetail(createIntegratedDisclosureDetail(deal));
 	        closingDisclosure.setMiDataDetail(createMIDataDetailModel(deal));
+	        closingDisclosure.setMiPremium(createMIPremiumDetailModel(deal));
 	        closingDisclosure.setLoanInformation(createLoanInformation(deal));
 	        closingDisclosure.setSalesContractDetail(createSalesContractDetailModel(deal));
 	        closingDisclosure.setNegativeAmortization(createNegativeAmortizationModel(deal));
@@ -525,8 +529,32 @@ public class ClosingDisclosureConverter {
     		miDataDetailModel.setMiCompanyNameTypeOtherDescription(miDataDetail.miCompanyNameTypeOtherDescription);
     		miDataDetailModel.setMiInitialPremiumAmount(miDataDetail.miInitialPremiumAmount);
     		miDataDetailModel.setMiScheduledTerminationDate(miDataDetail.miScheduledTerminationDate);
-    	
+    		miDataDetailModel.setMiCoveragePercent(miDataDetail.miCoveragePercent);
 		return miDataDetailModel;
+    	
+    }
+    
+    /**
+     * converts mipremiums to List of MIPremiumModels
+     * @param deal
+     * @return  List of MIPremiumModels
+     */
+    private List<MIPremiumModel> createMIPremiumDetailModel(Deal deal)
+    {
+    	List<MIPremiumModel> miPremiumModelList = new LinkedList<>();
+    	MIPremiums miPremiums =  new MIPremiums((Element)deal.getElementAddNS("LOANS/LOAN/MI_DATA/MI_PREMIUMS"));
+    	
+    	for(int i=0; i<miPremiums.miPremiumList.length; i++)
+    	{
+    		MIPremium miPremium =  miPremiums.miPremiumList[i];
+    		MIPremiumModel miPremiumModel = new MIPremiumModel();
+	    		miPremiumModel.setMiPremiumPeriodType(miPremium.miPremiumDetail.miPremiumPeriodType);
+	    		miPremiumModel.setMiPremiumRateDurationMonthsCount(miPremium.miPremiumDetail.miPremiumRateDurationMonthsCount);
+	    		miPremiumModel.setMiPremiumRatePercent(miPremium.miPremiumDetail.miPremiumRatePercent);
+	    	miPremiumModelList.add(miPremiumModel);
+    	}
+	    		
+		return miPremiumModelList;
     	
     }
     
