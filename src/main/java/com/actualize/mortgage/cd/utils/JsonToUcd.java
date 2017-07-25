@@ -940,7 +940,8 @@ public class JsonToUcd {
      */
 	private void insertMIPremium(Document document, Element element, List<MIPremiumModel> miPremiumList) {
 		for(MIPremiumModel miPremiumModel: miPremiumList)
-			insertMIPremiumDetail(document, insertLevels(document, element, "MI_PREMIUM/MI_PREMIUM_DETAIL"), miPremiumModel);
+			if(Convertor.checkAmountNotNull(miPremiumModel.getMiPremiumRateDurationMonthsCount()) && Convertor.checkAmountNotNull(miPremiumModel.getMiPremiumRatePercent()))
+				insertMIPremiumDetail(document, insertLevels(document, element, "MI_PREMIUM/MI_PREMIUM_DETAIL"), miPremiumModel);
 	}
 	
 	/**
