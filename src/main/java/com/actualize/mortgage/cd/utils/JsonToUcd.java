@@ -2202,7 +2202,7 @@ public class JsonToUcd {
 			PrincipalAndInterestPaymentAdjustmentModel principalAndInterestPaymentAdjustment) {
 		insertData(document, element, "FirstPrincipalAndInterestPaymentChangeMonthsCount",principalAndInterestPaymentAdjustment.getFirstPrincipalAndInterestPaymentChangeMonthsCount() );
 		insertData(document, element, "PrincipalAndInterestPaymentMaximumAmount", Convertor.checkAmountFormat(principalAndInterestPaymentAdjustment.getPrincipalAndInterestPaymentMaximumAmount()));
-		insertData(document, element, "PrincipalAndInterestPaymentMaximumAmountEarliestEffectiveMonthsCount", Convertor.checkAmountFormat(principalAndInterestPaymentAdjustment.getPrincipalAndInterestPaymentMaximumAmountEarliestEffectiveMonthsCount()));
+		insertData(document, element, "PrincipalAndInterestPaymentMaximumAmountEarliestEffectiveMonthsCount", principalAndInterestPaymentAdjustment.getPrincipalAndInterestPaymentMaximumAmountEarliestEffectiveMonthsCount());
 	}
 	/**
      * inserts Interest Rate Adjustment to MISMO XML
