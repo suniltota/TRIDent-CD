@@ -2461,7 +2461,7 @@ public class JsonToUcd {
 				insertData(document, address, "StateCode", borrower.getAddress().getStateCode());
 			
 			Element role = insertLevels(document, party, "ROLES/ROLE");
-			if("Borrower".equalsIgnoreCase(borrower.getPartyRoleType()))
+			if(!"PropertySeller".equalsIgnoreCase(borrower.getPartyRoleType()))
 			{
 				role.setAttribute("SequenceNumber", Integer.toString(borrowerSNumber));
 				role.setAttribute(XLINK_ALIAS+":label", "PARTY" + Integer.toString(borrowerSNumber) + "_ROLE1");
@@ -2531,7 +2531,8 @@ public class JsonToUcd {
 			signatories.add(signatory);
 				
 				relationship.setXlinkArcrole("urn:fdc:mismo.org:2009:residential/ROLE_IsAssociatedWith_SIGNATORY");
-			relationships.add(relationship);
+				if(null != relationship.getSequenceNumber() && !relationship.getSequenceNumber().isEmpty())
+					relationships.add(relationship);
 				
 			Element roleDetail = insertLevels(document, role, "ROLE_DETAIL");
 				insertData(document, roleDetail, "PartyRoleType", borrower.getPartyRoleType());
