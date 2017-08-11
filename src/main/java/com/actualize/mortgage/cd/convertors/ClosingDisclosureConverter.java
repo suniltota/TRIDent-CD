@@ -235,7 +235,7 @@ public class ClosingDisclosureConverter {
     {
     	ClosingDisclosureDocumentDetails closingDisclosureDocumentDetails = new ClosingDisclosureDocumentDetails();
     	String type = "ClosingDisclosure";
-		String formType = "";
+		String formType = "ModelForm";
 		
     	if(null != document.documentClassification)
     	{
@@ -244,14 +244,17 @@ public class ClosingDisclosureConverter {
     		{
     			formType = docClassification.documentClasses.documentClass.documentTypeOtherDescription.split(":")[1];
     		}
-    		closingDisclosureDocumentDetails.setDocumentType(type);
-            closingDisclosureDocumentDetails.setFormType(formType);
+    		if(null != docClassification.documentClassificationDetail)
+    		{
+    			closingDisclosureDocumentDetails.setDocumentSignatureRequiredIndicator(Convertor.stringToBoolean(docClassification.documentClassificationDetail.other.documentSignatureRequiredIndicator));
+    		}
+            
     	}
+    	closingDisclosureDocumentDetails.setDocumentType(type);
+    	closingDisclosureDocumentDetails.setFormType(formType);
+    	
     	Deal deal = new Deal(Deal.NS, (Element)document.getElementAddNS("DEAL_SETS/DEAL_SET/DEALS/DEAL"));
         EscrowDetail escrowdetail = new EscrowDetail((Element)deal.getElementAddNS("LOANS/LOAN/ESCROW/ESCROW_DETAIL"));
-        
-        
-        
         if("Seller".equalsIgnoreCase(escrowdetail.other.escrowAggregateAccountingAdjustmentPaidByType) )
         	closingDisclosureDocumentDetails.setEscrowAggregateAccountingAdjustmentAmountOthersPaid(escrowdetail.escrowAggregateAccountingAdjustmentAmount);
         else if("ThirdParty".equalsIgnoreCase(escrowdetail.other.escrowAggregateAccountingAdjustmentPaidByType) )

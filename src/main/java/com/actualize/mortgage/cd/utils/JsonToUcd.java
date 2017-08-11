@@ -39,7 +39,6 @@ import com.actualize.mortgage.cd.domainmodels.ClosingDisclosureDocumentDetails;
 import com.actualize.mortgage.cd.domainmodels.ClosingInformationDetailModel;
 import com.actualize.mortgage.cd.domainmodels.ConstructionModel;
 import com.actualize.mortgage.cd.domainmodels.ContactInformationDetailModel;
-import com.actualize.mortgage.cd.domainmodels.DocumentClassificationModel;
 import com.actualize.mortgage.cd.domainmodels.ETIA;
 import com.actualize.mortgage.cd.domainmodels.ETIASection;
 import com.actualize.mortgage.cd.domainmodels.EscrowItemModel;
@@ -366,7 +365,7 @@ public class JsonToUcd {
 		insertDealSets(document, insertLevels(document, element, "DEAL_SETS"), jsonDocument);
 	//	insertAuditTrail(document, insertLevels(document, element, "AUDIT_TRAIL"), jsonDocument);
 		insertRelationships(document, insertLevels(document, element, "RELATIONSHIPS"), relationships);
-		insertSignatories(document, insertLevels(document, element, "SIGNATORIES"), signatories);
+		insertSignatories(document, insertLevels(document, element, "SIGNATORIES"), signatories, jsonDocument.getClosingDisclosureDocDetails());
 		//insertSystemSignatures(document, insertLevels(document, element, "SYSTEM_SIGNATORIES"), jsonDocument);
 		Element view = null;
 		if(jsonDocument.isEmbeddedPDF())
@@ -390,9 +389,9 @@ public class JsonToUcd {
 	}
 	
 	private void insertDocumentClassificationDetail(Document document, Element element,
-			DocumentClassificationModel documentClassification) {
+			ClosingDisclosureDocumentDetails closingDisclosureDocDetails) {
 		OtherModel other = new OtherModel();
-			other.setDocumentSignatureRequiredIndicator("false");
+			other.setDocumentSignatureRequiredIndicator(Convertor.booleanToString(closingDisclosureDocDetails.isDocumentSignatureRequiredIndicator()));
 		insertData(document, element, "DocumentFormIssuingEntityNameType","CFPB");
 		insertData(document, element, "DocumentFormIssuingEntityVersionIdentifier", "11-20-2013");
 		insertExtension(document, insertLevels(document, element, "EXTENSION"), other);
@@ -515,7 +514,7 @@ public class JsonToUcd {
      * @param element parent node of XML
      * @param signatories list of signatories
      */	
-	private void insertSignatories(Document document, Element element, List<SignatoriesModel> signatories) {
+	private void insertSignatories(Document document, Element element, List<SignatoriesModel> signatories, ClosingDisclosureDocumentDetails closingDisclosureDocumentDetails) {
 		signatories.sort(new Comparator<SignatoriesModel>(){
 			@Override
 			public int compare(SignatoriesModel o1, SignatoriesModel o2) {
@@ -523,7 +522,7 @@ public class JsonToUcd {
 			}
 		});
 		for (SignatoriesModel signatory : signatories)
-			insertSignatory(document, insertLevels(document, element, "SIGNATORY"), signatory);
+			insertSignatory(document, insertLevels(document, element, "SIGNATORY"), signatory, closingDisclosureDocumentDetails);
 	}
 	/**
      * Inserts Signatory to MISMO XML
@@ -531,10 +530,10 @@ public class JsonToUcd {
      * @param element parent node of XML
      * @param signatory Input SignatoriesModel Object
      */	
-	private void insertSignatory(Document document, Element element, SignatoriesModel signatory) {
+	private void insertSignatory(Document document, Element element, SignatoriesModel signatory, ClosingDisclosureDocumentDetails closingDisclosureDocumentDetails) {
 		element.setAttribute("SequenceNumber", signatory.getSequenceNumber());
 		element.setAttribute(XLINK_ALIAS + ":label", signatory.getXlabel());
-		insertExecution(document, insertLevels(document, element, "EXECUTION"), signatory);
+		insertExecution(document, insertLevels(document, element, "EXECUTION"), closingDisclosureDocumentDetails);
 	}
 	/**
      * Inserts Relationships to MISMO XML
@@ -1734,8 +1733,8 @@ public class JsonToUcd {
      * @param element parent node of XML
      * @param signatory Input SignatoriesModel Object
      */
-	private void insertExecution(Document document, Element element, SignatoriesModel signatory) {
-		insertExecutionDetail(document,	insertLevels(document, element, "EXECUTION_DETAIL"), signatory);
+	private void insertExecution(Document document, Element element, ClosingDisclosureDocumentDetails closingDisclosureDocumentDetails) {
+		insertExecutionDetail(document,	insertLevels(document, element, "EXECUTION_DETAIL"), closingDisclosureDocumentDetails);
 	}
 	/**
      * Inserts Execution Detail to MISMO XML
@@ -1744,10 +1743,10 @@ public class JsonToUcd {
      * @param signatory Input SignatoriesModel Object
      */
 	private void insertExecutionDetail(Document document, Element element,
-			SignatoriesModel signatory) {
-		insertData(document, element, "ActualSignatureType", signatory.getActualSignatureType());
-		insertData(document, element, "ActualSignatureTypeOtherDescription", "");
-		insertData(document, element, "ExecutionDate", signatory.getExecutionDate());
+			ClosingDisclosureDocumentDetails closingDisclosureDocumentDetails) {
+		insertData(document, element, "ActualSignatureType", closingDisclosureDocumentDetails.getActualSignatureType());
+		insertData(document, element, "ActualSignatureTypeOtherDescription", closingDisclosureDocumentDetails.getActualSignatureTypeOtherDescription());
+		insertData(document, element, "ExecutionDate", closingDisclosureDocumentDetails.getExecutionDate());
 		insertData(document, element, "ExecutionDatetime", "");
 	}
 	

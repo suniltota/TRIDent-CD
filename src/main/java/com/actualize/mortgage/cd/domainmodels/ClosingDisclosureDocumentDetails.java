@@ -18,6 +18,10 @@ public class ClosingDisclosureDocumentDetails implements Serializable {
     private String transactionType = "";
     private String documentType = "";
     private String formType = "";
+    private String actualSignatureType = "";
+    private String actualSignatureTypeOtherDescription = "";
+    private String executionDate = "";
+    private boolean documentSignatureRequiredIndicator = false;
     private String escrowAggregateAccountingAdjustmentAmount = "";
     private String escrowAggregateAccountingAdjustmentAmountSellerPaid = "";
     private String escrowAggregateAccountingAdjustmentAmountOthersPaid = "";
@@ -59,6 +63,54 @@ public class ClosingDisclosureDocumentDetails implements Serializable {
 		this.formType = formType;
 	}
 	/**
+	 * @return the actualSignatureType
+	 */
+	public String getActualSignatureType() {
+		return actualSignatureType;
+	}
+	/**
+	 * @param actualSignatureType the actualSignatureType to set
+	 */
+	public void setActualSignatureType(String actualSignatureType) {
+		this.actualSignatureType = actualSignatureType;
+	}
+	/**
+	 * @return the actualSignatureTypeOtherDescription
+	 */
+	public String getActualSignatureTypeOtherDescription() {
+		return actualSignatureTypeOtherDescription;
+	}
+	/**
+	 * @param actualSignatureTypeOtherDescription the actualSignatureTypeOtherDescription to set
+	 */
+	public void setActualSignatureTypeOtherDescription(String actualSignatureTypeOtherDescription) {
+		this.actualSignatureTypeOtherDescription = actualSignatureTypeOtherDescription;
+	}
+	/**
+	 * @return the executionDate
+	 */
+	public String getExecutionDate() {
+		return executionDate;
+	}
+	/**
+	 * @param executionDate the executionDate to set
+	 */
+	public void setExecutionDate(String executionDate) {
+		this.executionDate = executionDate;
+	}
+	/**
+	 * @return the documentSignatureRequiredIndicator
+	 */
+	public boolean isDocumentSignatureRequiredIndicator() {
+		return documentSignatureRequiredIndicator;
+	}
+	/**
+	 * @param documentSignatureRequiredIndicator the documentSignatureRequiredIndicator to set
+	 */
+	public void setDocumentSignatureRequiredIndicator(boolean documentSignatureRequiredIndicator) {
+		this.documentSignatureRequiredIndicator = documentSignatureRequiredIndicator;
+	}
+	/**
 	 * @return the escrowAggregateAccountingAdjustmentAmount
 	 */
 	public String getEscrowAggregateAccountingAdjustmentAmount() {
@@ -97,4 +149,5 @@ public class ClosingDisclosureDocumentDetails implements Serializable {
 		this.escrowAggregateAccountingAdjustmentAmountOthersPaid = escrowAggregateAccountingAdjustmentAmountOthersPaid;
 	}
     
+	
 }
