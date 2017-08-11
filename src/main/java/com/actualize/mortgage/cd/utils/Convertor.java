@@ -718,7 +718,7 @@ public class Convertor {
 	{
 		if(checkAmountNotNull(amount))
 		{
-			float val = Float.parseFloat(amount);
+			double val = Double.parseDouble(amount);
 			return String.format("%.2f", val);
 		}
 		return amount;

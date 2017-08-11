@@ -83,7 +83,6 @@ import com.actualize.mortgage.cd.datamodels.PropertyValuationDetail;
 import com.actualize.mortgage.cd.datamodels.ProrationItem;
 import com.actualize.mortgage.cd.datamodels.QualifiedMortgage;
 import com.actualize.mortgage.cd.datamodels.SalesContractDetail;
-import com.actualize.mortgage.cd.datamodels.Signatories;
 import com.actualize.mortgage.cd.datamodels.Signatory;
 import com.actualize.mortgage.cd.datamodels.TermsOfLoan;
 import com.actualize.mortgage.cd.datamodels.Underwriting;
