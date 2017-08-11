@@ -385,7 +385,7 @@ public class JsonToUcd {
 	private void insertDocumentClassification(Document document, Element element,
 			ClosingDisclosureDocumentDetails closingDisclosureDocDetails) {
 		insertDocumentClasses(document,	insertLevels(document, element, "DOCUMENT_CLASSES"), closingDisclosureDocDetails);
-		insertDocumentClassificationDetail(document, insertLevels(document, element, "DOCUMENT_CLASSIFICATION_DETAIL"), null);
+		insertDocumentClassificationDetail(document, insertLevels(document, element, "DOCUMENT_CLASSIFICATION_DETAIL"), closingDisclosureDocDetails);
 	}
 	
 	private void insertDocumentClassificationDetail(Document document, Element element,
