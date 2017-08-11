@@ -83,6 +83,8 @@ import com.actualize.mortgage.cd.datamodels.PropertyValuationDetail;
 import com.actualize.mortgage.cd.datamodels.ProrationItem;
 import com.actualize.mortgage.cd.datamodels.QualifiedMortgage;
 import com.actualize.mortgage.cd.datamodels.SalesContractDetail;
+import com.actualize.mortgage.cd.datamodels.Signatories;
+import com.actualize.mortgage.cd.datamodels.Signatory;
 import com.actualize.mortgage.cd.datamodels.TermsOfLoan;
 import com.actualize.mortgage.cd.datamodels.Underwriting;
 import com.actualize.mortgage.cd.domainmodels.AddressModel;
@@ -253,6 +255,10 @@ public class ClosingDisclosureConverter {
     	closingDisclosureDocumentDetails.setDocumentType(type);
     	closingDisclosureDocumentDetails.setFormType(formType);
     	
+    	Signatory[] signatories = document.signatories.signatoryList; 
+    	closingDisclosureDocumentDetails.setActualSignatureType(signatories[0].execution.actualSignatureType);
+    	closingDisclosureDocumentDetails.setActualSignatureTypeOtherDescription(signatories[0].execution.actualSignatureTypeOtherDescription);
+    	closingDisclosureDocumentDetails.setExecutionDate(signatories[0].execution.executionDate);
     	Deal deal = new Deal(Deal.NS, (Element)document.getElementAddNS("DEAL_SETS/DEAL_SET/DEALS/DEAL"));
         EscrowDetail escrowdetail = new EscrowDetail((Element)deal.getElementAddNS("LOANS/LOAN/ESCROW/ESCROW_DETAIL"));
         if("Seller".equalsIgnoreCase(escrowdetail.other.escrowAggregateAccountingAdjustmentPaidByType) )

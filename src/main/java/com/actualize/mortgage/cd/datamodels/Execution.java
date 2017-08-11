@@ -9,10 +9,16 @@ import com.actualize.mortgage.cd.domainmodels.MISMODataAccessObject;
  *
  */
 public class Execution extends MISMODataAccessObject {
+	
 	private static final long serialVersionUID = -49702008261042029L;
+	public final String actualSignatureType;
+	public final String actualSignatureTypeOtherDescription;
+	public final String executionDate;
 
 	public Execution(String NS, Element element) {
 		super(element);
-		// TODO
+		actualSignatureType = getValueAddNS("ActualSignatureType");
+		actualSignatureTypeOtherDescription = getValueAddNS("ActualSignatureTypeOtherDescription");
+		executionDate = getValueAddNS("ExecutionDate"); 
 	}
 }
