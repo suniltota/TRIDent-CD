@@ -630,7 +630,8 @@ public class JsonToUcd {
 	private void insertAboutVersionsInDocument(Document document, Element element, ClosingDisclosure jsonDocument) {
 		// TODO Auto-generated method stub
 		//for (String group : groupings)
-		insertData(document, element, "AboutVersionIdentifier", "Retrievable"); //TODO: This datapoint is not found in UCD Spec. 
+		Element aboutVersionIdentifier = returnElement(document, element, "AboutVersionIdentifier", "Retrievable"); //TODO: This datapoint is not found in UCD Spec.
+			aboutVersionIdentifier.setAttribute("IdentifierOwnerURI","http://www.mismo.org/residential/2009/SMARTDocProfile");
 		insertData(document, element, "DataVersionIdentifier", "UCD Delivery Specification 1.4");
 	}
 	/**
