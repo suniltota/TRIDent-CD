@@ -254,10 +254,16 @@ public class ClosingDisclosureConverter {
     	closingDisclosureDocumentDetails.setDocumentType(type);
     	closingDisclosureDocumentDetails.setFormType(formType);
     	
-    	Signatory[] signatories = document.signatories.signatoryList; 
-    	closingDisclosureDocumentDetails.setActualSignatureType(signatories[0].execution.actualSignatureType);
-    	closingDisclosureDocumentDetails.setActualSignatureTypeOtherDescription(signatories[0].execution.actualSignatureTypeOtherDescription);
-    	closingDisclosureDocumentDetails.setExecutionDate(signatories[0].execution.executionDate);
+    	if(null != document.signatories.element){
+    		Signatory[] signatories = document.signatories.signatoryList; 
+    		if(document.signatories.signatoryList.length > 0)
+    		{
+    			closingDisclosureDocumentDetails.setActualSignatureType(signatories[0].execution.actualSignatureType);
+    			closingDisclosureDocumentDetails.setActualSignatureTypeOtherDescription(signatories[0].execution.actualSignatureTypeOtherDescription);
+    			closingDisclosureDocumentDetails.setExecutionDate(signatories[0].execution.executionDate);
+    		}
+    	}
+    	
     	Deal deal = new Deal(Deal.NS, (Element)document.getElementAddNS("DEAL_SETS/DEAL_SET/DEALS/DEAL"));
         EscrowDetail escrowdetail = new EscrowDetail((Element)deal.getElementAddNS("LOANS/LOAN/ESCROW/ESCROW_DETAIL"));
         if("Seller".equalsIgnoreCase(escrowdetail.other.escrowAggregateAccountingAdjustmentPaidByType) )
