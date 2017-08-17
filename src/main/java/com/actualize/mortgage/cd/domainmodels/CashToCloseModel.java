@@ -11,27 +11,26 @@ public class CashToCloseModel implements Serializable {
 	
 	private static final long serialVersionUID = -4771787160333094672L;
 	
-	private boolean integratedDisclosureCashToCloseItemAmountChangedIndicator = false;
+	private Boolean integratedDisclosureCashToCloseItemAmountChangedIndicator = false;
     private String integratedDisclosureCashToCloseItemChangeDescription = " ";
     private String integratedDisclosureCashToCloseItemEstimatedAmount ="";
     private String integratedDisclosureCashToCloseItemFinalAmount="";
     private String integratedDisclosureCashToCloseItemPaymentType="";
     private String integratedDisclosureCashToCloseItemType="";
     
-    /**
+	/**
 	 * @return the integratedDisclosureCashToCloseItemAmountChangedIndicator
 	 */
-	public boolean isIntegratedDisclosureCashToCloseItemAmountChangedIndicator() {
+	public Boolean getIntegratedDisclosureCashToCloseItemAmountChangedIndicator() {
 		return integratedDisclosureCashToCloseItemAmountChangedIndicator;
 	}
 	/**
 	 * @param integratedDisclosureCashToCloseItemAmountChangedIndicator the integratedDisclosureCashToCloseItemAmountChangedIndicator to set
 	 */
 	public void setIntegratedDisclosureCashToCloseItemAmountChangedIndicator(
-			boolean integratedDisclosureCashToCloseItemAmountChangedIndicator) {
+			Boolean integratedDisclosureCashToCloseItemAmountChangedIndicator) {
 		this.integratedDisclosureCashToCloseItemAmountChangedIndicator = integratedDisclosureCashToCloseItemAmountChangedIndicator;
 	}
-	
 	/**
 	 * @return the integratedDisclosureCashToCloseItemChangeDescription
 	 */

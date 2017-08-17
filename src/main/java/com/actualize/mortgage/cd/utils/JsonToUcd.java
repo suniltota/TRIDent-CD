@@ -216,12 +216,11 @@ public class JsonToUcd {
 		insertData(document, element, "CashFromSellerAtClosingAmount", Convertor.checkAmountFormat(closingInformationDetailModel.getCashFromSellerAtClosingAmount()));
 		insertData(document, element, "CashToBorrowerAtClosingAmount", Convertor.checkAmountFormat(closingInformationDetailModel.getCashToBorrowerAtClosingAmount()));
 		insertData(document, element, "CashToSellerAtClosingAmount", Convertor.checkAmountFormat(closingInformationDetailModel.getCashToSellerAtClosingAmount()));
-		insertData(document, element, "CurrentRateSetDate", closingInformationDetailModel.getCurrentRateSetDate());
-		insertData(document, element, "DocumentOrderClassificationType", closingInformationDetailModel.getDocumentOrderClassificationType()); //TODO: This datapoint is not found in UCD Spec.
 		insertData(document, element, "ClosingAgentOrderNumberIdentifier", closingInformationDetailModel.getClosingAgentOrderNumberIdentifier());
 		insertData(document, element, "ClosingDate", closingInformationDetailModel.getClosingDate());
+		insertData(document, element, "CurrentRateSetDate", closingInformationDetailModel.getCurrentRateSetDate());
 		insertData(document, element, "DisbursementDate", closingInformationDetailModel.getDisbursementDate());
-		
+		insertData(document, element, "DocumentOrderClassificationType", closingInformationDetailModel.getDocumentOrderClassificationType()); //TODO: This datapoint is not found in UCD Spec.
 	}
     /**
      * Inserts Deal to MISMO XML
@@ -325,16 +324,20 @@ public class JsonToUcd {
      */
 	private void insertDealSets(Document document, Element element, ClosingDisclosure jsonDocument) {
 		insertDealSet(document, insertLevels(document, element, "DEAL_SET"), jsonDocument);
-		Element role =  insertLevels(document, element, "PARTIES/PARTY/ROLES/ROLE");
+		Element parties =  insertLevels(document, element, "PARTIES");
+		insertPartyRoleIdentifier(document, parties, "Actualize", "www.fanniemae.com");
+		insertPartyRoleIdentifier(document, parties, "000100", "www.freddiemac.com");
+			
+	}
+	
+	private void insertPartyRoleIdentifier(Document document, Element element, String partyRoleIdentifier, String identifierOwnerURI)
+	{
+		Element party =  insertLevels(document, element, "PARTY");
+		Element role =  insertLevels(document, party, "ROLES/ROLE");
 		Element roleIdentifiers =  insertLevels(document, role, "PARTY_ROLE_IDENTIFIERS");
 		Element roleIdentifier = insertLevels(document, roleIdentifiers, "PARTY_ROLE_IDENTIFIER");
-		Element actualize = returnElement(document, roleIdentifier, "PartyRoleIdentifier","Actualize");
-			actualize.setAttribute("IdentifierOwnerURI", "www.fanniemae.com");
-		Element roleIdentifier2 = insertLevels(document, roleIdentifiers, "PARTY_ROLE_IDENTIFIER");
-		Element other =	returnElement(document, roleIdentifier2, "PartyRoleIdentifier","000100");
-			other.setAttribute("IdentifierOwnerURI", "www.freddiemac.com");
-		Element roleDetail =  insertLevels(document, role, "ROLE_DETAIL");
-			insertData(document, roleDetail, "PartyRoleType", "LoanDeliveryFilePreparer");
+		Element actualize = returnElement(document, roleIdentifier, "PartyRoleIdentifier", partyRoleIdentifier);
+			actualize.setAttribute("IdentifierOwnerURI", identifierOwnerURI);
 	}
 	/**
      * Inserts Document Set to MISMO XML
@@ -646,8 +649,9 @@ public class JsonToUcd {
 		insertData(document, element, "FirstYearTotalNonEscrowPaymentAmount", Convertor.checkAmountFormat(integratedDisclosureDetail.getFirstYearTotalNonEscrowPaymentAmount()));
 		insertData(document, element, "FirstYearTotalNonEscrowPaymentDescription", integratedDisclosureDetail.getFirstYearTotalNonEscrowPaymentDescription());
 		insertData(document, element, "IntegratedDisclosureHomeEquityLoanIndicator", Boolean.toString(integratedDisclosureDetail.isIntegratedDisclosureHomeEquityLoanIndicator()));
-		insertData(document, element, "IntegratedDisclosureLoanProductDescription", integratedDisclosureDetail.getIntegratedDisclosureLoanProductDescription());
 		insertData(document, element, "IntegratedDisclosureIssuedDate", integratedDisclosureDetail.getIntegratedDisclosureIssuedDate());
+		insertData(document, element, "IntegratedDisclosureLoanProductDescription", integratedDisclosureDetail.getIntegratedDisclosureLoanProductDescription());
+		
 	}
 	/**
 	 * inserts Loan to MISMO XML
@@ -1711,7 +1715,10 @@ public class JsonToUcd {
 		if(cashToClose.getCashToCloseTotal().size() > 0)
 			for(CashToCloseModel cashToCloseModel : cashToClose.getCashToCloseTotal())
 				if(Convertor.checkNotNull(cashToCloseModel.getIntegratedDisclosureCashToCloseItemType()))
+				{
+					cashToCloseModel.setIntegratedDisclosureCashToCloseItemAmountChangedIndicator(null);
 					insertCashToCloseItem(document,	insertLevels(document, element, "CASH_TO_CLOSE_ITEM"), cashToCloseModel);
+				}
 	}
 	/**
      * Inserts Cash To Close Item to MISMO XML
@@ -1721,7 +1728,7 @@ public class JsonToUcd {
      */
 	private void insertCashToCloseItem(Document document, Element element,
 			CashToCloseModel cashToClose) {
-			insertData(document, element, "IntegratedDisclosureCashToCloseItemAmountChangedIndicator",Boolean.toString(cashToClose.isIntegratedDisclosureCashToCloseItemAmountChangedIndicator()));
+			insertData(document, element, "IntegratedDisclosureCashToCloseItemAmountChangedIndicator",Convertor.booleanToString(cashToClose.getIntegratedDisclosureCashToCloseItemAmountChangedIndicator()));
 			insertData(document, element, "IntegratedDisclosureCashToCloseItemChangeDescription", cashToClose.getIntegratedDisclosureCashToCloseItemChangeDescription());
 			insertData(document, element, "IntegratedDisclosureCashToCloseItemEstimatedAmount", Convertor.checkAmountFormat(cashToClose.getIntegratedDisclosureCashToCloseItemEstimatedAmount()));
 			insertData(document, element, "IntegratedDisclosureCashToCloseItemFinalAmount", Convertor.checkAmountFormat(cashToClose.getIntegratedDisclosureCashToCloseItemFinalAmount()));
@@ -2574,8 +2581,9 @@ public class JsonToUcd {
 				insertData(document, address, "CountryCode", partyDetail.getAddress().getCountryCode());
 				insertData(document, address, "PostalCode", partyDetail.getAddress().getPostalCode());
 				insertData(document, address, "StateCode", partyDetail.getAddress().getStateCode());
-									
+								
 				Element role = insertLevels(document, party, "ROLES/ROLE");
+				Element licenseDetail = insertLevels(document, role, "LICENSES/LICENSE/LICENSE_DETAIL");
 				
 				String label = Convertor.getPartySNumber(partyDetail.getPartyRoleType(), "O", reType);
 				String xlink = Convertor.getXLink(partyDetail.getPartyRoleType(), "O", reType);
@@ -2600,7 +2608,6 @@ public class JsonToUcd {
 				
 				Element roleDetail = insertLevels(document, role, "ROLE_DETAIL");
 				
-				Element licenseDetail = insertLevels(document, role, "LICENSES/LICENSE/LICENSE_DETAIL");
 				insertData(document, licenseDetail, "LicenseAuthorityLevelType", partyDetail.getOrganizationLicenseDetail().getLicenseAuthorityLevelType());
 				Element identifier =  returnElement(document, licenseDetail, "LicenseIdentifier", partyDetail.getOrganizationLicenseDetail().getLicenseIdentifier());
 				if(null != identifier &&  null != partyDetail.getOrganizationLicenseDetail().getIdentifierOwnerURI() && !partyDetail.getOrganizationLicenseDetail().getIdentifierOwnerURI().isEmpty())
