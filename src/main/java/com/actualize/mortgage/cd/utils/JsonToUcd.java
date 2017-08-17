@@ -334,10 +334,11 @@ public class JsonToUcd {
 	{
 		Element party =  insertLevels(document, element, "PARTY");
 		Element role =  insertLevels(document, party, "ROLES/ROLE");
-		Element roleIdentifiers =  insertLevels(document, role, "PARTY_ROLE_IDENTIFIERS");
-		Element roleIdentifier = insertLevels(document, roleIdentifiers, "PARTY_ROLE_IDENTIFIER");
+		Element roleIdentifier = insertLevels(document, role, "PARTY_ROLE_IDENTIFIERS/PARTY_ROLE_IDENTIFIER");
 		Element actualize = returnElement(document, roleIdentifier, "PartyRoleIdentifier", partyRoleIdentifier);
 			actualize.setAttribute("IdentifierOwnerURI", identifierOwnerURI);
+		Element roleDetail =  insertLevels(document, role, "ROLE_DETAIL");
+			insertData(document, roleDetail, "PartyRoleType", "LoanDeliveryFilePreparer");
 	}
 	/**
      * Inserts Document Set to MISMO XML
