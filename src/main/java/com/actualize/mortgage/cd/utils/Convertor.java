@@ -260,6 +260,9 @@ public class Convertor {
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
 			
+			json.getClosingCostDetailsLoanCosts().getTlCosts().setSpAtClosing("");
+			json.getClosingCostDetailsLoanCosts().getTlCosts().setSpB4Closing("");
+			json.getClosingCostDetailsLoanCosts().getTlCosts().setPaidByOthers("");
 			
 			integratedDisclosureSectionSummaryModel = createIntegratedDisclosureSectionSummaryModel(json.getClosingCostDetailsLoanCosts().getTlCostsTotalAmount(),
 			"TotalLoanCosts", "","LoanCostsSubtotal", true, json.getClosingCostDetailsLoanCosts().getTlCosts());			
@@ -310,6 +313,10 @@ public class Convertor {
 		if(checkNotNull(json.getClosingCostDetailsOtherCosts().getTotalOtherCostsTotalAmount()))
 		{
 			IntegratedDisclosureSectionSummaryModel integratedDisclosureSectionSummaryModel = new IntegratedDisclosureSectionSummaryModel();
+			
+			json.getClosingCostDetailsOtherCosts().getTotalOtherCosts().setSpAtClosing("");
+			json.getClosingCostDetailsOtherCosts().getTotalOtherCosts().setSpB4Closing("");
+			json.getClosingCostDetailsOtherCosts().getTotalOtherCosts().setPaidByOthers("");
 			
 			integratedDisclosureSectionSummaryModel = createIntegratedDisclosureSectionSummaryModel(json.getClosingCostDetailsOtherCosts().getTotalOtherCostsTotalAmount(),
 			"TotalOtherCosts", "","OtherCostsSubtotal", true, json.getClosingCostDetailsOtherCosts().getTotalOtherCosts());
