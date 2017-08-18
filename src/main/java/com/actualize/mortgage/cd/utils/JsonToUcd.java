@@ -2172,7 +2172,7 @@ public class JsonToUcd {
      */
 	private void insertPrincipalAndInterestPaymentPerChangeAdjustmentRules(Document document, Element element,
 			PrincipalAndInterestPaymentAdjustmentModel principalAndInterestPaymentAdjustment) {
-		if("First".equalsIgnoreCase(principalAndInterestPaymentAdjustment.getFirstAdjustmentRuleType()))
+		if("First".equalsIgnoreCase(principalAndInterestPaymentAdjustment.getFirstAdjustmentRuleType()) || principalAndInterestPaymentAdjustment.getSubsequentAdjustmentRuleType().isEmpty())
 			insertPrincipalAndInterestPaymentPerChangeAdjustmentRule(document,insertLevels(document, element, "PRINCIPAL_AND_INTEREST_PAYMENT_PER_CHANGE_ADJUSTMENT_RULE"),principalAndInterestPaymentAdjustment, "First");
 		if("Subsequent".equalsIgnoreCase(principalAndInterestPaymentAdjustment.getSubsequentAdjustmentRuleType()))
 			insertPrincipalAndInterestPaymentPerChangeAdjustmentRule(document,insertLevels(document, element, "PRINCIPAL_AND_INTEREST_PAYMENT_PER_CHANGE_ADJUSTMENT_RULE"),principalAndInterestPaymentAdjustment, "Subsequent");
