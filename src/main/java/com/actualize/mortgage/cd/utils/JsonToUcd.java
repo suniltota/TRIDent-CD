@@ -2172,7 +2172,7 @@ public class JsonToUcd {
      */
 	private void insertPrincipalAndInterestPaymentPerChangeAdjustmentRules(Document document, Element element,
 			PrincipalAndInterestPaymentAdjustmentModel principalAndInterestPaymentAdjustment) {
-		if("First".equalsIgnoreCase(principalAndInterestPaymentAdjustment.getFirstAdjustmentRuleType()) || principalAndInterestPaymentAdjustment.getSubsequentAdjustmentRuleType().isEmpty())
+		if("First".equalsIgnoreCase(principalAndInterestPaymentAdjustment.getFirstAdjustmentRuleType()) || principalAndInterestPaymentAdjustment.getFirstAdjustmentRuleType().isEmpty())
 			insertPrincipalAndInterestPaymentPerChangeAdjustmentRule(document,insertLevels(document, element, "PRINCIPAL_AND_INTEREST_PAYMENT_PER_CHANGE_ADJUSTMENT_RULE"),principalAndInterestPaymentAdjustment, "First");
 		if("Subsequent".equalsIgnoreCase(principalAndInterestPaymentAdjustment.getSubsequentAdjustmentRuleType()))
 			insertPrincipalAndInterestPaymentPerChangeAdjustmentRule(document,insertLevels(document, element, "PRINCIPAL_AND_INTEREST_PAYMENT_PER_CHANGE_ADJUSTMENT_RULE"),principalAndInterestPaymentAdjustment, "Subsequent");
@@ -2753,7 +2753,7 @@ public class JsonToUcd {
      */	
 	private void insertPropertyValuationDetail(Document document, Element element,
 			PropertyValuationDetailModel propertyValuationDetail) {
-		Element appraisalIdentifierelement = insertLevels(document, element, "AppraisalIdentifier");
+		Element appraisalIdentifierelement = returnElement(document, element, "AppraisalIdentifier", propertyValuationDetail.getAppraisalIdentifier());
 		if(null != appraisalIdentifierelement && null != propertyValuationDetail.getIdentifierOwnerURI() && ! propertyValuationDetail.getIdentifierOwnerURI().isEmpty())
 			appraisalIdentifierelement.setAttribute("IdentifierOwnerURI", propertyValuationDetail.getIdentifierOwnerURI());
 		insertData(document, element, "PropertyValuationAmount", Convertor.checkAmountFormat(propertyValuationDetail.getPropertyValuationAmount()));
